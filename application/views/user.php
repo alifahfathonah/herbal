@@ -1,10 +1,10 @@
 <!DOCTYPE html >
-<html >
+<html lang="en">
 <head>
 <title>Register | JHP</title>
   <?php $this->load->view('_partials/head')?>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini" ng-app="TambahApp">
 <div class="wrapper">
 
    <header class="main-header">
@@ -24,7 +24,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-xs-8 col-sm-offset-1"ng-app="TambahApp" ng-controller="controllerTambah">
+        <div class="col-xs-8 col-sm-offset-1"  ng-controller="controllerTambah" >
           
           <!-- /.box -->
           <div class="box box-info" ng-show="IsVisible">
@@ -65,8 +65,8 @@
                       <div class="col-sm-8">
                         
                       <select class="form-control" name="level">
-                        <option value="admin">Admin</option>
-                        <option value="karyawan">Karyawan</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Marketing">Marketing</option>
                       </select>
                       </div>
                     </div>
@@ -89,7 +89,7 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-              <table id="example1" class="table table-bordered table-striped">
+              <table id="example1" class="table table-bordered table-striped" >
                 <thead>
                 <tr>
                   <th>No</th>
@@ -98,6 +98,15 @@
                 </tr>
                 </thead>
                 <tbody>
+                  <?php
+                    // foreach ($users as $z):
+                  ?>
+                  <tr ng-repeat = "x in users">
+                    <td>{{ $index+1 }}</td>
+                    <td>{{ x.username }}</td>
+                    <td>{{ x.level }}</td>
+                  </tr>
+                   
                 </tbody>
                 <tfoot>
                 
@@ -120,10 +129,12 @@
 </div>
 <!-- ./wrapper -->
 <?php $this->load->view('_partials/script');?>
+<!-- Script -->
+
 <script type="text/javascript">
   var app = angular.module('TambahApp',[]);
 
-  app.controller('controllerTambah', function($scope){
+  app.controller('controllerTambah', ['$scope', '$http', function($scope,$http){
     $scope.IsVisible = false;
     $scope.ShowHide = function(parameter){
       if(parameter == "show"){
@@ -132,7 +143,16 @@
         $scope.IsVisible = false;
       }
     }
-  });
+    $scope.getUsers = function(){
+      $http({
+        method: 'get',
+        url:  '<?= base_url() ?>User/getAll'
+      }).then(function successCallback(response) {
+      $scope.users = response.data;
+    });
+  }
+  $scope.getUsers();
+  }]);
 </script>
 </body>
 </html>
