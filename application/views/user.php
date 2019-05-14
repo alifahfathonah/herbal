@@ -86,61 +86,56 @@
           </div>
 
           <!-- form edit -->
-          <div class="box box-info formedit" >
-                <div class="box-header with-border">
-                  <center><h3 class="box-title">Tambah User</h3></center>
-                  <div class="box-tools pull-right">
-                    <button class="btn btn-box-tool click-hide" type="button" ><i class="fa fa-remove"></i></button>
+           <!-- MODAL EDIT -->
+          <form>
+            <div class="modal fade" id="Modal_Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
                   </div>
-                </div>
-                <!-- /.box-header -->
-                <!-- form start -->
-                <form class="form-horizontal" >
-                  <div class="box-body">
-                    
-                    <div class="form-group">
-                      <label  class="col-sm-2 control-label">Id User</label>
-                      <div class="col-sm-8">
-                        <input type="text" class="form-control" id="Editid_user" name="Editid_user" placeholder="Id User">
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label  class="col-sm-2 control-label">Username</label>
-                      <div class="col-sm-8">
-                        <input type="text" class="form-control" id="Editusername"  name="Editusername" placeholder="Username">
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label  class="col-sm-2 control-label">Password</label>
-                      <div class="col-sm-8">
-                        <input type="password" class="form-control" id="Editpassword" name="Editpassword" placeholder="Password">
-                      </div>
-                    </div>
-
-                    <div class="form-group">
+                  <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Id User</label>
+                            <div class="col-md-10">
+                              <input type="text" name="id_user_edit" id="id_user_edit" class="form-control" placeholder="Product Code" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Username</label>
+                            <div class="col-md-10">
+                              <input type="text" name="username_edit" id="username_edit" class="form-control" placeholder="Product Name">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Password</label>
+                            <div class="col-md-10">
+                              <input type="password" name="password_edit" id="password_edit" class="form-control" placeholder="Price">
+                            </div>
+                        </div>
+                      <div class="form-group row">
                       <label class="col-sm-2 control-label">Level</label>
                       <div class="col-sm-8">
                         
-                      <select class="form-control" id="Editlevel" name="Editlevel">
+                      <select class="form-control" id="level_edit" name="level_edit">
                         <option value="Admin">Admin</option>
                         <option value="Marketing">Marketing</option>
                       </select>
                       </div>
                     </div>
-                    
-                    
                   </div>
-                  <!-- /.box-body -->
-                  <div class="box-footer">
-                    <button type="submit" class="btn btn-default click-hide" >Batal</button>
-                    <button type="submit" class="btn btn-success pull-right" name="simpan" id="click-edit">Simpan</button>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" type="submit" id="btn_update" class="btn btn-primary">Update</button>
                   </div>
-                  <!-- /.box-footer -->
-                </form>
-          </div>
-
+                </div>
+              </div>
+            </div>
+          </form>
+        <!--END MODAL EDIT-->
           <!-- form table -->
           <div class="box ">
             <div class="box-header">
@@ -221,6 +216,13 @@
     $(".click-hide").click(function(e){
       e.preventDefault()
       $(".formtambah").fadeOut(1000);
+      
+      kosong();
+    })
+    $(".click-Hide").click(function(e){
+      e.preventDefault()
+      $(".formedit").fadeOut(1000);
+      
       kosong();
     })
 
@@ -245,7 +247,7 @@
                       '<td>'+data[i].username+'</td>'+
                       '<td>'+data[i].level+'</td>'+
                       '<td style="text-align:right;">'+
-                        '<a href="javascript:void(0);" class="btn btn-info btn-sm item_edit" data-product_code="'+data[i].product_code+'" data-product_name="'+data[i].product_name+'" data-price="'+data[i].product_price+'">Edit</a>'+' '+
+                        '<a href="javascript:void(0);" class="btn btn-info btn-sm item_edit" data-id_user="'+data[i].id_user+'" data-username="'+data[i].username+'" data-password="'+data[i].password+'" data-level="'+data[i].level+'">Edit</a>'+' '+
                         '<a href="javascript:void(0);" class="btn btn-danger btn-sm item_delete" data-id_user="'+data[i].id_user+'">Delete</a>'+
                       '</td>'+
 		                '</tr>';
@@ -289,9 +291,21 @@
       
     });
     //edit
-
+    //ambil datanya dulu
+    $('#showData').on('click','.item_edit', function(){
+      kosong();
+      var id_user = $(this).data('id_user');
+      var username = $(this).data('username');
+      var password = $(this).data('password');
+      var level = $(this).data('level');
+      
+      $('#Modal_Edit').modal('show');
+      $('[name="Editid_user"]').val(id_user);
+      $('[name="Editusername"]').val(username);
+      $('[name="Editpassword"]').val(password);
+      $('[name="Editlevel"]').val(level);
+    });
     //hapus
-    
     //ambil datanya dulu
     $('#showData').on('click','.item_delete',function(){
       var id_user = $(this).data('id_user');

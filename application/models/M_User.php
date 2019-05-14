@@ -38,10 +38,11 @@ class M_User extends CI_Model {
     }
     //Update data
 	public function update(){
-		$post = $this->input->post();
+        $post = $this->input->post();
+        $encrypt =$post["password"];
 		$this->id_user = $post["id"];
 		$this->username = $post["username"];
-		$this->password = $post["password"];
+		$this->password = password_hash($encrypt, PASSWORD_BCRYPT);
 		$this->level = $post["level"];
 
 		$this->db->update($this->_table, $this, array('id_user'=>$post['id']));
