@@ -1,12 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class M_User extends CI_Controller {
+class M_User extends CI_Model {
     // deklarasi variable
     private $_table = "login";
     public $id_user;
     public $username;
-    public $password;
+    public $password ;
     public $level;
 
     //menampilkan data
@@ -27,13 +27,14 @@ class M_User extends CI_Controller {
     //create
     public function save(){
         $post = $this->input->post();
-
+        $encrypt =$post["password"];
         $this->id_user = $post["id_user"];
         $this->username = $post["username"];
-		$this->password = $post["password"];
+		$this->password = password_hash($encrypt, PASSWORD_BCRYPT);
 		$this->level = $post["level"];
 		
-		$this->db->insert($this->_table,$this);
+        $result = $this->db->insert($this->_table,$this);
+        return $result;
     }
     //Update data
 	public function update(){
@@ -46,7 +47,11 @@ class M_User extends CI_Controller {
 		$this->db->update($this->_table, $this, array('id_user'=>$post['id']));
 	}
 	//Delete
-	public function delete($id){
-		return $this->db->delete($this->_table, array("id_user"=> $id));
+	public function delete(){
+        // return $this->db->delete($this->_table, array("id_user"=> $id_user));
+        $id_user = $this->input->post('id_user');
+        $this->db->where('id_user', $id_user);
+        $result = $this->db->delete('login');
+        return $result;
 	}
 }
