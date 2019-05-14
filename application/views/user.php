@@ -300,11 +300,35 @@
       var level = $(this).data('level');
       
       $('#Modal_Edit').modal('show');
-      $('[name="Editid_user"]').val(id_user);
-      $('[name="Editusername"]').val(username);
-      $('[name="Editpassword"]').val(password);
-      $('[name="Editlevel"]').val(level);
+      $('[name="id_user_edit"]').val(id_user);
+      $('[name="username_edit"]').val(username);
+      $('[name="password_edit"]').val(password);
+      $('[name="level_edit"]').val(level);
     });
+
+    //update record to database
+    $('#btn_update').on('click',function(){
+      var id_user = $('#id_user_edit').val();
+      var username = $('#username_edit').val();
+      var password = $('#password_edit').val();
+      var level = $('#level_edit').val();
+      $.ajax({
+          type : "POST",
+          url  : "<?php echo site_url('User/edit')?>",
+          dataType : "JSON",
+          data : {id_user:id_user , username:username, password:password, level:level},
+          success: function(data){
+              $('[name="id_user_edit"]').val("");
+              $('[name="username_edit"]').val("");
+              $('[name="password_edit"]').val("");
+              $('[name="level_edit"]').val("");
+              $('#Modal_Edit').modal('hide');
+              showRecord();
+          }
+      });
+      return false;
+    });
+
     //hapus
     //ambil datanya dulu
     $('#showData').on('click','.item_delete',function(){
