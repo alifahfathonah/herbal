@@ -43,7 +43,7 @@
                     <div class="form-group">
                       <label  class="col-sm-2 control-label">Id User</label>
                       <div class="col-sm-8">
-                        <input type="text" class="form-control" id="id_user" name="id_user" placeholder="Id User">
+                        <input type="text" class="form-control" id="id_user" name="id_user" placeholder="Id User" Readonly>
                       </div>
                     </div>
 
@@ -51,7 +51,7 @@
                       <label  class="col-sm-2 control-label">Username</label>
                       <div class="col-sm-8">
                         <input type="text" class="form-control aturan" id="username"  name="username" placeholder="Username">
-                        <div class="alert alert-danger" role="alert" id="MsgUsername"></div>
+                        <p id="msgU"></p>
                       </div>
                     </div>
 
@@ -59,7 +59,7 @@
                       <label  class="col-sm-2 control-label">Password</label>
                       <div class="col-sm-8">
                         <input type="password" class="form-control aturan" id="password" name="password" placeholder="Password">
-                        <div class="alert alert-danger" role="alert" id="MsgPassword"></div>
+                        <p id="msgP"></p>
                       </div>
                     </div>
 
@@ -135,7 +135,7 @@
               </div>
             </div>
           </form>
-        <!--END MODAL EDIT-->
+        
           <!-- form table -->
           <div class="box ">
             <div class="box-header">
@@ -262,38 +262,62 @@
       document.getElementById('username').value="";
       document.getElementById('password').value="";
     }
+    $("#username").keyup(function(){
+      var username = $(this).val();
+      var res = username.substring(0, 3);
+      $('#id_user').val( res);
+    });
     
 
 
     //simpan
     $('#click-simpan').on('click',function(e){
-      
+      var U, P;
       var id_user = $('#id_user').val();
       var username = $('#username').val();
       var password = $('#password').val();
       var level = $('#level').val();
-      $.ajax({
-        type: "POST",
-        url: '<?php echo site_url('User/add') ?>',
-        dataType: "JSON",
-        data: {id_user:id_user, username:username, password:password, level:level},
-        success: function(data){
-          $('[name="id_user"]').val("");
-          $('[name="username"]').val("");
-          $('[name="password"]').val("");
-          $('[name="level"]').val("");
-          showRecord();
+      if(username ==""){
+        document.getElementById("msgU").innerHTML = "isi username";
+        
+      }else if(password == ""){
+        document.getElementById("msgP").innerHTML = "isi password";
+        
+      }else if(username == "" && password == ""){
+        document.getElementById("msgP").innerHTML = "isi password";
+        document.getElementById("msgU").innerHTML = "isi username";
+        
+        $(".formtambah").fadeIn(1000);
+      }else if(username != "" && password != ""){
+        $.ajax({
+          type: "POST",
+          url: '<?php echo site_url('User/add') ?>',
+          dataType: "JSON",
+          data: {id_user:id_user, username:username, password:password, level:level},
+          success: function(data){
+            $('[name="id_user"]').val("");
+            $('[name="username"]').val("");
+            $('[name="password"]').val("");
+            $('[name="level"]').val("");
+            showRecord();
+          },
+        error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
         }
-      });
-      
+        });
+        
+        
+      }
       $(".formtambah").fadeIn(1000);
-      return false;
+        return false;
+      
       
     });
     //edit
     //ambil datanya dulu
     $('#showData').on('click','.item_edit', function(){
-      kosong();
+      
       var id_user = $(this).data('id_user');
       var username = $(this).data('username');
       var password = $(this).data('password');
@@ -350,6 +374,10 @@
           $('[name="id_user_delete"]').val("");
           $('#modalDelete').modal('hide');
           showRecord();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
         }
       });
       return false;
