@@ -36,4 +36,8 @@ class Barang extends CI_Controller {
         $data = $this->M_Barang->delete();
         echo json_encode($data);
     }
+		
+		 public function cobaya(){
+        $this->load->view('test');
+    }
 }

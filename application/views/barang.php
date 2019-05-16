@@ -28,6 +28,7 @@
           
           <!-- /.box -->
           <!-- form tambah -->
+					
           <div class="box box-info formtambah" >
                 <div class="box-header with-border">
                   <center><h3 class="box-title">Tambah Barang</h3></center>
@@ -37,7 +38,7 @@
                 </div>
                 <!-- /.box-header -->
                 <!-- form start -->
-                <form class="form-horizontal" >
+                <form enctype="multipart/form-data" class="form-horizontal" method="post" id="formnya" >
                   <div class="box-body">
                     
                     <div class="form-group">
@@ -96,10 +97,8 @@
                     <div class="form-group">
                       <label  class="col-sm-2 control-label">Gambar</label>
                       <div class="col-sm-8">
-                        <input class="form-control-file <?php echo form_error('gambar') ? 'is-invalid':'' ?>"
-                 type="file" name="gambar" id="gambar" />
+                        <input class="form-control-file" type="file" name="gambar" id="gambar" />
                 <div class="invalid-feedback">
-                  <?php echo form_error('gambar') ?>
                 </div>
       
                         </div>
@@ -120,8 +119,8 @@
                     <button type="submit" class="btn btn-default click-hide" >Batal</button>
                     <button type="submit" class="btn btn-success pull-right" name="simpan" id="click-simpan">Simpan</button>
                   </div>
-                  <!-- /.box-footer -->
                 </form>
+                  <!-- /.box-footer -->
           </div>
 
           <!-- form edit -->
@@ -332,7 +331,7 @@
                       '<td>'+data[i].satuan+'</td>'+
                       '<td>'+data[i].stok+'</td>'+
                       '<td>'+data[i].kategori+'</td>'+
-                       '<td>'+data[i].gambar+'</td>'+
+                       '<td><img src="upload/'+data[i].gambar+'" width="70px" height="70px"></td>'+
                        '<td>'+data[i].deskripsi+'</td>'+
                       '<td style="text-align:right;">'+
                         '<a href="javascript:void(0);" class="btn btn-info btn-sm item_edit" data-id_barang="'+data[i].id_barang+'" data-namabarang="'+data[i].namabarang+'"data-harga="'+data[i].harga+'"data-satuan="'+data[i].satuan+'"data-stok="'+data[i].stok+'" data-kategori="'+data[i].kategori+'" data-gambar="'+data[i].gambar+'" data-deskripsi="'+data[i].deskripsi+'">Edit</a>'+' '+
@@ -362,13 +361,18 @@
       var satuan = $('#satuan').val();
       var stok = $('#stok').val();
       var kategori = $('#kategori').val();
-      var gambar = $('#gambar').val();
       var deskripsi = $('#deskripsi').val();
+			var gambar = new FormData($('#gambar'));
+			var datanya = new FormData(document.getElementById("formnya"));
       $.ajax({
         type: "POST",
-        url: '<?php echo site_url('Barang/add') ?>',
+        url: '<?php echo site_url('barang/add'); ?>',
+				mimeType:"multipart/form-data",
         dataType: "JSON",
-        data: {id_barang:id_barang, namabarang:namabarang, harga:harga, satuan:satuan, stok:stok, kategori:kategori, gambar:gambar, deskripsi:deskripsi},
+        data: datanya,
+		    processData:false,
+		    contentType:false,
+			 cache:false,
         success: function(data){
           $('[name="id_barang"]').val("");
           $('[name="namabarang"]').val("");
@@ -379,7 +383,10 @@
           $('[name="gambar"]').val("");
           $('[name="deskripsi"]').val("");
           showRecord();
-        }
+        },
+				error: function(data){
+					console.log(data);
+				}
       });
       
       $(".formtambah").fadeIn(1000);
