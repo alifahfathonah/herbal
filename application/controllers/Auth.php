@@ -34,7 +34,7 @@ class Auth extends CI_Controller
         } else {
             echo "<script>
             alert('Login gagal username atau pasword salah');
-            window.location='" . site_url('auth/login') . "';
+            window.location='" . site_url('') . "';
             </script>";
         }
     }

@@ -38,7 +38,7 @@ class M_User extends CI_Model
         $encrypt = $post["password"];
         $this->id_user = $post["id_user"];
         $this->username = $post["username"];
-        $this->password = password_hash($encrypt, PASSWORD_DEFAULT);
+        $this->password = password_hash($encrypt, PASSWORD_BCRYPT);
         $this->level = $post["level"];
 
         $result = $this->db->insert($this->_table, $this);
