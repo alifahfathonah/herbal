@@ -10,27 +10,32 @@ class Auth extends CI_Controller
 
     public function process()
     {
-        $_post = $this->input->post(null, TRUE);
-        if (isset($_post['login'])) {
-            $this->load->model('user_m');
-            $query = $this->user_m->login($_post);
-            if ($query->num_rows() > 0) {
-                $row = $query->row();
-                $params = array(
-                    'userid' => $row->user_id,
-                    'level' => $row->level
-                );
-                $this->session->set_userdata($params);
-                echo "<script>
-                    alert('selamat, login berhasil');
-                window.location='" . site_url('Home') . "';
-                </script>";
-            } else {
-                echo "<script>
-                alert('Login gagal username atau pasword salah');
-                window.location='" . site_url('auth') . "';
-                </script>";
+        $post = $this->input->post(null, TRUE);
+        $this->load->model('user_m');
+        $query = $this->user_m->login($post);
+
+        $error = 0;
+        if (count($query) > 0) {
+            if (password_verify($post['password'], $query[0]['password'])) {
+                $error = 1;
             }
+        }
+
+        if ($error == 1) {
+            $params = array(
+                'userid' => $query[0]['id_user'],
+                'level' => $query[0]['level']
+            );
+            $this->session->set_userdata($params);
+            echo "<script>
+            alert('selamat, login berhasil');
+        </script>";
+            redirect(site_url() . "home");
+        } else {
+            echo "<script>
+            alert('Login gagal username atau pasword salah');
+            window.location='" . site_url('auth/login') . "';
+            </script>";
         }
     }
 }

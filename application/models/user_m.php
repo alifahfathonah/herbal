@@ -6,10 +6,8 @@ class user_m extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('login');
-        $tahu = $post['password'];
         $this->db->where('username', $post['username']);
-        $this->db->where('password', password_hash($tahu, PASSWORD_BCRYPT));
         $query = $this->db->get();
-        return $query;
+        return $query->result_array();
     }
 }
