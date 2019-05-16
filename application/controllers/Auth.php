@@ -39,8 +39,4 @@ class Auth extends CI_Controller
         }
     }
 		
-		
-		public function hado(){
-			echo realpath(APPPATH. '../upload/');
-		}
 }
