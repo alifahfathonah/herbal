@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 02, 2019 at 10:47 AM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 7.3.3
+-- Waktu pembuatan: 11 Bulan Mei 2019 pada 02.47
+-- Versi server: 10.1.38-MariaDB
+-- Versi PHP: 7.3.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,15 +25,15 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `barang`
+-- Struktur dari tabel `barang`
 --
 
 CREATE TABLE `barang` (
   `id_barang` varchar(10) NOT NULL,
-  `namabarang` varchar(30) NOT NULL,
-  `harga` int(20) NOT NULL,
+  `namabarang` text NOT NULL,
+  `harga` int(10) NOT NULL,
   `satuan` enum('ecer','grosir') NOT NULL,
-  `stok` int(20) NOT NULL,
+  `stok` int(10) NOT NULL,
   `kategori` enum('Tablet','Kapsul','Bubuk') NOT NULL,
   `gambar` varchar(255) NOT NULL DEFAULT 'default.jpg',
   `deskripsi` text NOT NULL
@@ -42,7 +42,7 @@ CREATE TABLE `barang` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `barangmasuk`
+-- Struktur dari tabel `barangmasuk`
 --
 
 CREATE TABLE `barangmasuk` (
@@ -50,78 +50,78 @@ CREATE TABLE `barangmasuk` (
   `id_barang` varchar(10) NOT NULL,
   `id_user` varchar(5) NOT NULL,
   `tanggal` date NOT NULL,
-  `jumlah` int(10) NOT NULL
+  `jumlah` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `barangmasuk_tmp`
+-- Struktur dari tabel `barangmasuk_tmp`
 --
 
 CREATE TABLE `barangmasuk_tmp` (
   `id_barang` varchar(10) NOT NULL,
   `id_user` varchar(5) NOT NULL,
-  `jumlah` int(10) NOT NULL
+  `jumlah` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_pemesanan`
+-- Struktur dari tabel `detail_pemesanan`
 --
 
 CREATE TABLE `detail_pemesanan` (
   `kode_pemesanan` varchar(100) NOT NULL,
   `id_barang` varchar(10) NOT NULL,
-  `jumlah` int(10) NOT NULL
+  `jumlah` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `detail_transaksi`
+-- Struktur dari tabel `detail_transaksi`
 --
 
 CREATE TABLE `detail_transaksi` (
   `nofaktur` varchar(30) NOT NULL,
   `id_barang` varchar(10) NOT NULL,
   `id_user` varchar(5) NOT NULL,
-  `jumlah` int(10) NOT NULL
+  `jumlah` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `login`
+-- Struktur dari tabel `login`
 --
 
 CREATE TABLE `login` (
   `id_user` varchar(5) NOT NULL,
-  `username` varchar(30) NOT NULL,
-  `password` varchar(10) NOT NULL,
+  `username` text NOT NULL,
+  `password` varchar(20) NOT NULL,
   `level` enum('Admin','Marketing','SuperUser') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pelanggan`
+-- Struktur dari tabel `pelanggan`
 --
 
 CREATE TABLE `pelanggan` (
   `id_pelanggan` varchar(5) NOT NULL,
   `nama` varchar(30) NOT NULL,
-  `nohp` int(13) NOT NULL,
+  `nohp` varchar(16) NOT NULL,
   `alamat` text NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `password` varchar(10) NOT NULL
+  `email` text NOT NULL,
+  `password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pemesanan`
+-- Struktur dari tabel `pemesanan`
 --
 
 CREATE TABLE `pemesanan` (
@@ -129,36 +129,29 @@ CREATE TABLE `pemesanan` (
   `id_user` varchar(5) NOT NULL,
   `id_pelanggan` varchar(5) NOT NULL,
   `tanggal` date NOT NULL,
-  `total` int(20) NOT NULL,
-  `potongan` int(20) NOT NULL,
-  `bayar` int(20) NOT NULL,
+  `total` int(10) NOT NULL,
+  `potongan` int(10) NOT NULL,
+  `bayar` int(10) NOT NULL,
   `kategori` enum('cash','kredit') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `pemesanan_tmp`
+-- Struktur dari tabel `pemesanan_tmp`
 --
 
 CREATE TABLE `pemesanan_tmp` (
-  `kode_pemesanan` varchar(100) NOT NULL,
+  `id_user` varchar(5) NOT NULL,
   `id_barang` varchar(10) NOT NULL,
   `id_pelanggan` varchar(5) NOT NULL,
-  `tanggal` date NOT NULL
+  `jumlah` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `pemesanan_tmp`
---
-
-INSERT INTO `pemesanan_tmp` (`kode_pemesanan`, `id_barang`, `id_pelanggan`, `tanggal`) VALUES
-('', '', '0', '0000-00-00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transaksi`
+-- Struktur dari tabel `transaksi`
 --
 
 CREATE TABLE `transaksi` (
@@ -166,22 +159,22 @@ CREATE TABLE `transaksi` (
   `id_user` varchar(5) NOT NULL,
   `id_pelanggan` varchar(5) NOT NULL,
   `tanggal` date NOT NULL,
-  `total` int(20) NOT NULL,
-  `potongan` int(20) NOT NULL,
-  `bayar` int(20) NOT NULL,
+  `total` int(10) NOT NULL,
+  `potongan` int(10) NOT NULL,
+  `bayar` int(10) NOT NULL,
   `kategori` enum('cash','kredit') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `transaksi_tmp`
+-- Struktur dari tabel `transaksi_tmp`
 --
 
 CREATE TABLE `transaksi_tmp` (
   `id_barang` varchar(10) NOT NULL,
   `id_user` varchar(5) NOT NULL,
-  `jumlah` int(10) NOT NULL
+  `jumlah` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -189,13 +182,13 @@ CREATE TABLE `transaksi_tmp` (
 --
 
 --
--- Indexes for table `barang`
+-- Indeks untuk tabel `barang`
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`id_barang`);
 
 --
--- Indexes for table `barangmasuk`
+-- Indeks untuk tabel `barangmasuk`
 --
 ALTER TABLE `barangmasuk`
   ADD PRIMARY KEY (`id_barangmasuk`),
@@ -204,56 +197,57 @@ ALTER TABLE `barangmasuk`
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `barangmasuk_tmp`
+-- Indeks untuk tabel `barangmasuk_tmp`
 --
 ALTER TABLE `barangmasuk_tmp`
   ADD KEY `id_barang` (`id_barang`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `detail_pemesanan`
+-- Indeks untuk tabel `detail_pemesanan`
 --
 ALTER TABLE `detail_pemesanan`
   ADD UNIQUE KEY `id_barang` (`id_barang`),
   ADD KEY `kode_pemesanan` (`kode_pemesanan`);
 
 --
--- Indexes for table `detail_transaksi`
+-- Indeks untuk tabel `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
   ADD UNIQUE KEY `id_barang` (`id_barang`),
-  ADD UNIQUE KEY `nofaktur_2` (`nofaktur`),
-  ADD KEY `nofaktur` (`nofaktur`);
+  ADD KEY `nofaktur` (`nofaktur`),
+  ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `login`
+-- Indeks untuk tabel `login`
 --
 ALTER TABLE `login`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- Indexes for table `pelanggan`
+-- Indeks untuk tabel `pelanggan`
 --
 ALTER TABLE `pelanggan`
   ADD PRIMARY KEY (`id_pelanggan`);
 
 --
--- Indexes for table `pemesanan`
+-- Indeks untuk tabel `pemesanan`
 --
 ALTER TABLE `pemesanan`
   ADD PRIMARY KEY (`kode_pemesanan`),
-  ADD KEY `id_pelanggan` (`id_pelanggan`);
+  ADD KEY `id_pelanggan` (`id_pelanggan`),
+  ADD KEY `id_user` (`id_user`);
 
 --
--- Indexes for table `pemesanan_tmp`
+-- Indeks untuk tabel `pemesanan_tmp`
 --
 ALTER TABLE `pemesanan_tmp`
   ADD KEY `id_barang` (`id_barang`),
-  ADD KEY `kode_pemesanan` (`kode_pemesanan`),
+  ADD KEY `kode_pemesanan` (`id_user`),
   ADD KEY `id_pelanggan` (`id_pelanggan`);
 
 --
--- Indexes for table `transaksi`
+-- Indeks untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`nofaktur`),
@@ -261,7 +255,7 @@ ALTER TABLE `transaksi`
   ADD KEY `id_pelanggan` (`id_pelanggan`);
 
 --
--- Indexes for table `transaksi_tmp`
+-- Indeks untuk tabel `transaksi_tmp`
 --
 ALTER TABLE `transaksi_tmp`
   ADD UNIQUE KEY `id_barang` (`id_barang`),
@@ -269,50 +263,66 @@ ALTER TABLE `transaksi_tmp`
   ADD KEY `id_user` (`id_user`);
 
 --
--- Constraints for dumped tables
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
 
 --
--- Constraints for table `barang`
+-- Ketidakleluasaan untuk tabel `barangmasuk`
 --
-ALTER TABLE `barang`
-  ADD CONSTRAINT `barang_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barangmasuk` (`id_barang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `barang_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barangmasuk_tmp` (`id_barang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `barang_ibfk_3` FOREIGN KEY (`id_barang`) REFERENCES `transaksi_tmp` (`id_barang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `barang_ibfk_4` FOREIGN KEY (`id_barang`) REFERENCES `detail_transaksi` (`id_barang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `barang_ibfk_5` FOREIGN KEY (`id_barang`) REFERENCES `pemesanan_tmp` (`id_barang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `barang_ibfk_6` FOREIGN KEY (`id_barang`) REFERENCES `detail_pemesanan` (`id_barang`) ON UPDATE CASCADE;
+ALTER TABLE `barangmasuk`
+  ADD CONSTRAINT `barangmasuk_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `barangmasuk_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `login`
+-- Ketidakleluasaan untuk tabel `barangmasuk_tmp`
 --
-ALTER TABLE `login`
-  ADD CONSTRAINT `login_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `transaksi` (`id_user`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `login_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `barangmasuk` (`id_barangmasuk`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `login_ibfk_3` FOREIGN KEY (`id_user`) REFERENCES `barangmasuk_tmp` (`id_user`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `login_ibfk_4` FOREIGN KEY (`id_user`) REFERENCES `transaksi_tmp` (`id_user`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `login_ibfk_5` FOREIGN KEY (`id_user`) REFERENCES `barangmasuk` (`id_user`) ON UPDATE CASCADE;
+ALTER TABLE `barangmasuk_tmp`
+  ADD CONSTRAINT `barangmasuk_tmp_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `barangmasuk_tmp_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `pelanggan`
+-- Ketidakleluasaan untuk tabel `detail_pemesanan`
 --
-ALTER TABLE `pelanggan`
-  ADD CONSTRAINT `pelanggan_ibfk_1` FOREIGN KEY (`id_pelanggan`) REFERENCES `pemesanan` (`id_pelanggan`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `pelanggan_ibfk_2` FOREIGN KEY (`id_pelanggan`) REFERENCES `transaksi` (`id_pelanggan`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `pelanggan_ibfk_3` FOREIGN KEY (`id_pelanggan`) REFERENCES `pemesanan_tmp` (`id_pelanggan`) ON UPDATE CASCADE;
+ALTER TABLE `detail_pemesanan`
+  ADD CONSTRAINT `detail_pemesanan_ibfk_1` FOREIGN KEY (`kode_pemesanan`) REFERENCES `pemesanan` (`kode_pemesanan`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `detail_pemesanan_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `pemesanan`
+-- Ketidakleluasaan untuk tabel `detail_transaksi`
+--
+ALTER TABLE `detail_transaksi`
+  ADD CONSTRAINT `detail_transaksi_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `detail_transaksi_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `detail_transaksi_ibfk_3` FOREIGN KEY (`nofaktur`) REFERENCES `transaksi` (`nofaktur`) ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `pemesanan`
 --
 ALTER TABLE `pemesanan`
-  ADD CONSTRAINT `pemesanan_ibfk_1` FOREIGN KEY (`kode_pemesanan`) REFERENCES `detail_pemesanan` (`kode_pemesanan`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `pemesanan_ibfk_2` FOREIGN KEY (`kode_pemesanan`) REFERENCES `pemesanan_tmp` (`kode_pemesanan`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `pemesanan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `pemesanan_ibfk_2` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `transaksi`
+-- Ketidakleluasaan untuk tabel `pemesanan_tmp`
+--
+ALTER TABLE `pemesanan_tmp`
+  ADD CONSTRAINT `pemesanan_tmp_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `pemesanan_tmp_ibfk_2` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `pemesanan_tmp_ibfk_3` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`);
+
+--
+-- Ketidakleluasaan untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
-  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`nofaktur`) REFERENCES `detail_transaksi` (`nofaktur`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`) ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `transaksi_tmp`
+--
+ALTER TABLE `transaksi_tmp`
+  ADD CONSTRAINT `transaksi_tmp_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `transaksi_tmp_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
