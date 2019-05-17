@@ -28,7 +28,7 @@
         <div class="box box-info">
 
             <div class="box-header">
-                <!-- <form class="form-horizontal" action="?halaman=transaksi" method="POST" > -->
+                
                 <form class="form-horizontal">
                 <div class="box-body">
                         
@@ -61,15 +61,17 @@
                     <div class="form-group">
                     <label  class="col-sm-2 control-label">Nama Barang</label>
                     <div class="col-sm-3">
-                        <select class="form-control select2" style="width: 100%;" name="id_barang" id="id_barang">
-                            <option value="">---Select---</option>
-                            
-                            <option ></option>
-                            
+                        <select class="form-control select2 " style="width: 100%;" name="namaPelanggan" id="namaPelanggan">
+                        <option value="">tahu</option>
+                        <option value="">lontong</option>
+                        <?php foreach ($pelanggan as $p): ?>
+                            <option data-alamat="<?php echo $p->alamat ?>" value="<?php echo $p->id_pelanggan?>"><?php echo $p->nama;?></option>
+                        <?php endforeach;?>
                         </select>
+                       
                     </div>
                     <div class="col-sm-3">
-                        <input type="hidden" class="form-control"  id="stok" name="stok">
+                        <input type="text" class="form-control"  id="alamat" name="alamat">
                         <input type="number" class="form-control"  name="jumlah" placeholder="Jumlah" id="jumlah" >
                     </div>
                     </div>
@@ -178,9 +180,6 @@
        });
        return false;
    }
-   $('#btn').on('click',function(e){
-    
-   });
    function date() {
     var today = new Date();
     var dd = today.getDate();
@@ -199,6 +198,19 @@
     today = dd+'/'+mm+'/'+yyyy;
      $('[name="tanggal"]').val(today); 
    }
+   //get alamat
+   $("#namaPelanggan").change(function(){
+    var alamat = $(this).find(":selected").data("alamat")
+    $("#alamat").val(alamat)
+   })
+   //replace
+    $("#alamat").keyup(function(){
+      var alamat = $(this).val();
+      var res = alamat.substring(0, 3);
+      $('#nofaktur').val( res);
+    });
+
+
 
   }); //akhir
 </script>
