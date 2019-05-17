@@ -23,13 +23,14 @@ class Auth extends CI_Controller
 
         if ($error == 1) {
             $params = array(
-                'userid' => $query[0]['id_user'],
-                'level' => $query[0]['level']
+                'id_user' => $query[0]['id_user'],
+                'level' => $query[0]['level'],
+                'status' => "login"
             );
             $this->session->set_userdata($params);
             echo "<script>
             alert('selamat, login berhasil');
-        </script>";
+            </script>";
             redirect(site_url() . "home");
         } else {
             echo "<script>
@@ -38,5 +39,11 @@ class Auth extends CI_Controller
             </script>";
         }
     }
-		
+    function logout(){
+		$this->session->sess_destroy();
+		echo "<script>
+            alert('Anda Keluar');
+            window.location='" . site_url('') . "';
+            </script>";
+	}
 }
