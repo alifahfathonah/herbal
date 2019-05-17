@@ -39,4 +39,11 @@ class Auth extends CI_Controller
             </script>";
         }
     }
+    function logout(){
+		$this->session->sess_destroy();
+		echo "<script>
+            alert('Anda Keluar');
+            window.location='" . site_url('') . "';
+            </script>";
+	}
 }

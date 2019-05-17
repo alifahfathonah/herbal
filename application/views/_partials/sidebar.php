@@ -37,7 +37,9 @@
           </a>
           <ul class="treeview-menu">
           <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> Login</a></li>
+          
           <li class="active"><a href="<?php echo site_url('User')?>"><i class="fa fa-circle-o"></i> Register</a></li>
+          
           </ul>
         </li>
         <li class="treeview">
@@ -52,6 +54,8 @@
             <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Pemesanan </a></li>
             <li><a href=""><i class="fa fa-circle-o"></i> Transaksi </a></li>
             </ul>
+        </li>
+        <li class="header"><a href="<?php echo site_url('auth/logout'); ?>"><span class="glyphicon glyphicon-arrow-left"><span>Keluar </a>
         </li>
          <!-- <li class="treeview">
           <a href="#">
@@ -125,3 +129,4 @@
         
       </ul>
     </section>
+    
