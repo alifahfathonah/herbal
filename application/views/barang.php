@@ -355,15 +355,7 @@
 
     //simpan
     $('#click-simpan').on('click',function(e){
-      
-      var id_barang = $('#id_barang').val();
-      var namabarang = $('#namabarang').val();
-      var harga = $('#harga').val();
-      var satuan = $('#satuan').val();
-      var stok = $('#stok').val();
-      var kategori = $('#kategori').val();
-      var gambar = $('#gambar').val();
-      var deskripsi = $('#deskripsi').val();
+			var datanya = new FormData(document.getElementById("formnya"));
       $.ajax({
         type: "POST",
         url: '<?php echo site_url('Barang/add') ?>',
