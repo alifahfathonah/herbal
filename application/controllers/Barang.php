@@ -36,4 +36,6 @@ class Barang extends CI_Controller {
         $data = $this->M_Barang->delete();
         echo json_encode($data);
     }
+		
+		
 }
