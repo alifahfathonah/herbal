@@ -68,23 +68,23 @@ class M_Barang extends CI_Model {
     }
 
     private function _uploadImage()
-{
-    $config['upload_path']          = './upload/product/';
-    $config['allowed_types']        = 'gif|jpg|png';
-    $config['file_name']            = $this->id_barang;
-    $config['overwrite']            = true;
-    $config['max_size']             = 1024; // 1MB
-    // $config['max_width']            = 1024;
-    // $config['max_height']           = 768;
+    {
+        $config['upload_path']          = './upload/product/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['file_name']            = $this->id_barang;
+        $config['overwrite']            = true;
+        $config['max_size']             = 1024; // 1MB
+        // $config['max_width']            = 1024;
+        // $config['max_height']           = 768;
 
-    $this->load->library('upload', $config);
+        $this->load->library('upload', $config);
 
-    if ($this->upload->do_upload('gambar')) {
-        return $this->upload->data("file_name");
+        if ($this->upload->do_upload('gambar')) {
+            return $this->upload->data("file_name");
+        }
+        
+        return "default.jpg";
+
     }
-    
-    return "jeruk.jpg";
-
-}
 
 }

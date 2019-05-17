@@ -332,7 +332,7 @@
                       '<td>'+data[i].satuan+'</td>'+
                       '<td>'+data[i].stok+'</td>'+
                       '<td>'+data[i].kategori+'</td>'+
-                       '<td>'+data[i].gambar+'</td>'+
+                       '<td><?php base_url('upload/') ?>'+data[i].gambar+'</td>'+
                        '<td>'+data[i].deskripsi+'</td>'+
                       '<td style="text-align:right;">'+
                         '<a href="javascript:void(0);" class="btn btn-info btn-sm item_edit" data-id_barang="'+data[i].id_barang+'" data-namabarang="'+data[i].namabarang+'"data-harga="'+data[i].harga+'"data-satuan="'+data[i].satuan+'"data-stok="'+data[i].stok+'" data-kategori="'+data[i].kategori+'" data-gambar="'+data[i].gambar+'" data-deskripsi="'+data[i].deskripsi+'">Edit</a>'+' '+
