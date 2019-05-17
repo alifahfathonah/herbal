@@ -28,20 +28,33 @@ class M_Barang extends CI_Model {
         return $this->db->get($this->_table)->result();
     }
 
-    //create
+   //create
     public function save(){
-        $post = $this->input->post();
+        $config['upload_path']          = realpath(APPPATH. '../upload/');
+    $config['allowed_types']        = 'gif|jpg|png';
+    $config['overwrite']            = true;
+    $config['max_size']             = 1024; // 1MB
+    // $config['max_width']            = 1024;
+    // $config['max_height']           = 768;
+
+    $this->load->library('upload', $config);
+    if(!$this->upload->do_upload('gambar')) {
+            echo $this->upload->display_errors();
+    } else {
+                $filename= $this->upload->data('file_name');
+              $post = $this->input->post();
         $this->id_barang = $post["id_barang"];
         $this->namabarang = $post["namabarang"];
         $this->harga = $post["harga"];
         $this->satuan= $post["satuan"];
         $this->stok = $post["stok"];
         $this->kategori = $post["kategori"];
-        $this->gambar = $this->_uploadImage();
+        $this->gambar = $filename;
         $this->deskripsi = $post["deskripsi"];
         
         $result = $this->db->insert($this->_table,$this);
-        return $result;
+        }
+
     }
     //Update data
     public function update(){
