@@ -7,6 +7,7 @@ class User extends CI_Controller {
 		parent::__construct();
 		$this->load->model("M_User");
 		$this->load->library('form_validation');
+	
 	}
 	public function index()
 	{
