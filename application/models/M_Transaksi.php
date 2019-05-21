@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_Transaksi extends CI_Model {
      private $_table = "pelanggan";
+     private $_tableB = "barang";
      
      public function kode(){
           $this->db->select('LEFT(transaksi.nofaktur,2) as nofaktur', FALSE);
@@ -20,7 +21,7 @@ class M_Transaksi extends CI_Model {
           $tgl=date('dmY');
           $D=date('d'); 
           $batas = str_pad($kode, 4, "0", STR_PAD_LEFT);    
-          $kodetampil = "Q/".$batas."/".$id_user."/".$D."/XXX"."/".$tgl;  //format kode
+          $kodetampil = "Q/".$batas."/".$id_user."/".$D."/XXXX"."/".$tgl;  //format kode
           return $kodetampil;  
      }
 
@@ -28,8 +29,18 @@ class M_Transaksi extends CI_Model {
           $hasil=$this->db->query("SELECT * FROM pelanggan");
           return $hasil;
      }
+
      public function ambil_data()
      {
          return $this->db->get($this->_table)->result();
+     }
+     
+     function searchBarang(){
+          $hasil=$this->db->query("SELECT * FROM barang");
+          return $hasil;
+     }
+     public function ambilBarang()
+     {
+         return $this->db->get($this->_tableB)->result();
      }
 }
