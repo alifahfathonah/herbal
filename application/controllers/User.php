@@ -22,14 +22,6 @@ class User extends CI_Controller {
 		echo json_encode($data);
 	}
 	public function add(){
-		// $user = $this->M_User;
-		// $validasi = $this->form_validation;
-		// $validasi->set_rules($user->rule());
-
-		// if($validasi->run()){
-		// 	$data=$user->save();
-		// 	$this->session->set_flasdata('success','Berhasil Disimpan');
-		// 	echo json_encode($data);
 		$data=$this->M_User->save();
 		echo json_encode($data);
 	}

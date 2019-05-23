@@ -96,11 +96,27 @@ class M_Transaksi extends CI_Model {
      }
 
      public function insTr(){
+          date_default_timezone_set('Asia/Jakarta');
+
           $nofaktur = $this->input->post('nofaktur');
           $id_user = $this->session->userdata("id_user");
           $id_pelanggan = $this->input->post('namaPelanggan');
           $tgl=date('Y-m-d');
           $tanggal = $tgl; 
-           
+          $total = $this->input->post('total');
+          $bayar = $this->input->post('bayar');
+          $kategori = $this->input->post('kategori');
+
+          $transaksi = array(
+               'nofaktur'=>$nofaktur,
+               'id_user'=>$id_user,
+               'id_pelanggan'=>$id_pelanggan,
+               'tanggal'=>$tanggal,
+               'total'=>$total,
+               'bayar'=>$bayar,
+               'kategori'=>$kategori
+          );
+          $result = $this->db->insert($this->_tT, $transaksi);
+          return $result;
      }
 }

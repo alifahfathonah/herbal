@@ -70,5 +70,9 @@ class Transaksi extends CI_Controller {
 		$data=$this->cart->total();
 		echo json_encode($data);
 	}
+	public function add(){
+		$data=$this->M_Transaksi->insTr();
+		echo json_encode($data);
+	}
 	
 }

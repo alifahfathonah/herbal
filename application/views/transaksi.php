@@ -34,7 +34,7 @@
                                 
                             <div class="form-group">
                             <label  class="col-sm-2 control-label">Transaksi</label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-5">
                                 <input type="text" class="form-control" readonly name="nofaktur" placeholder="" id="nofaktur" >
                             </div>
                             
@@ -90,7 +90,7 @@
                             <div class="form-group">
                             <div class="col-md-3 col-sm-offset-5">
                                 <button type="submit" class="add_keranjang btn btn-info" name="keranjang" id="keranjang">Tambah</button>
-                                <input type="checkbox" class="minimal"  id="kredit" name="kredit" value="kredit">  <label  class="control-label">Kredit</label>
+                                <input type="checkbox" class="minimal"  id="kategori" name="kategori" value="kredit" >  <label  class="control-label">Kredit</label>
                             </div>
                             </div>
 
@@ -174,6 +174,7 @@
         });
     return false;
     }
+    //set total
     function setTotal(){
         var total = $('#total').val();
         $.ajax({
@@ -215,6 +216,7 @@
     String.prototype.replaceAt=function(index, replacement) {
     return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
     }
+    
     //getStokBarang
     $("#namaBarang").change(function(){
         var stok = $(this).find(":selected").data("stok");
@@ -265,13 +267,42 @@
             }
         })
     })
-    //
-    $("#kredit").change(function(){
-        var st =  this.checked;
-        if(st) {
-            alert("tahu");
+    //kode kredit
+    $('#kategori').click(function () {
+        if ($(this).is(":checked")) {
+            var nofaktur = $('#nofaktur').val();
+            var res = "B";
+            var b= "N";
+            var posisi =1;
+            var result = [nofaktur.slice(0,posisi), b, nofaktur.slice(posisi)].join('');
+            var txt = result.replaceAt(0,res);
+             $('#nofaktur').val(txt);
+            
+        } else {
+            setCode();
         }
     });
+    //transaksi
+    $('#transaksi').click(function(){
+        $.ajax({
+          type: "POST",
+          url: '<?php echo site_url('Transaksi/add') ?>',
+          dataType: "JSON",
+          data: {id_user:id_user, username:username, password:password, level:level},
+          success: function(data){
+            $('[name="id_user"]').val("");
+            $('[name="username"]').val("");
+            $('[name="password"]').val("");
+            $('[name="level"]').val("");
+            showRecord();
+          },
+        error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status);
+        alert(thrownError);
+        }
+        });
+    })
+    //
   }); //akhir
 </script>
 <!-- Script -->
