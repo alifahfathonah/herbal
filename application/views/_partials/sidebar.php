@@ -21,7 +21,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="<?php echo site_url('Barang') ?>"><i class="fa fa-circle-o"></i> Data Barang</a></li>
-            <li><a href="index2.html"><i class="fa fa-circle-o"></i> Data Barang Masuk</a></li>
+            <li><a href="<?php echo site_url('Barangmasuk') ?>"><i class="fa fa-circle-o"></i> Data Barang Masuk</a></li>
             <li><a href="<?php echo site_url('Pelanggan') ?>"><i class="fa fa-circle-o"></i> Data Pelanggan</a></li>
             <li><a href="<?php echo site_url('Transaksi') ?>"><i class="fa fa-circle-o"></i> Transaksi</a></li>
             <li><a href="<?php echo site_url('Pemesanan') ?>"><i class="fa fa-circle-o"></i> Pemesanan</a></li>

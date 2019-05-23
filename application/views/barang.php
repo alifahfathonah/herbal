@@ -187,7 +187,7 @@
                       </select>
                       </div>
                     </div>
-                  </div>
+                  
 
                     <div class="form-group row">
                             <label class="col-md-2 col-form-label">Gambar</label>
@@ -203,6 +203,7 @@
                             <div class="col-md-10">
                               <textarea type="text" name="deskripsi_edit" id="deskripsi_edit" class="form-control" placeholder="Deskripsi"></textarea>
                             </div>
+                        </div>
                         </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -234,6 +235,7 @@
                   <th>Kategori</th>
                   <th>Gambar</th>
                   <th>Deskripsi</th>
+                  <th>Aksi</th>
                 </tr>
                 </thead>
                 <tbody id="showData">
@@ -255,7 +257,7 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                       <strong>Are you sure to delete this record?</strong>
+                       <strong>Apakah anda yakin menghapus data?</strong>
                   </div>
                   <div class="modal-footer">
                     <input type="hidden" name="id_barang_delete" id="id_barang_delete" class="form-control">
@@ -375,6 +377,7 @@
           $('[name="gambar"]').val("");
           $('[name="deskripsi"]').val("");
           showRecord();
+          window.alert("Data berhasil disimpan");
         },
         error: function(data){
           console.log(data);
