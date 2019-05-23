@@ -17,11 +17,11 @@
             <p class="login-box-msg">Sign in to start your session</p>
             <form action="<?= site_url('auth/process') ?>" method="post">
                 <div class="form-group has-feedback">
-                    <input type="text" name="username" class="form-control" placeholder="username">
+                    <input type="text" name="username" class="form-control" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" placeholder="username">
                     <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="password" name="password" class="form-control" placeholder="Password">
+                    <input type="password" name="password" class="form-control" required oninvalid="this.setCustomValidity('Data tidak boleh kosong')" oninput="setCustomValidity('')" placeholder="Password" required>
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
                 <div class="row">

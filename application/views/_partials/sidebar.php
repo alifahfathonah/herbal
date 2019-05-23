@@ -1,17 +1,17 @@
     <section class="sidebar">
       <!-- Sidebar user panel -->
-      <div class="user-panel" >
+      <div class="user-panel">
         <div class="pull-left image">
-          <img src="<?php echo base_url('assets/')?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="<?php echo base_url('assets/') ?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p><?php echo $this->session->userdata("id_user"); ?></p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
-      
+
       <ul class="sidebar-menu" data-widget="tree">
-        
+
         <li class="treeview">
           <a href="#">
             <i class="fa fa-dashboard"></i> <span>Home</span>
@@ -20,14 +20,14 @@
             </span>
           </a>
           <ul class="treeview-menu">
-              <li><a href="<?php echo site_url('Barang')?>"><i class="fa fa-circle-o"></i> Data Barang</a></li>
-              <li><a href="index2.html"><i class="fa fa-circle-o"></i> Data Barang Masuk</a></li>
-              <li><a href="<?php echo site_url('Pelanggan')?>"><i class="fa fa-circle-o"></i> Data Pelanggan</a></li>
-              <li><a href="<?php echo site_url('Transaksi')?>"><i class="fa fa-circle-o"></i> Transaksi</a></li>
-              <li><a href="index2.html"><i class="fa fa-circle-o"></i> Pemesanan</a></li>
+            <li><a href="<?php echo site_url('Barang') ?>"><i class="fa fa-circle-o"></i> Data Barang</a></li>
+            <li><a href="index2.html"><i class="fa fa-circle-o"></i> Data Barang Masuk</a></li>
+            <li><a href="<?php echo site_url('Pelanggan') ?>"><i class="fa fa-circle-o"></i> Data Pelanggan</a></li>
+            <li><a href="<?php echo site_url('Transaksi') ?>"><i class="fa fa-circle-o"></i> Transaksi</a></li>
+            <li><a href="<?php echo site_url('Pemesanan') ?>"><i class="fa fa-circle-o"></i> Pemesanan</a></li>
           </ul>
         </li>
-       <li class="treeview">
+        <li class="treeview">
           <a href="#">
             <i class="fa fa-folder"></i>
             <span>Menu</span>
@@ -36,10 +36,10 @@
             </span>
           </a>
           <ul class="treeview-menu">
-          <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> Login</a></li>
-          
-          <li class="active"><a href="<?php echo site_url('User')?>"><i class="fa fa-circle-o"></i> Register</a></li>
-          
+            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> Login</a></li>
+
+            <li class="active"><a href="<?php echo site_url('User') ?>"><i class="fa fa-circle-o"></i> Register</a></li>
+
           </ul>
         </li>
         <li class="treeview">
@@ -53,11 +53,11 @@
           <ul class="treeview-menu">
             <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Pemesanan </a></li>
             <li><a href=""><i class="fa fa-circle-o"></i> Transaksi </a></li>
-            </ul>
+          </ul>
         </li>
         <li class="header"><a href="<?php echo site_url('auth/logout'); ?>"><span class="glyphicon glyphicon-arrow-left"><span>Keluar </a>
         </li>
-         <!-- <li class="treeview">
+        <!-- <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
             <span>Layout Options</span>
@@ -126,7 +126,6 @@
           </a>
         </li>
         -->
-        
+
       </ul>
     </section>
-    
