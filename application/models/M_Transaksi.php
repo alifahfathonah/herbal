@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class M_Transaksi extends CI_Model {
      private $_table = "pelanggan";
      private $_tableB = "barang";
+     private $_tT = "transaksi";
+     private $_tDT = "detail_transaksi";
      
      public function kode(){
           $this->db->select('LEFT(transaksi.nofaktur,2) as nofaktur', FALSE);
@@ -17,7 +19,7 @@ class M_Transaksi extends CI_Model {
           }else{
                $kode = 1;  //cek jika kode belum terdapat pada table
           }
-          $id_user = $this->session->userdata("id_user");;
+          $id_user = $this->session->userdata("id_user");
           $tgl=date('dmY');
           $D=date('d'); 
           $batas = str_pad($kode, 4, "0", STR_PAD_LEFT);    
@@ -39,8 +41,66 @@ class M_Transaksi extends CI_Model {
           $hasil=$this->db->query("SELECT * FROM barang");
           return $hasil;
      }
-     public function ambilBarang()
-     {
+     public function ambilBarang(){
          return $this->db->get($this->_tableB)->result();
+     }
+     public function keranjang(){
+          $id = $this->input->post('id');
+		$qty = $this->input->post('qty');
+		$price = $this->input->post('price');
+		$name = $this->input->post('name');
+		$grosir = array(
+					'id'     => $id,
+					'qty'    => $qty,
+					'price'   => $price,
+					'name'      => $name
+		);
+		
+		$this->cart->insert($grosir);	
+		echo $this->show();
+     }
+     public function show(){
+          $output='';
+		foreach ($this->cart->contents() as $items) {
+			# code...
+			$output .='
+                    <tr>
+                         <td>'.$items['id'].'</td>
+                         <td>'.$items['name'].'</td>
+                         <td>'.$items['qty'].'</td>
+                         <td>'.number_format($items['price']).'</td>
+                         <td>
+                              <div class="col-md-8">
+                              <div class="form-group">
+                                   <input type="text" id="subtotal" name="subtotal" value="'.$items['subtotal'].'" class="form-control" style="text-align:right;margin-bottom:5px;" readonly>
+                              </div>
+                         </div>
+                         </td>
+                              <td><button type="button" id="'.$items['rowid'].'" class="hapus_cart btn btn-danger btn-xs">Batal</button></td>
+                    </tr>
+          ';
+		}
+               return $output;
+     }
+     public function load(){
+          echo $this->show();
+     }
+     public function hapus(){
+          $data = array(
+			'rowid' => $this->input->post('row_id'),
+			'qty'	=>0,
+		);
+		$total = $this->cart->total();
+		$this->cart->update($data);
+		echo $this->show();
+     }
+
+     public function insTr(){
+          $nofaktur = $this->input->post('nofaktur');
+          $id_user = $this->session->userdata("id_user");
+          $id_pelanggan = $this->input->post('namaPelanggan');
+          $tgl=date('Y-m-d');
+          $tanggal = $tgl; 
+           
      }
 }

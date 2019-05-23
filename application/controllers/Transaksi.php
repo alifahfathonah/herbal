@@ -51,56 +51,24 @@ class Transaksi extends CI_Controller {
 		}
 	}
 	function Cart(){	
-		$id = $this->input->post('id');
-		$qty = $this->input->post('qty');
-		$price = $this->input->post('price');
-		$name = $this->input->post('name');
-		$grosir = array(
-					'id'     => $id,
-					'qty'    => $qty,
-					'price'   => $price,
-					'name'      => $name
-		);
-		
-		$this->cart->insert($grosir);	
-		// redirect('admin/kasir/grosir');
-		echo $this->show_keranjang();
+		$data=$this->M_Transaksi->keranjang();
+		echo json_encode($data);
 	}
 	function show_keranjang(){
-		$output='';
-		foreach ($this->cart->contents() as $items) {
-			# code...
-			$output .='
-									<tr>
-											<td>'.$items['id'].'</td>
-											<td>'.$items['name'].'</td>
-											<td>'.$items['qty'].'</td>
-											<td>'.number_format($items['price']).'</td>
-											<td>
-												<div class="col-md-8">
-												<div class="form-group">
-													<input type="text" id="subtotal" name="subtotal" value="'.$items['subtotal'].'" class="form-control" style="text-align:right;margin-bottom:5px;" readonly>
-												</div>
-											</div>
-										</td>
-											<td><button type="button" id="'.$items['rowid'].'" class="hapus_cart btn btn-danger btn-xs">Batal</button></td>
-									</tr>
-							';
-		}
-				return $output;
+		$data=$this->M_Transaksi->show();
+		echo json_encode($data);
 	}
 	function load_cart(){
-		echo $this->show_keranjang();
+		$data=$this->M_Transaksi->load();
+		echo json_encode($data);
 	}
 	function hapus_keranjang(){
-		$data = array(
-			'rowid' => $this->input->post('row_id'),
-			'qty'	=>0,
-		);
-		$total = $this->cart->total();
-		$this->cart->update($data);
-		echo $this->show_keranjang();
-		// redirect('admin/kasir/grosir');
+		$data=$this->M_Transaksi->hapus();
+		echo json_encode($data);
+	}
+	function total(){
+		$data=$this->cart->total();
+		echo json_encode($data);
 	}
 	
 }
