@@ -119,9 +119,10 @@
                                 <div class="form-group">
                                     <div class="col-sm-3">
                                         <input type="text" class="form-control" id="total"  name="total" >
+                                        <input type="hidden" class="form-control" id="hargaAwal"  name="hargaAwal" >
                                     </div>
-                                    <div class="col-sm-3">
-                                        <input type="text" class="form-control"  id="potongan" name="potongan" placeholder="Potongan">
+                                    <div class="col-sm-2">
+                                        <input type="text" class="form-control"  id="potongan" name="potongan" placeholder="%Diskon">
                                     </div>
                                     <div class="col-sm-3">
                                         <input type="text" class="form-control"  id="bayar" name="bayar" placeholder="Bayar">
@@ -185,6 +186,7 @@
             data:{total:total},
             success : function(data){
                 $('[name="total"]').val(data);
+                $('[name="hargaAwal"]').val(data);
             }
         });
         return false;
@@ -240,18 +242,23 @@
         var id = $("#namaBarang").val();
         var name = $("#name").val();
         var qty = $("#qty").val();
+        var stok = $("#stok").val();
         var price = $("#price").val();
        
-        $.ajax({
-            url : "<?php echo base_url(); ?>Transaksi/Cart",
-            method : "POST",
-            data : {id : id, name : name, qty : qty, price : price },
-            success: function(data){
-                $("#detailCart").html(data);
-                kosong();
-                setTotal()
-            }
-        });
+        if(stok >= qty){
+            $.ajax({
+                url : "<?php echo base_url(); ?>Transaksi/Cart",
+                method : "POST",
+                data : {id : id, name : name, qty : qty, price : price },
+                success: function(data){
+                    $("#detailCart").html(data);
+                    kosong();
+                    setTotal()
+                }
+            });
+        }else{
+            alert("Stok tidak mecukupi, tersedia = " +stok);
+        }
     })
     //load
     $('#detailCart').load("<?php echo base_url();?>Transaksi/load_cart");
@@ -286,6 +293,50 @@
             document.getElementById('kategori').value="";
         }
     });
+    //cek stok
+    $("#qty").keyup(function(){
+        var stok = parseInt($("#stok").val());
+        var thisVal = parseInt($(this).val());
+        
+        if(thisVal > stok){
+        alert("Stok tidak mecukupi, tersedia = " +stok);
+        }else{
+        return TRUE;
+        }
+      
+    })
+    //diskon
+    $("#potongan").keyup(function(){
+        var total = $("#hargaAwal").val()
+        var thisVal = $(this).val()
+        var diskon = parseInt (thisVal) * parseInt(total) / 100;
+        result = total-diskon;
+        if(thisVal != ""){
+            $("#total").val(result);
+        }else{
+            $("#total").val(total);
+        }
+        hitung();
+    })
+    $("#bayar").keyup(function(){
+        hitung();
+    })
+    //hitung
+    function hitung() {
+        var total = document.getElementById('total').value;
+        var bayar = document.getElementById('bayar').value;
+
+        var result = parseInt(bayar) - parseInt(total);
+        
+        if (bayar=="") {
+        document.getElementById('kembalian').value = "";
+        }else{
+        document.getElementById('kembalian').value = result;
+        if (result == 0) {
+            document.getElementById('kembalian').value = "";
+        }  
+        }
+    }
     //transaksi
    
     $('#transaksi').on('click',function(e){
