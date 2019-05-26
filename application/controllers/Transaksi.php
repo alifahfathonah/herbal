@@ -70,8 +70,17 @@ class Transaksi extends CI_Controller {
 		$data=$this->cart->total();
 		echo json_encode($data);
 	}
+	function hapusSemua(){
+		$data=$this->cart->destroy();
+		echo json_encode($data);
+	}
 	public function add(){
 		$data=$this->M_Transaksi->insTr();
+		$data=$this->M_Transaksi->detail();
+		echo json_encode($data);
+	}
+	public function addDet(){
+		$data=$this->M_Transaksi->detail();
 		echo json_encode($data);
 	}
 	

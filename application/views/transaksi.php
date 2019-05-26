@@ -1,7 +1,7 @@
 <!DOCTYPE html >
 <html lang="en">
 <head>
-<title>Register | JHP</title>
+<title>Transaksi | JHP</title>
   <?php $this->load->view('_partials/head')?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -26,122 +26,122 @@
       <div class="row">
         <div class="col-xs-8 col-sm-offset-1">
             <div class="box box-info">
-
-                <div class="box-header">
-                    
-                    <div class="form-horizontal">
-                        <div class="box-body">
-                                
-                            <div class="form-group">
-                            <label  class="col-sm-2 control-label">Transaksi</label>
-                            <div class="col-sm-5">
-                                <input type="text" class="form-control" readonly name="nofaktur" placeholder="" id="nofaktur" >
-                            </div>
-                            
-                            <div class="col-sm-3 ">
-                            <div class="input-group">
+                <!-- <form enctype="multipart/form-data" class="form-horizontal" method="post" id="formnya" > -->
+                    <div class="box-header">
+                        
+                        <div class="form-horizontal">
+                            <div class="box-body">
                                     
-                                <div class="input-group">
-                                    <div class="input-group-addon">
-                                    <i class="fa fa-calendar"></i>
+                                <div class="form-group">
+                                    <label  class="col-sm-2 control-label">Transaksi</label>
+                                    <div class="col-sm-5">
+                                        <input type="text" class="form-control" readonly name="nofaktur" placeholder="" id="nofaktur" >
+                                        <input type="hidden" class="form-control" readonly name="id_user" placeholder="" id="id_user" value="<?php echo $this->session->userdata("id_user"); ?>">
+                                        
+                                    </div> 
+                                    <div class="col-sm-3 ">
+                                        <div class="input-group">
+                                                
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" name="tanggal" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask  readonly="readonly" >
+                                            </div>
+                                        </div>
                                     </div>
-                                    <input type="text" name="tanggal" class="form-control" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask  readonly="readonly" >
                                 </div>
-                            </div>
-                            </div>
-                            <div class="form-group">
-                            </div>
+                                <div class="form-group">
+                                </div>
 
-                            <div class="form-group">
-                                <label  class="col-sm-2 control-label">Nama Pelanggan</label>
-                                <div class="col-sm-3">
-                                    <select class="form-control select2 " style="width: 100%;" name="namaPelanggan" id="namaPelanggan">
-                                    <option value="" disable >Cari Pelanggan</option>
-                                    <?php foreach ($pelanggan as $p): ?>
-                                        <option data-alamat="<?php echo $p->alamat ?>" value="<?php echo $p->id_pelanggan?>"><?php echo $p->nama;?></option>
-                                    <?php endforeach;?>
-                                    </select>
-                                
+                                <div class="form-group">
+                                    <label  class="col-sm-2 control-label">Nama Pelanggan</label>
+                                    <div class="col-sm-3">
+                                        <select class="form-control select2 " style="width: 100%;" name="id_pelanggan" id="id_pelanggan">
+                                        <option value="" disable >Cari Pelanggan</option>
+                                        <?php foreach ($pelanggan as $p): ?>
+                                            <option data-alamat="<?php echo $p->alamat ?>" value="<?php echo $p->id_pelanggan?>"><?php echo $p->nama;?></option>
+                                        <?php endforeach;?>
+                                        </select>
+                                    <p id="msgP" class="help-block"><i>*pelanggannya mas</i></p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control"  id="alamat" name="alamat">
+                                        <input type="hidden" class="form-control"  id="kategori" name="kategori">
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <input type="text" class="form-control"  id="alamat" name="alamat">
+                                <div class="form-group">
+                                    <label  class="col-sm-2 control-label">Nama Barang</label>
+                                    <div class="col-sm-3">
+                                        <select class="form-control select2 " style="width: 100%;" name="namaBarang" id="namaBarang">
+                                        <option value="" disable>Pilih Barang</option>
+                                        <?php foreach ($barang as $b): ?>
+                                            <option data-namabarang="<?php echo $b->namabarang ?>" data-stok="<?php echo $b->stok ?>" data-harga="<?php echo $b->harga ?>" value="<?php echo $b->id_barang?>"><?php echo $b->namabarang;?></option>
+                                        <?php endforeach;?>
+                                        </select>
+                                        
                                     
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="hidden" class="form-control"  id="stok" name="stok">
+                                        <input type="hidden" class="form-control"  id="price" name="price">
+                                        <input type="hidden" class="form-control"  id="name" name="name">
+                                        <input type="number" class="form-control"  name="qty" placeholder="Jumlah" id="qty" >
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label  class="col-sm-2 control-label">Nama Barang</label>
-                                <div class="col-sm-3">
-                                    <select class="form-control select2 " style="width: 100%;" name="namaBarang" id="namaBarang">
-                                    <option value="" disable>Pilih Barang</option>
-                                    <?php foreach ($barang as $b): ?>
-                                        <option data-namabarang="<?php echo $b->namabarang ?>" data-stok="<?php echo $b->stok ?>" data-harga="<?php echo $b->harga ?>" value="<?php echo $b->id_barang?>"><?php echo $b->namabarang;?></option>
-                                    <?php endforeach;?>
-                                    </select>
-                                
+
+                                <div class="form-group">
+                                    <div class="col-md-3 col-sm-offset-5">
+                                        <button  class="add_keranjang btn btn-info" name="keranjang" id="keranjang">Tambah</button>
+                                        <input type="checkbox" class="minimal"  id="kondisi" name="kondisi" >  <label  class="control-label">Kredit</label>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3">
-                                    <input type="hidden" class="form-control"  id="stok" name="stok">
-                                    <input type="hidden" class="form-control"  id="price" name="price">
-                                    <input type="hidden" class="form-control"  id="name" name="name">
-                                    <input type="number" class="form-control"  name="qty" placeholder="Jumlah" id="qty" >
+
+                                <div class="form-group" >
+                                    <div class="col-sm-8 col-sm-offset-2">
+                                        <table  class="table table-striped table-bordered" >
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Nama Barang</th>                
+                                                    <th>Jumlah</th>
+                                                    <th>Harga</th>
+                                                    <th>Subtotal</th>                
+                                                    <th>Pilihan</th>          
+                                                </tr>
+                                            </thead>
+                                            <tbody id="detailCart">
+                                            </tbody>
+                                        </table>
+                                    </div> 
                                 </div>
-                            </div>
 
-                            <div class="form-group">
-                            <div class="col-md-3 col-sm-offset-5">
-                                <button type="submit" class="add_keranjang btn btn-info" name="keranjang" id="keranjang">Tambah</button>
-                                <input type="checkbox" class="minimal"  id="kategori" name="kategori" value="kredit" >  <label  class="control-label">Kredit</label>
-                            </div>
-                            </div>
+                                <div class="form-group">
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control" id="total"  name="total" >
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control"  id="potongan" name="potongan" placeholder="Potongan">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control"  id="bayar" name="bayar" placeholder="Bayar">
+                                        <p id="msgP" class="help-block"><i>*Kurang mas</i></p>
+                                    </div>
 
-                            <div class="form-group" >
-                                <div class="col-sm-8 col-sm-offset-2">
-                                    <table  class="table table-striped table-bordered" >
-                                        <thead>
-                                            <tr>
-                                                <th>Id</th>
-                                                <th>Nama Barang</th>                
-                                                <th>Jumlah</th>
-                                                <th>Harga</th>
-                                                <th>Subtotal</th>                
-                                                <th>Pilihan</th>          
-                                            </tr>
-                                        </thead>
-                                        <tbody id="detailCart">
-                                        </tbody>
-                                    </table>
-                                </div> 
-                            </div>
+                                    <div class="col-sm-3">
+                                        <input type="text" class="form-control"  id="kembalian" name="kembalian" placeholder="Kembalian">
+                                    </div>
 
-                            <div class="form-group">
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control"  id="potongan" name="potongan" placeholder="Potongan">
+                                    <div class="col-sm-3 col-sm-offset-1">
+                                        <button  type="submit" class="btn btn-warning" name="transaksi" id="transaksi">Transaksi</button>
+                                    </div>
+                                </div>   
                             </div>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" id="total"  name="total" >
-                                
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control"  id="bayar" name="bayar" placeholder="Bayar">
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control"  id="kembalian" name="kembalian" placeholder="Kembalian">
-                            </div>
-
-                            <div class="col-sm-3 col-sm-offset-1">
-                                <button  type="submit" class="btn btn-warning" name="transaksi" id="transaksi">Transaksi</button>
-                            </div>
-                            </div>   
                         </div>
                     </div>
-                </div>
-
-                </div>
+                <!-- </form> -->
             </div>
         <!-- /.col -->
-      </div>
-      <div class>
-
       </div>
       <!-- /.row -->
     </section>
@@ -159,6 +159,7 @@
 
     //set kode
     setCode();
+   
     date();
     setTotal()
     function setCode(){
@@ -186,8 +187,9 @@
                 $('[name="total"]').val(data);
             }
         });
-    return false;
+        return false;
     }
+    //hari
     function date() {
         var today = new Date();
         var dd = today.getDate();
@@ -204,11 +206,11 @@
         $('[name="tanggal"]').val(today); 
     }
     //get alamat
-    $("#namaPelanggan").change(function(){
+    $("#id_pelanggan").change(function(){
         var nofaktur = $('#nofaktur').val();
         var alamat = $(this).find(":selected").data("alamat");
         var res = alamat.substring(0, 4);
-        var txt = nofaktur.replaceAt(14,res);
+        var txt = nofaktur.replaceAt(12,res);
         $('#nofaktur').val(txt);
         $('#alamat').val(alamat);
     })
@@ -268,41 +270,56 @@
         })
     })
     //kode kredit
-    $('#kategori').click(function () {
+    $('#kondisi').click(function () {
         if ($(this).is(":checked")) {
             var nofaktur = $('#nofaktur').val();
             var res = "B";
             var b= "N";
-            var posisi =1;
+            var posisi =27;
             var result = [nofaktur.slice(0,posisi), b, nofaktur.slice(posisi)].join('');
-            var txt = result.replaceAt(0,res);
-             $('#nofaktur').val(txt);
+            var txt = result.replaceAt(26,res);
+            $('#nofaktur').val(txt);
+            $('#kategori').val("kredit");
             
         } else {
             setCode();
+            document.getElementById('kategori').value="";
         }
     });
     //transaksi
-    $('#transaksi').click(function(){
-        $.ajax({
-          type: "POST",
-          url: '<?php echo site_url('Transaksi/add') ?>',
-          dataType: "JSON",
-          data: {id_user:id_user, username:username, password:password, level:level},
-          success: function(data){
-            $('[name="id_user"]').val("");
-            $('[name="username"]').val("");
-            $('[name="password"]').val("");
-            $('[name="level"]').val("");
-            showRecord();
-          },
-        error: function (xhr, ajaxOptions, thrownError) {
-        alert(xhr.status);
-        alert(thrownError);
+   
+    $('#transaksi').on('click',function(e){
+      var nofaktur = $('#nofaktur').val();
+      var id_user = $('#id_user').val();
+      var id_pelanggan = $('#id_pelanggan').val();
+      var kategori = $('#kategori').val();
+      var bayar = $('#bayar').val();
+      var total = $('#total').val();
+      var potongan = $('#potongan').val();
+      $.ajax({
+        type: "POST",
+        url: '<?php echo site_url('Transaksi/add'); ?>',
+        dataType: "JSON",
+        data: {nofaktur:nofaktur, id_user:id_user, id_pelanggan:id_pelanggan, bayar:bayar, total:total, kategori:kategori},
+        success: function(data){
+            setCode();
+            date();
+            document.getElementById('id_pelanggan').value="";
+          $('[name="alamat"]').val("");
+          $('[name="kategori"]').val("");
+          $('[name="bayar"]').val("");
+          $('[name="total"]').val("");
+          $('[name="potongan"]').val("");
+          $('[name="bayar"]').val("");
+          $('#detailCart').load("<?php echo base_url();?>Transaksi/hapusSemua");
+        },
+        error: function(data){
+          console.log(data);
         }
-        });
-    })
-    //
+      });
+      return false;
+      
+    });
   }); //akhir
 </script>
 <!-- Script -->

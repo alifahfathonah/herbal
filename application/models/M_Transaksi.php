@@ -8,7 +8,7 @@ class M_Transaksi extends CI_Model {
      private $_tDT = "detail_transaksi";
      
      public function kode(){
-          $this->db->select('LEFT(transaksi.nofaktur,2) as nofaktur', FALSE);
+          $this->db->select('LEFT(transaksi.nofaktur, 4) as nofaktur', FALSE);
           $this->db->order_by('nofaktur','DESC');    
           $this->db->limit(1);    
           $query = $this->db->get('transaksi');  //cek dulu apakah ada sudah ada kode di tabel.    
@@ -23,7 +23,7 @@ class M_Transaksi extends CI_Model {
           $tgl=date('dmY');
           $D=date('d'); 
           $batas = str_pad($kode, 4, "0", STR_PAD_LEFT);    
-          $kodetampil = "Q/".$batas."/".$id_user."/".$D."/XXXX"."/".$tgl;  //format kode
+          $kodetampil = $batas."/".$id_user."/".$D."/XXXX"."/".$tgl."/Q";  //format kode
           return $kodetampil;  
      }
 
@@ -100,13 +100,13 @@ class M_Transaksi extends CI_Model {
 
           $nofaktur = $this->input->post('nofaktur');
           $id_user = $this->session->userdata("id_user");
-          $id_pelanggan = $this->input->post('namaPelanggan');
+          $id_pelanggan = $this->input->post('id_pelanggan');
           $tgl=date('Y-m-d');
           $tanggal = $tgl; 
           $total = $this->input->post('total');
           $bayar = $this->input->post('bayar');
           $kategori = $this->input->post('kategori');
-
+          
           $transaksi = array(
                'nofaktur'=>$nofaktur,
                'id_user'=>$id_user,
@@ -118,5 +118,24 @@ class M_Transaksi extends CI_Model {
           );
           $result = $this->db->insert($this->_tT, $transaksi);
           return $result;
+          
+     }
+     function detail(){
+          if ($cart = $this->cart->contents()){
+               $nofaktur = $this->input->post('nofaktur');
+               foreach ($cart as $item){
+                    $data_detail = array('nofaktur' =>$nofaktur,
+                                   'id_barang' => $item['id'],
+                                   'jumlah' => $item['qty'],
+                                   );
+                    $this->db->insert($this->_tDT, $data_detail);
+               }
+          }
+     }
+     private function kredit(){
+          if ($kategori != NULL) {
+               return $this->input->post('kategori');
+           }
+           return "cash";
      }
 }
