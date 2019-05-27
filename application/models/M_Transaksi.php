@@ -6,6 +6,7 @@ class M_Transaksi extends CI_Model {
      private $_tableB = "barang";
      private $_tT = "transaksi";
      private $_tDT = "detail_transaksi";
+     private $_tK = "angsuran";
      
      public function kode(){
           $this->db->select('LEFT(transaksi.nofaktur, 4) as nofaktur', FALSE);
@@ -132,10 +133,21 @@ class M_Transaksi extends CI_Model {
                }
           }
      }
-     private function kredit(){
-          if ($kategori != NULL) {
-               return $this->input->post('kategori');
-           }
-           return "cash";
+     function kredit(){
+          date_default_timezone_set('Asia/Jakarta');
+
+          $nofaktur = $this->input->post('nofaktur');
+          $id_user = $this->session->userdata("id_user");
+          $tgl=date('Y-m-d');
+          $tanggal = $tgl;
+          $bayar = $this->input->post('bayar');
+          $kredit = array(
+               'nofaktur'=>$nofaktur,
+               'id_user'=>$id_user,
+               'tanggal'=>$tanggal,
+               'bayar'=>$bayar,
+          );
+          $result = $this->db->insert($this->_tK, $kredit);
+          return $result;
      }
 }

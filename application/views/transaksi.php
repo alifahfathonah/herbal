@@ -63,7 +63,7 @@
                                             <option data-alamat="<?php echo $p->alamat ?>" value="<?php echo $p->id_pelanggan?>"><?php echo $p->nama;?></option>
                                         <?php endforeach;?>
                                         </select>
-                                    <p id="msgP" class="help-block"><i>*pelanggannya mas</i></p>
+                                        <i><p id="msgP" class="help-block"></p></i>
                                     </div>
                                     <div class="col-sm-3">
                                         <input type="text" class="form-control"  id="alamat" name="alamat">
@@ -126,7 +126,7 @@
                                     </div>
                                     <div class="col-sm-3">
                                         <input type="text" class="form-control"  id="bayar" name="bayar" placeholder="Bayar">
-                                        <p id="msgP" class="help-block"><i>*Kurang mas</i></p>
+                                        <i><p id="msgB" class="help-block"></p></i>
                                     </div>
 
                                     <div class="col-sm-3">
@@ -347,28 +347,66 @@
       var bayar = $('#bayar').val();
       var total = $('#total').val();
       var potongan = $('#potongan').val();
-      $.ajax({
-        type: "POST",
-        url: '<?php echo site_url('Transaksi/add'); ?>',
-        dataType: "JSON",
-        data: {nofaktur:nofaktur, id_user:id_user, id_pelanggan:id_pelanggan, bayar:bayar, total:total, kategori:kategori},
-        success: function(data){
-            setCode();
-            date();
-            document.getElementById('id_pelanggan').value="";
-          $('[name="alamat"]').val("");
-          $('[name="kategori"]').val("");
-          $('[name="bayar"]').val("");
-          $('[name="total"]').val("");
-          $('[name="potongan"]').val("");
-          $('[name="bayar"]').val("");
-          $('#detailCart').load("<?php echo base_url();?>Transaksi/hapusSemua");
-        },
-        error: function(data){
-          console.log(data);
+
+      if(kategori == "kredit"){
+        if(id_pelanggan == ""){
+            document.getElementById("msgP").innerHTML = "*Pelanggannya..";
+        }else{
+
+            $.ajax({
+                type: "POST",
+                url: '<?php echo site_url('Transaksi/addCre'); ?>',
+                dataType: "JSON",
+                data: {nofaktur:nofaktur, id_user:id_user, id_pelanggan:id_pelanggan, bayar:bayar, total:total, kategori:kategori},
+                success: function(data){
+                    setCode();
+                    date();
+                    document.getElementById('id_pelanggan').value="";
+                $('[name="alamat"]').val("");
+                $('[name="kategori"]').val("");
+                $('[name="bayar"]').val("");
+                $('[name="total"]').val("");
+                $('[name="potongan"]').val("");
+                $('[name="kembalian"]').val("");
+                $('#detailCart').load("<?php echo base_url();?>Transaksi/hapusSemua");
+                },
+                error: function(data){
+                console.log(data);
+                }
+            });
         }
-      });
-      return false;
+      }else{
+        if(id_pelanggan == ""){
+            document.getElementById("msgP").innerHTML = "*Pelanggannya..";
+        }else if(parseInt(bayar) < total || bayar==""){
+            document.getElementById("msgB").innerHTML = "*Bayarnya...";
+        }else if(bayar==""){
+            document.getElementById("msgB").innerHTML = "*Bayarnya...";
+        }else{
+
+            $.ajax({
+                type: "POST",
+                url: '<?php echo site_url('Transaksi/add'); ?>',
+                dataType: "JSON",
+                data: {nofaktur:nofaktur, id_user:id_user, id_pelanggan:id_pelanggan, bayar:bayar, total:total, kategori:kategori},
+                success: function(data){
+                    setCode();
+                    date();
+                    document.getElementById('id_pelanggan').value="";
+                $('[name="alamat"]').val("");
+                $('[name="kategori"]').val("");
+                $('[name="bayar"]').val("");
+                $('[name="total"]').val("");
+                $('[name="potongan"]').val("");
+                $('[name="kembalian"]').val("");
+                $('#detailCart').load("<?php echo base_url();?>Transaksi/hapusSemua");
+                },
+                error: function(data){
+                console.log(data);
+                }
+            });
+        }
+      }
       
     });
   }); //akhir
