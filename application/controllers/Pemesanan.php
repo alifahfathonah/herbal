@@ -36,7 +36,6 @@ class Pemesanan extends CI_Controller
                     $arr_result[] = array(
                         'nama' => $row->nama,
                         'alamat' => $row->alamat,
-                        'nohp' => $row->nohp,
                     );
                 echo json_encode($arr_result);
             }
@@ -45,7 +44,7 @@ class Pemesanan extends CI_Controller
     function getBarang()
     {
         if (isset($_GET['term'])) {
-            $result = $this->M_Transaksi->searchBarang($_GET['term']);
+            $result = $this->M_pemesanan->searchBarang($_GET['term']);
             if (count($result) > 0) {
                 foreach ($result as $row)
                     $arr_result[] = array(
@@ -58,58 +57,45 @@ class Pemesanan extends CI_Controller
     }
     function Cart()
     {
-        $id = $this->input->post('id');
-        $qty = $this->input->post('qty');
-        $price = $this->input->post('price');
-        $name = $this->input->post('name');
-        $grosir = array(
-            'id'     => $id,
-            'qty'    => $qty,
-            'price'   => $price,
-            'name'      => $name
-        );
-
-        $this->cart->insert($grosir);
-        // redirect('admin/kasir/grosir');
-        echo $this->show_keranjang();
+        $data = $this->M_pemesanan->keranjang();
+        echo json_encode($data);
     }
     function show_keranjang()
     {
-        $output = '';
-        foreach ($this->cart->contents() as $items) {
-            # code...
-            $output .= '
-									<tr>
-											<td>' . $items['id'] . '</td>
-											<td>' . $items['name'] . '</td>
-											<td>' . $items['qty'] . '</td>
-											<td>' . number_format($items['price']) . '</td>
-											<td>
-												<div class="col-md-8">
-												<div class="form-group">
-													<input type="text" id="subtotal" name="subtotal" value="' . $items['subtotal'] . '" class="form-control" style="text-align:right;margin-bottom:5px;" readonly>
-												</div>
-											</div>
-										</td>
-											<td><button type="button" id="' . $items['rowid'] . '" class="hapus_cart btn btn-danger btn-xs">Batal</button></td>
-									</tr>
-							';
-        }
-        return $output;
+        $data = $this->M_pemesanan->show();
+        echo json_encode($data);
     }
     function load_cart()
     {
-        echo $this->show_keranjang();
+        $data = $this->M_pemesanan->load();
+        echo json_encode($data);
     }
     function hapus_keranjang()
     {
-        $data = array(
-            'rowid' => $this->input->post('row_id'),
-            'qty'    => 0,
-        );
-        $total = $this->cart->total();
-        $this->cart->update($data);
-        echo $this->show_keranjang();
-        // redirect('admin/kasir/grosir');
+        $data = $this->M_pemesanan->hapus();
+        echo json_encode($data);
+    }
+    function total()
+    {
+        $data = $this->cart->total();
+        echo json_encode($data);
+    }
+    function hapusSemua()
+    {
+        $data = $this->cart->destroy();
+        echo json_encode($data);
+    }
+    public function add()
+    {
+        $data = $this->M_pemesanan->insTr();
+        $data = $this->M_pemesanan->detail();
+        echo json_encode($data);
+    }
+    public function addCre()
+    {
+        $data = $this->M_pemesanan->insTr();
+        $data = $this->M_pemesanan->detail();
+        $data = $this->M_pemesanan->kredit();
+        echo json_encode($data);
     }
 }
