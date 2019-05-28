@@ -24,7 +24,7 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        <div class="col-xs-8 col-sm-offset-1"   >
+        <div class="col-xs-10 col-sm-offset-1"   >
         <div class="box box-info">
 
             <div class="box-header">
@@ -34,12 +34,13 @@
                       <div style="text-align: center;">
                     <span style=" font-size: 20px;">Data Barang Masuk</span>
                     </div>
-                        <br> 
+                        <br>                         
+
                         <div class="form-group">
                         <label  class="col-sm-2 control-label">No Faktur</label>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" name="nofaktur" placeholder="" id="nofaktur" >
-                        </div>
+                            <input type="id_barangmasuk" class="form-control" name="id_barangmasuk">                           
+                            </div>
                        <!--  <div class="col-sm-3">
                             <input type="text" class="form-control" readonly name="sid" placeholder=""  >
                             <input type="text" class="form-control" readonly name="username" placeholder="" >
@@ -58,10 +59,6 @@
                         </div>
                         </div>
 
-                        <div class="form-group">
-                            
-                        </div>
-
                          
                         </div>
                         <div class="form-group">
@@ -75,52 +72,53 @@
                                 </select>
                             
                             </div>
-                            <label  class="col-sm-2 control-label">Harga</label>
+                            <label  class="col-sm-2 control-label">User</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control"  id="price" name="price">
-                            </div>
+                            <input type="id_user" class="form-control" name="id_user" value="<?php echo $this->session->userdata("id_user"); ?>" readonly>
+                         </div>
                         </div>
 
-                         <div class="form-group">
-                            <label  class="col-sm-2 control-label">Stok</label>
-                            <div class="col-sm-3">
-                                 <input type="text" class="form-control"  id="stok" name="stok">  
+                        <div class="form-group">
+                            <label  class="col-sm-2 control-label">Jumlah</label>
+                            <div class="col-sm-2">
+                                 <input type="number" class="form-control"  id="qty" name="qty">  
                             
                             </div>
-                              <label  class="col-sm-2 control-label">Jumlah</label>
+                         
+
+                         <div class="form-group">
+                            <label  class="col-sm-2 control-label"></label>
                             <div class="col-sm-3">
-                            <input type="text" class="form-control"  id="qty" name="qty" placeholder="Jumlah">
+                                 <input type="hidden" class="form-control"  id="stok" name="stok" readonly="">  
+                            
                             </div>
-                        </div>
+                              <label  class="col-sm-2 control-label"></label>
+                            <div class="col-sm-3">
+                            <input type="hidden" class="form-control"  id="price" name="price" placeholder="Jumlah">
+                            </div>
+                        
                           
                         <div class="form-group">
-                        <div class="col-md-3 col-sm-offset-5">
+                        <div class="col-md-5 col-sm-offset-5">
                             <button type="submit" class="add_keranjang btn btn-info" name="keranjang" id="keranjang">Tambah</button>
                         </div>
                         </div>
 
                         <div class="form-group" >
-                        <div class="col-sm-8 col-sm-offset-2">
+                        <div class="col-sm-10 col-sm-offset-1">
                             <table  class="table table-striped table-bordered" >
                             <thead>
                             <tr>
-                                <th>No</th>
+                                <th>ID Barang</th>
                                 <th>Nama Barang</th>                
                                 <th>Jumlah</th>
-                                <th>Harga</th>
-                                <th>Subtotal</th>                
                                 <th>Pilihan</th>          
                             </tr>
                             </thead>
                             <tbody id="detailCart">
                             </tbody>
                             <tfoot> 
-                                <tr>
-                                <th colspan="4" style="text-align: right;">Total</th>
-                                  <td style="text-align:right;"> <?php echo number_format($this->cart->total());?></td>
-                    
-                                <td colspan="2" style="text-align: center;"> </td>
-                                </tr>               
+                                     
                             </tfoot>
                             
                             
@@ -131,8 +129,8 @@
 
                        
 
-                        <div class="col-sm-3 col-sm-offset-1">
-                            <button  type="submit" class="btn btn-warning" name="transaksi" id="transaksi">Transaksi</button>
+                        <div class="col-sm-5 col-sm-offset-5">
+                            <button  type="submit" class="btn btn-warning" name="transaksi" id="transaksi">Tambah</button>
                         </div>
                         </div>   
                     </div>
@@ -239,6 +237,7 @@
                 $('#detailCart').load("<?php echo base_url();?>Barangmasuk/load_cart");
             }
         })
+
     });
   }); //akhir
 </script>

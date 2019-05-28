@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_Barangmasuk extends CI_Model {
      private $_tableB = "barang";
-     
+     private $_tT = "barangmasuk";
      public function kode(){
           $this->db->select('LEFT(transaksi.nofaktur,2) as nofaktur', FALSE);
           $this->db->order_by('nofaktur','DESC');    
@@ -38,4 +38,27 @@ class M_Barangmasuk extends CI_Model {
      {
          return $this->db->get($this->_tableB)->result();
      }
+
+     public function insTr(){
+          date_default_timezone_set('Asia/Jakarta');
+
+          $id_barangasuk = $this->input->post('id_barangasuk');
+          $id_barang = $this->session->userdata("id_barang");
+          $id_user = $this->input->post('id_user');
+          $tgl=date('Y-m-d');
+          $tanggal = $tanggal; 
+          $jumlah= $this->input->post('jumlah');
+        
+          $transaksi = array(
+               'id_barangmasuk'=>$id_barangmasuk,
+               'id_barang'=>$id_barang,
+               'id_user'=>$id_user,
+               'tanggal'=>$tanggal,
+               'jumlah'=>$jumlah,
+                );
+          $result = $this->db->insert($this->_tT, $barangmasuk);
+          return $result;
+          
+     }
+
 }

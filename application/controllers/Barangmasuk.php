@@ -62,8 +62,6 @@ class Barangmasuk extends CI_Controller {
 											<td>'.$items['id'].'</td>
 											<td>'.$items['name'].'</td>
 											<td>'.$items['qty'].'</td>
-											<td>'.number_format($items['price']).'</td>
-												<td>'.number_format($items['subtotal']).'</td>
 											<td><button type="button" id="'.$items['rowid'].'" class="hapus_cart btn btn-danger btn-xs">Batal</button></td>
 									</tr>
 									
