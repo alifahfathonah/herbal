@@ -57,7 +57,7 @@
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label">Nama Pelanggan</label>
                                     <div class="col-sm-3">
-                                        <select class="form-control select2 " style="width: 100%;" name="id_pelanggan" id="id_pelanggan">
+                                        <select class="form-control select2 j" style="width: 100%;" name="id_pelanggan" id="id_pelanggan">
                                         <option value="" disable >Cari Pelanggan</option>
                                         <?php foreach ($pelanggan as $p): ?>
                                             <option data-alamat="<?php echo $p->alamat ?>" value="<?php echo $p->id_pelanggan?>"><?php echo $p->nama;?></option>
@@ -73,7 +73,7 @@
                                 <div class="form-group">
                                     <label  class="col-sm-2 control-label">Nama Barang</label>
                                     <div class="col-sm-3">
-                                        <select class="form-control select2 " style="width: 100%;" name="namaBarang" id="namaBarang">
+                                        <select class="form-control select2 j" style="width: 100%;" name="namaBarang" id="namaBarang">
                                         <option value="" disable>Pilih Barang</option>
                                         <?php foreach ($barang as $b): ?>
                                             <option data-namabarang="<?php echo $b->namabarang ?>" data-stok="<?php echo $b->stok ?>" data-harga="<?php echo $b->harga ?>" value="<?php echo $b->id_barang?>"><?php echo $b->namabarang;?></option>
@@ -157,7 +157,7 @@
 <?php $this->load->view('_partials/script');?>
 <script type="text/javascript">
   $(document).ready(function(e){
-
+    
     //set kode
     setCode();
    
@@ -251,6 +251,7 @@
                 method : "POST",
                 data : {id : id, name : name, qty : qty, price : price },
                 success: function(data){
+                    $('#namaBarang').val(null);
                     $("#detailCart").html(data);
                     kosong();
                     setTotal()
@@ -365,6 +366,9 @@
                 $('[name="alamat"]').val("");
                 $('[name="kategori"]').val("");
                 $('[name="bayar"]').val("");
+                $("#id_pelanggan").prop("selected", false);
+                $("#namaBarang").prop("selected", false);
+                $("#kondisi").prop("checked", false);
                 $('[name="total"]').val("");
                 $('[name="potongan"]').val("");
                 $('[name="kembalian"]').val("");
@@ -397,6 +401,8 @@
                 $('[name="kategori"]').val("");
                 $('[name="bayar"]').val("");
                 $('[name="total"]').val("");
+                $("#id_pelanggan").prop("selected", false);
+                $("#namaBarang").prop("selected", false);
                 $('[name="potongan"]').val("");
                 $('[name="kembalian"]').val("");
                 $('#detailCart').load("<?php echo base_url();?>Transaksi/hapusSemua");

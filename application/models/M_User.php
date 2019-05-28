@@ -24,6 +24,8 @@ class M_User extends CI_Model
             ],
         ];
     }
+    //kode
+    
 
     //menampilkan data
     public function ambil_data()
