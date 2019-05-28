@@ -1,36 +1,36 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pelanggan extends CI_Controller {
+class Laporan_Angsuran extends CI_Controller {
     
     function __construct(){
 		parent::__construct();
-		$this->load->model("M_Pelanggan");
+		$this->load->model("M_Laporan_Angsuran");
 		$this->load->library('form_validation');
 		$this->load->helper('url');
 		if($this->session->userdata('status') != 'login'){
 				redirect(base_url(""));
 		}
 	}
-	public function index()
-	{
-		$this->load->view("pelanggan");
+	public function index(){
+
+		$this->load->view("laporan_angsuran");
 	}
 	public function getAll(){
-		$data=$this->M_Pelanggan->ambil_data();
+		$data=$this->M_Laporan_Angsuran->ambil_data();
 		echo json_encode($data);
 	}
-	
+
 	public function add(){
-		$data=$this->M_Pelanggan->save();
+		$data=$this->M_Laporan_Angsuran->save();
 		echo json_encode($data);
 	}
 	public function edit(){
-		$data=$this->M_Pelanggan->update();
+		$data=$this->M_Laporan_Angsuran->update();
 		echo json_encode($data);
 	}
 	public function hapus(){
-		$data = $this->M_Pelanggan->delete();
+		$data = $this->M_Laporan_Angsuran->delete();
 		echo json_encode($data);
 	}
 }

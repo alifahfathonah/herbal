@@ -51,8 +51,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Pemesanan </a></li>
-            <li><a href=""><i class="fa fa-circle-o"></i> Transaksi </a></li>
+            <li><a href="<?php echo site_url('Laporan_Pemesanan') ?>"><i class="fa fa-circle-o"></i> Pemesanan </a></li>
+            <li><a href="<?php echo site_url('Laporan_Transaksi') ?>"><i class="fa fa-circle-o"></i> Transaksi </a></li>
+            <li><a href="<?php echo site_url('Laporan_Angsuran') ?>"><i class="fa fa-circle-o"></i> Angsuran </a></li>
           </ul>
         </li>
         <li class="header"><a href="<?php echo site_url('auth/logout'); ?>"><span class="glyphicon glyphicon-arrow-left"><span>Keluar </a>

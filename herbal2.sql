@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 28 Bulan Mei 2019 pada 04.32
+-- Waktu pembuatan: 17 Bulan Mei 2019 pada 07.12
 -- Versi server: 10.1.38-MariaDB
 -- Versi PHP: 7.3.2
 
@@ -30,20 +30,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `angsuran` (
   `nofaktur` varchar(30) NOT NULL,
-  `id_user` varchar(5) NOT NULL,
+  `kode_pesanan` varchar(30) NOT NULL,
   `tanggal` date NOT NULL,
   `bayar` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `angsuran`
---
-
-INSERT INTO `angsuran` (`nofaktur`, `id_user`, `tanggal`, `bayar`) VALUES
-('0020/far/27/asdf/27052019/BN', 'far', '2019-05-27', 0),
-('0022/far/27/asdf/27052019/BN', 'far', '2019-05-27', 0),
-('0023/far/27/XXXX/27052019/BN', 'far', '2019-05-27', 0),
-('0024/far/27/asdf/27052019/BN', 'far', '2019-05-27', 0);
 
 -- --------------------------------------------------------
 
@@ -67,8 +57,8 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id_barang`, `namabarang`, `harga`, `satuan`, `stok`, `kategori`, `gambar`, `deskripsi`) VALUES
-('l', 'asd', 9102, 'ecer', 13, 'Tablet', 'default.jpg', 'sdaf'),
-('sad', 'jeruk', 90000, 'grosir', 55, 'Kapsul', 'jeruk.jpg', 'asdf');
+('l', 'asd', 9102, 'ecer', 32, 'Tablet', 'default.jpg', 'sdaf'),
+('sad', 'jeruk', 90000, 'grosir', 90, 'Kapsul', 'jeruk.jpg', 'asdf');
 
 -- --------------------------------------------------------
 
@@ -127,35 +117,9 @@ DELIMITER ;
 CREATE TABLE `detail_transaksi` (
   `nofaktur` varchar(30) NOT NULL,
   `id_barang` varchar(10) NOT NULL,
+  `id_user` varchar(5) NOT NULL,
   `jumlah` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `detail_transaksi`
---
-
-INSERT INTO `detail_transaksi` (`nofaktur`, `id_barang`, `jumlah`) VALUES
-('0006/far/26/asdf/26052019/Q', 'sad', 3),
-('0006/far/26/asdf/26052019/Q', 'l', 9),
-('0007/far/26/asdf/26052019/Q', 'l', 1),
-('0007/far/26/asdf/26052019/Q', 'sad', 1),
-('0008/far/27/asdf/27052019/Q', 'sad', 1),
-('0009/far/27/asdf/27052019/Q', 'sad', 1),
-('0010/far/27/asdf/27052019/Q', 'sad', 1),
-('0011/far/27/asdf/27052019/Q', 'sad', 1),
-('0012/far/27/asdf/27052019/Q', 'sad', 1),
-('0013/far/27/asdf/27052019/Q', 'sad', 1),
-('0016/far/27/asdf/27052019/Q', 'sad', 1),
-('0017/far/27/asdf/27052019/Q', 'sad', 1),
-('0018/far/27/asdf/27052019/Q', 'sad', 1),
-('0019/far/27/asdf/27052019/BN', 'sad', 1),
-('0020/far/27/asdf/27052019/BN', 'sad', 1),
-('0021/far/27/asdf/27052019/Q', 'l', 1),
-('0022/far/27/asdf/27052019/BN', 'sad', 1),
-('0023/far/27/XXXX/27052019/BN', 'sad', 1),
-('0024/far/27/asdf/27052019/BN', 'l', 1),
-('0025/far/27/asdf/27052019/Q', 'sad', 1),
-('0025/far/27/asdf/27052019/Q', 'l', 2);
 
 --
 -- Trigger `detail_transaksi`
@@ -186,8 +150,7 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`id_user`, `username`, `password`, `level`) VALUES
-('far', 'faris', '$2y$10$R10Wg6SNLLqataHIzW2S2.o/QAB/uuL.SDwvxlDPb3fqGjZItO3.O', 'Admin'),
-('saf', 'safina', '$2y$10$bo5qhZ1FhbVYevlDNAS97uEOJ3PsRqi0dDuCy6v4XoU4LaDTpSgwO', 'Marketing');
+('far', 'faris', '$2y$10$R10Wg6SNLLqataHIzW2S2.o/QAB/uuL.SDwvxlDPb3fqGjZItO3.O', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -203,13 +166,6 @@ CREATE TABLE `pelanggan` (
   `email` text NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `pelanggan`
---
-
-INSERT INTO `pelanggan` (`id_pelanggan`, `nama`, `nohp`, `alamat`, `email`, `password`) VALUES
-('3', 'faris', '089765', 'asdfsdf', 'dsafsdf', 'sadfds');
 
 -- --------------------------------------------------------
 
@@ -242,39 +198,8 @@ CREATE TABLE `transaksi` (
   `total` int(10) NOT NULL,
   `potongan` int(10) NOT NULL,
   `bayar` int(10) NOT NULL,
-  `kategori` varchar(10) NOT NULL
+  `kategori` enum('cash','kredit') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `transaksi`
---
-
-INSERT INTO `transaksi` (`nofaktur`, `id_user`, `id_pelanggan`, `tanggal`, `total`, `potongan`, `bayar`, `kategori`) VALUES
-('0001/far/26/asdf/26052019/Q', 'far', '3', '2019-05-26', 90000, 0, 0, ''),
-('0002/far/26/asdf/26052019/Q', 'far', '3', '2019-05-26', 90000, 0, 0, ''),
-('0003/far/26/asdf/26052019/Q', 'far', '3', '2019-05-26', 90000, 0, 0, ''),
-('0004/far/26/asdf/26052019/Q', 'far', '3', '2019-05-26', 108204, 0, 0, ''),
-('0005/far/26/asdf/26052019/Q', 'far', '3', '2019-05-26', 0, 0, 0, ''),
-('0006/far/26/asdf/26052019/Q', 'far', '3', '2019-05-26', 351918, 0, 0, ''),
-('0007/far/26/asdf/26052019/Q', 'far', '3', '2019-05-26', 99102, 0, 0, ''),
-('0008/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 90000, 0, 0, ''),
-('0009/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 90000, 0, 0, ''),
-('0010/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 90000, 0, 0, ''),
-('0011/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 90000, 0, 100000, ''),
-('0012/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 90000, 0, 100000, ''),
-('0013/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 90000, 0, 100000, ''),
-('0014/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 0, 0, 0, ''),
-('0015/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 0, 0, 0, ''),
-('0016/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 90000, 0, 0, ''),
-('0017/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 90000, 0, 0, ''),
-('0018/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 90000, 0, 100000, ''),
-('0019/far/27/asdf/27052019/BN', 'far', '3', '2019-05-27', 90000, 0, 0, 'kredit'),
-('0020/far/27/asdf/27052019/BN', 'far', '3', '2019-05-27', 90000, 0, 0, 'kredit'),
-('0021/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 9102, 0, 10000, ''),
-('0022/far/27/asdf/27052019/BN', 'far', '3', '2019-05-27', 90000, 0, 0, 'kredit'),
-('0023/far/27/XXXX/27052019/BN', 'far', '3', '2019-05-27', 90000, 0, 0, 'kredit'),
-('0024/far/27/asdf/27052019/BN', 'far', '3', '2019-05-27', 9102, 0, 0, 'kredit'),
-('0025/far/27/asdf/27052019/Q', 'far', '3', '2019-05-27', 108204, 0, 10000000, '');
 
 --
 -- Indexes for dumped tables
@@ -285,7 +210,7 @@ INSERT INTO `transaksi` (`nofaktur`, `id_user`, `id_pelanggan`, `tanggal`, `tota
 --
 ALTER TABLE `angsuran`
   ADD KEY `nofaktur` (`nofaktur`),
-  ADD KEY `id_user` (`id_user`);
+  ADD KEY `kode_pesanan` (`kode_pesanan`);
 
 --
 -- Indeks untuk tabel `barang`
@@ -313,8 +238,9 @@ ALTER TABLE `detail_pemesanan`
 -- Indeks untuk tabel `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
+  ADD UNIQUE KEY `id_barang` (`id_barang`),
   ADD KEY `nofaktur` (`nofaktur`),
-  ADD KEY `id_barang` (`id_barang`);
+  ADD KEY `id_user` (`id_user`);
 
 --
 -- Indeks untuk tabel `login`
@@ -353,7 +279,7 @@ ALTER TABLE `transaksi`
 --
 ALTER TABLE `angsuran`
   ADD CONSTRAINT `angsuran_ibfk_1` FOREIGN KEY (`nofaktur`) REFERENCES `transaksi` (`nofaktur`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `angsuran_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `angsuran_ibfk_2` FOREIGN KEY (`kode_pesanan`) REFERENCES `pemesanan` (`kode_pemesanan`) ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `barangmasuk`
@@ -373,8 +299,9 @@ ALTER TABLE `detail_pemesanan`
 -- Ketidakleluasaan untuk tabel `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  ADD CONSTRAINT `detail_transaksi_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `detail_transaksi_ibfk_2` FOREIGN KEY (`nofaktur`) REFERENCES `transaksi` (`nofaktur`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `detail_transaksi_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `detail_transaksi_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `detail_transaksi_ibfk_3` FOREIGN KEY (`nofaktur`) REFERENCES `transaksi` (`nofaktur`) ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `pemesanan`
