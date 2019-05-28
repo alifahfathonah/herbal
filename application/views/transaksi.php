@@ -241,9 +241,9 @@
     $(".add_keranjang").click(function(){
         var id = $("#namaBarang").val();
         var name = $("#name").val();
-        var qty = $("#qty").val();
-        var stok = $("#stok").val();
         var price = $("#price").val();
+        var stok = parseInt($("#stok").val());
+        var qyt = parseInt($("#qyt").val());
        
         if(stok >= qty){
             $.ajax({

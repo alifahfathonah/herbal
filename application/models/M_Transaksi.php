@@ -118,7 +118,7 @@ class M_Transaksi extends CI_Model {
                'kategori'=>$kategori
           );
           $result = $this->db->insert($this->_tT, $transaksi);
-          return $result;
+          
           
      }
      function detail(){
@@ -148,6 +148,6 @@ class M_Transaksi extends CI_Model {
                'bayar'=>$bayar,
           );
           $result = $this->db->insert($this->_tK, $kredit);
-          return $result;
+          
      }
 }
