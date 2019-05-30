@@ -243,7 +243,7 @@
         var name = $("#name").val();
         var price = $("#price").val();
         var stok = parseInt($("#stok").val());
-        var qyt = parseInt($("#qyt").val());
+        var qty = parseInt($("#qty").val());
        
         if(stok >= qty){
             $.ajax({
@@ -301,8 +301,6 @@
         
         if(thisVal > stok){
         alert("Stok tidak mecukupi, tersedia = " +stok);
-        }else{
-        return TRUE;
         }
       
     })
