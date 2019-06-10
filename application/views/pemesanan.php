@@ -37,7 +37,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Pemesanan</label>
                                             <div class="col-sm-5">
-                                                <input type="text" class="form-control" readonly name="nofaktur" placeholder="" id="nofaktur">
+                                                <input type="text" class="form-control" readonly name="kode_pemesanan" placeholder="" id="kode_pemesanan">
                                                 <input type="hidden" class="form-control" readonly name="id_user" placeholder="" id="id_user" value="<?php echo $this->session->userdata("id_user"); ?>">
 
                                             </div>
@@ -91,16 +91,8 @@
                                                 <input type="hidden" class="form-control" id="price" name="price">
                                                 <input type="hidden" class="form-control" id="name" name="name">
                                                 <input type="number" class="form-control" name="qty" placeholder="Jumlah" id="qty">
-
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <input type="text" class="form-control" id="potongan" name="potongan" placeholder="%Diskon">
-                                                <input type="text" class="form-control" id="total" name="total" placeholder="total">
-                                                <input type="hidden" class="form-control" id="hargaAwal" name="hargaAwal" placeholder="hargaAwal">
                                             </div>
                                         </div>
-
-
 
                                         <div class="form-group">
                                             <div class="col-md-3 col-sm-offset-5">
@@ -128,7 +120,29 @@
                                             </div>
                                         </div>
 
+                                        <div class="form-group">
+                                            <div class="col-sm-3 hidden">
+                                                <input type="text" class="form-control" id="total" name="total">
+                                                <input type="hidden" class="form-control" id="hargaAwal" name="hargaAwal">
+                                            </div>
+                                            <div class="col-sm-2 hidden">
+                                                <input type="text" class="form-control" id="potongan" name="potongan" placeholder="%Diskon">
+                                            </div>
+                                            <div class="col-sm-3 col-sm-offset-1">
+                                                <input type="text" class="form-control" id="bayar" name="bayar" placeholder="Bayar">
+                                                <i>
+                                                    <p id="msgB" class="help-block"></p>
+                                                </i>
+                                            </div>
 
+                                            <div class="col-sm-3 col-sm-offset-1">
+                                                <input type="text" class="form-control" id="kembalian" name="kembalian" placeholder="Kembalian">
+                                            </div>
+
+                                            <div class="col-sm-3 col-sm-offset-1">
+                                                <button type="submit" class="btn btn-warning" name="pemesanan" id="pemesanan">Pesan</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -158,16 +172,16 @@
             setTotal()
 
             function setCode() {
-                var nofaktur = $('#nofaktur').val();
+                var kode_pemesanan = $('#kode_pemesanan').val();
                 $.ajax({
                     type: "POST",
                     url: "<?php echo site_url('Pemesanan/setCode') ?>",
                     dataType: "JSON",
                     data: {
-                        nofaktur: nofaktur
+                        kode_pemesanan: kode_pemesanan
                     },
                     success: function(data) {
-                        $('[name="nofaktur"]').val(data);
+                        $('[name="kode_pemesanan"]').val(data);
                     }
                 });
                 return false;
@@ -207,11 +221,11 @@
             }
             //get alamat
             $("#id_pelanggan").change(function() {
-                var nofaktur = $('#nofaktur').val();
+                var kode_pemesanan = $('#kode_pemesanan').val();
                 var alamat = $(this).find(":selected").data("alamat");
                 var res = alamat.substring(0, 4);
-                var txt = nofaktur.replaceAt(12, res);
-                $('#nofaktur').val(txt);
+                var txt = kode_pemesanan.replaceAt(12, res);
+                $('#kode_pemesanan').val(txt);
                 $('#alamat').val(alamat);
             })
             //function replace at
@@ -240,9 +254,9 @@
             $(".add_keranjang").click(function() {
                 var id = $("#namaBarang").val();
                 var name = $("#name").val();
-                var qty = $("#qty").val();
-                var stok = $("#stok").val();
                 var price = $("#price").val();
+                var stok = parseInt($("#stok").val());
+                var qty = parseInt($("#qty").val());
 
                 if (stok >= qty) {
                     $.ajax({
@@ -286,13 +300,13 @@
             //kode kredit
             $('#kondisi').click(function() {
                 if ($(this).is(":checked")) {
-                    var nofaktur = $('#nofaktur').val();
+                    var kode_pemesanan = $('#kode_pemesanan').val();
                     var res = "B";
                     var b = "N";
                     var posisi = 27;
-                    var result = [nofaktur.slice(0, posisi), b, nofaktur.slice(posisi)].join('');
+                    var result = [kode_pemesanan.slice(0, posisi), b, kode_pemesanan.slice(posisi)].join('');
                     var txt = result.replaceAt(26, res);
-                    $('#nofaktur').val(txt);
+                    $('#kode_pemesanan').val(txt);
                     $('#kategori').val("kredit");
 
                 } else {
@@ -307,8 +321,6 @@
 
                 if (thisVal > stok) {
                     alert("Stok tidak mecukupi, tersedia = " + stok);
-                } else {
-                    return TRUE;
                 }
 
             })
@@ -344,16 +356,18 @@
                     }
                 }
             }
-            //transaksi
+            //pemesanan
 
-            $('#transaksi').on('click', function(e) {
-                var nofaktur = $('#nofaktur').val();
+            $('#pemesanan').on('click', function(e) {
+                var kode_pemesanan = $('#kode').val();
                 var id_user = $('#id_user').val();
                 var id_pelanggan = $('#id_pelanggan').val();
-                var kategori = $('#kategori').val();
-                var bayar = $('#bayar').val();
+                var tanggal = $('#tanggal').val();
+
                 var total = $('#total').val();
                 var potongan = $('#potongan').val();
+                var bayar = $('#bayar').val();
+                var kategori = $('#kategori').val();
 
                 if (kategori == "kredit") {
                     if (id_pelanggan == "") {
@@ -365,9 +379,10 @@
                             url: '<?php echo site_url('Pemesanan/addCre'); ?>',
                             dataType: "JSON",
                             data: {
-                                nofaktur: nofaktur,
+                                kode_pemesanan: kode_pemesanan,
                                 id_user: id_user,
                                 id_pelanggan: id_pelanggan,
+                                tanggal: tanggal,
                                 bayar: bayar,
                                 total: total,
                                 kategori: kategori
@@ -406,9 +421,10 @@
                             url: '<?php echo site_url('Pemesanan/add'); ?>',
                             dataType: "JSON",
                             data: {
-                                nofaktur: nofaktur,
+                                kode_pemesanan: kode_pemesanan,
                                 id_user: id_user,
                                 id_pelanggan: id_pelanggan,
+                                tanggal: tanggal,
                                 bayar: bayar,
                                 total: total,
                                 kategori: kategori

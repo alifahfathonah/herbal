@@ -3,75 +3,75 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class M_pemesanan extends CI_Model
 {
-    private $_table = "pelanggan";
-    private $_tableB = "barang";
-    private $_tT = "transaksi";
-    private $_tDT = "detail_transaksi";
-    private $_tK = "angsuran";
+     private $_table = "pelanggan";
+     private $_tableB = "barang";
+     private $_tT = "pemesanan";
+     private $_tDT = "detail_pemesanan";
+     private $_tK = "angsuran";
 
-    public function kode()
-    {
-        $this->db->select('LEFT(transaksi.nofaktur, 4) as nofaktur', FALSE);
-        $this->db->order_by('nofaktur', 'DESC');
-        $this->db->limit(1);
-        $query = $this->db->get('transaksi');  //cek dulu apakah ada sudah ada kode di tabel.    
-        if ($query->num_rows() <> 0) {
-            //cek kode jika telah tersedia    
-            $data = $query->row();
-            $kode = intval($data->nofaktur) + 1;
-        } else {
-            $kode = 1;  //cek jika kode belum terdapat pada table
-        }
-        $id_user = $this->session->userdata("id_user");
-        $tgl = date('dmY');
-        $D = date('d');
-        $batas = str_pad($kode, 4, "0", STR_PAD_LEFT);
-        $kodetampil = $batas . "/" . $id_user . "/" . $D . "/XXXX" . "/" . $tgl . "/Q";  //format kode
-        return $kodetampil;
-    }
+     public function kode()
+     {
+          $this->db->select('LEFT(pemesanan.kode_pemesanan, 4) as nofaktur', FALSE);
+          $this->db->order_by('nofaktur', 'DESC');
+          $this->db->limit(1);
+          $query = $this->db->get('pemesanan');  //cek dulu apakah ada sudah ada kode di tabel.    
+          if ($query->num_rows() <> 0) {
+               //cek kode jika telah tersedia    
+               $data = $query->row();
+               $kode = intval($data->nofaktur) + 1;
+          } else {
+               $kode = 1;  //cek jika kode belum terdapat pada table
+          }
+          $id_user = $this->session->userdata("id_user");
+          $tgl = date('dmY');
+          $D = date('d');
+          $batas = str_pad($kode, 4, "0", STR_PAD_LEFT);
+          $kodetampil = $batas . "/" . $id_user . "/" . $D . "/XXXX" . "/" . $tgl . "/Q";  //format kode
+          return $kodetampil;
+     }
 
-    function searchPelanggan()
-    {
-        $hasil = $this->db->query("SELECT * FROM pelanggan");
-        return $hasil;
-    }
+     function searchPelanggan()
+     {
+          $hasil = $this->db->query("SELECT * FROM pelanggan");
+          return $hasil;
+     }
 
-    public function ambil_data()
-    {
-        return $this->db->get($this->_table)->result();
-    }
+     public function ambil_data()
+     {
+          return $this->db->get($this->_table)->result();
+     }
 
-    function searchBarang()
-    {
-        $hasil = $this->db->query("SELECT * FROM barang");
-        return $hasil;
-    }
-    public function ambilBarang()
-    {
-        return $this->db->get($this->_tableB)->result();
-    }
-    public function keranjang()
-    {
-        $id = $this->input->post('id');
-        $qty = $this->input->post('qty');
-        $price = $this->input->post('price');
-        $name = $this->input->post('name');
-        $grosir = array(
-            'id'     => $id,
-            'qty'    => $qty,
-            'price'   => $price,
-            'name'      => $name
-        );
+     function searchBarang()
+     {
+          $hasil = $this->db->query("SELECT * FROM barang");
+          return $hasil;
+     }
+     public function ambilBarang()
+     {
+          return $this->db->get($this->_tableB)->result();
+     }
+     public function keranjang()
+     {
+          $id = $this->input->post('id');
+          $qty = $this->input->post('qty');
+          $price = $this->input->post('price');
+          $name = $this->input->post('name');
+          $grosir = array(
+               'id'     => $id,
+               'qty'    => $qty,
+               'price'   => $price,
+               'name'      => $name
+          );
 
-        $this->cart->insert($grosir);
-        echo $this->show();
-    }
-    public function show()
-    {
-        $output = '';
-        foreach ($this->cart->contents() as $items) {
-            # code...
-            $output .= '
+          $this->cart->insert($grosir);
+          echo $this->show();
+     }
+     public function show()
+     {
+          $output = '';
+          foreach ($this->cart->contents() as $items) {
+               # code...
+               $output .= '
                     <tr>
                          <td>' . $items['id'] . '</td>
                          <td>' . $items['name'] . '</td>
@@ -87,79 +87,81 @@ class M_pemesanan extends CI_Model
                               <td><button type="button" id="' . $items['rowid'] . '" class="hapus_cart btn btn-danger btn-xs">Batal</button></td>
                     </tr>
           ';
-        }
-        return $output;
-    }
-    public function load()
-    {
-        echo $this->show();
-    }
-    public function hapus()
-    {
-        $data = array(
-            'rowid' => $this->input->post('row_id'),
-            'qty'    => 0,
-        );
-        $total = $this->cart->total();
-        $this->cart->update($data);
-        echo $this->show();
-    }
+          }
+          return $output;
+     }
+     public function load()
+     {
+          echo $this->show();
+     }
+     public function hapus()
+     {
+          $data = array(
+               'rowid' => $this->input->post('row_id'),
+               'qty'     => 0,
+          );
+          $total = $this->cart->total();
+          $this->cart->update($data);
+          echo $this->show();
+     }
 
-    public function insTr()
-    {
-        date_default_timezone_set('Asia/Jakarta');
+     public function insTr()
+     {
 
-        $nofaktur = $this->input->post('nofaktur');
-        $id_user = $this->session->userdata("id_user");
-        $id_pelanggan = $this->input->post('id_pelanggan');
-        $tgl = date('Y-m-d');
-        $tanggal = $tgl;
-        $total = $this->input->post('total');
-        $bayar = $this->input->post('bayar');
-        $kategori = $this->input->post('kategori');
+          date_default_timezone_set('Asia/Jakarta');
 
-        $transaksi = array(
-            'nofaktur' => $nofaktur,
-            'id_user' => $id_user,
-            'id_pelanggan' => $id_pelanggan,
-            'tanggal' => $tanggal,
-            'total' => $total,
-            'bayar' => $bayar,
-            'kategori' => $kategori
-        );
-        $result = $this->db->insert($this->_tT, $transaksi);
-        return $result;
-    }
-    function detail()
-    {
-        if ($cart = $this->cart->contents()) {
-            $nofaktur = $this->input->post('nofaktur');
-            foreach ($cart as $item) {
-                $data_detail = array(
-                    'nofaktur' => $nofaktur,
-                    'id_barang' => $item['id'],
-                    'jumlah' => $item['qty'],
-                );
-                $this->db->insert($this->_tDT, $data_detail);
-            }
-        }
-    }
-    function kredit()
-    {
-        date_default_timezone_set('Asia/Jakarta');
+          $kode_pemesanan = $this->input->post('kode_pemesanan');
+          $id_user = $this->session->userdata("id_user");
+          $id_pelanggan = $this->input->post('id_pelanggan');
+          $tgl = date('Y-m-d');
+          $tanggal = $tgl;
+          $total = $this->input->post('total');
+          $bayar = $this->input->post('bayar');
+          $kategori = $this->input->post('kategori');
 
-        $nofaktur = $this->input->post('nofaktur');
-        $id_user = $this->session->userdata("id_user");
-        $tgl = date('Y-m-d');
-        $tanggal = $tgl;
-        $bayar = $this->input->post('bayar');
-        $kredit = array(
-            'nofaktur' => $nofaktur,
-            'id_user' => $id_user,
-            'tanggal' => $tanggal,
-            'bayar' => $bayar,
-        );
-        $result = $this->db->insert($this->_tK, $kredit);
-        return $result;
-    }
+          $pemesanan = array(
+               'kode_pemesanan' => $kode_pemesanan,
+               'id_user' => $id_user,
+               'id_pelanggan' => $id_pelanggan,
+               'tanggal' => $tanggal,
+               'total' => $total,
+               'bayar' => $bayar,
+               'kategori' => $kategori,
+          );
+          $result = $this->db->insert($this->_tT, $pemesanan);
+     }
+     function detail()
+     {
+          if ($cart = $this->cart->contents()) {
+               $kode_pemesanan = $this->input->post('kode_pemesanan');
+               foreach ($cart as $item) {
+                    $data_detail = array(
+                         'kode_pemesanan' => $kode_pemesanan,
+                         'id_barang' => $item['id'],
+                         'jumlah' => $item['qty'],
+                    );
+                    $this->db->insert($this->_tDT, $data_detail);
+               }
+          }
+     }
+     function kredit()
+     {
+          date_default_timezone_set('Asia/Jakarta');
+
+
+          $id_user = $this->session->userdata("id_user");
+          $tgl = date('Y-m-d');
+          $tanggal = $tgl;
+          $bayar = $this->input->post('bayar');
+          $kredit = array(
+               'kode_pemesanan' => $kode_pemesanan,
+               'id_user' => $id_user,
+               'id_pelanggan' => $id_pelanggan,
+               'tanggal' => $tanggal,
+               'total' => $total,
+               'bayar' => $bayar,
+               'kategori' => $kategori,
+          );
+          $result = $this->db->insert($this->_tK, $kredit);
+     }
 }
