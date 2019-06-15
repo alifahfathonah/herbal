@@ -39,7 +39,7 @@
                         <div class="form-group">
                         <label  class="col-sm-2 control-label">No Faktur</label>
                         <div class="col-sm-3">
-                            <input type="id_barangmasuk" class="form-control" name="id_barangmasuk">                           
+                            <input type="id_barangmasuk" class="form-control" name="id_barangmasuk"  id="id_barangmasuk">                           
                             </div>
                        <!--  <div class="col-sm-3">
                             <input type="text" class="form-control" readonly name="sid" placeholder=""  >
@@ -159,14 +159,14 @@
     setCode();
     date();
     function setCode(){
-        var nofaktur = $('#nofaktur').val();
+        var nofaktur = $('#id_barangmasuk').val();
         $.ajax({
             type: "POST",
             url: "<?php echo site_url('Barangmasuk/setCode') ?>",
             dataType: "JSON",
             data:{nofaktur:nofaktur},
             success : function(data){
-                $('[name="nofaktur"]').val(data);
+                $('[name="id_barangmasuk"]').val(data);
             }
         });
     return false;
@@ -238,6 +238,29 @@
             }
         })
 
+    });
+     //transaksi
+   
+    $('#transaksi').on('click',function(e){
+      var id_barangmasuk = $('#id_barangmasuk').val();
+      var id_user = $('#id_user').val();
+      var tanggal = $('#tanggal').val();
+     
+              $.ajax({
+                type: "POST",
+                url: '<?php echo site_url('Barangmasuk/addCre'); ?>',
+                dataType: "JSON",
+                data: {id_barangmasuk:id_barangmasuk, id_user:id_user, tanggal:tanggal},
+                success: function(data){
+                    setCode();
+                    date();
+                   
+                $('#detailCart').load("<?php echo base_url();?>Barangmasuk/hapusSemua");
+                },
+                error: function(data){
+                console.log(data);
+                }
+            });
     });
   }); //akhir
 </script>

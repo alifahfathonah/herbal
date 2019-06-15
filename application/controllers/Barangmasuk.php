@@ -83,5 +83,19 @@ class Barangmasuk extends CI_Controller {
 		echo $this->show_keranjang();
 		// redirect('admin/kasir/grosir');
 	}
+		public function add(){
+		$data=$this->M_Barangmasuk->insTr();
+		$data=$this->M_Barangmasuk->detail();
+		echo json_encode($data);
+	}
+	function hapusSemua(){
+		$data=$this->cart->destroy();
+		echo json_encode($data);
+	}
+	public function addCre(){
+		$data=$this->M_Barangmasuk->insTr();
+		$data=$this->M_Barangmasuk->detail();
+		echo json_encode($data);
+	}
 	
 }
