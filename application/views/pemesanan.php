@@ -359,7 +359,7 @@
             //pemesanan
 
             $('#pemesanan').on('click', function(e) {
-                var kode_pemesanan = $('#kode').val();
+                var kode_pemesanan = $('#kode_pemesanan').val();
                 var id_user = $('#id_user').val();
                 var id_pelanggan = $('#id_pelanggan').val();
                 var tanggal = $('#tanggal').val();
@@ -410,9 +410,7 @@
                 } else {
                     if (id_pelanggan == "") {
                         document.getElementById("msgP").innerHTML = "*Pelanggannya..";
-                    } else if (parseInt(bayar) < total || bayar == "") {
-                        document.getElementById("msgB").innerHTML = "*Bayarnya...";
-                    } else if (bayar == "") {
+                   } else if (bayar == "") {
                         document.getElementById("msgB").innerHTML = "*Bayarnya...";
                     } else {
 
