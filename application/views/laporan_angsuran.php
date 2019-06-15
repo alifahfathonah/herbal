@@ -103,9 +103,9 @@
                 <tr>
                   <th>No Faktur</th>
                   <th>Nama Pelanggan</th>
-                  <th>Nama Barang</th>
-                  <th>Total</th>
-                  <th>Bayar</th>
+                  <th>Utang</th>
+                  <th>Total Bayar</th>
+                  <th>Sisa</th>
                   <th>Pilihan</th>
                 </tr>
                 </thead>
@@ -187,11 +187,11 @@
             html += '<tr>'+
                       '<td>'+data[i].nofaktur+'</td>'+
                       '<td>'+data[i].nama+'</td>'+
-                      '<td>'+data[i].namabarang+'</td>'+
                       '<td>'+data[i].total+'</td>'+
-                      '<td>'+data[i].bayar+'</td>'+
+                      '<td>'+data[i].totalAngsuran+'</td>'+
+                      '<td>'+data[i].sisa+'</td>'+
                       '<td style="text-align:right;">'+
-                        '<a href="javascript:void(0);" class="btn btn-info btn-sm item_edit" data-nofaktur="'+data[i].nofaktur+'" data-kode_pemesanan="'+data[i].kode_pemesanan+'" data-tanggal="'+data[i].tanggal+'" data-total="'+data[i].total+'"data-bayar="'+data[i].bayar+'">Edit</a>'+
+                        '<a href="javascript:void(0);" class="btn btn-info btn-sm item_edit" data-nofaktur="'+data[i].nofaktur+'">Angsur</a>'+
                       '</td>'+
                     '</tr>';
                 }
@@ -241,7 +241,7 @@
     //edit
     //ambil datanya dulu
     $('#showData').on('click','.item_edit', function(){
-      kosong();
+      
       var nofaktur = $(this).data('nofaktur');
       var nama = $(this).data('nama');
       var namabarang = $(this).data('namabarang');
