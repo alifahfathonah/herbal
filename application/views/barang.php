@@ -125,7 +125,7 @@
 
           <!-- form edit -->
            <!-- MODAL EDIT -->
-          <form>
+          <form enctype="multipart/form-data" method="post" id="formnya2">
             <div class="modal fade" id="Modal_Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
@@ -140,28 +140,28 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">ID Barang</label>
                             <div class="col-md-10">
-                              <input type="text" name="id_barang_edit" id="id_barang_edit" class="form-control" placeholder="ID Barang" readonly>
+                              <input type="text" name="id_barang" id="id_barang" class="form-control" placeholder="ID Barang" readonly>
                             </div>
                         </div>
                 
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Nama Barang</label>
                             <div class="col-md-10">
-                              <input type="text" name="namabarang_edit" id="namabarang_edit" class="form-control" placeholder="Nama Barang">
+                              <input type="text" name="namabarang" id="namabarang" class="form-control" placeholder="Nama Barang">
                             </div>
                         </div>
                 
                           <div class="form-group row">
                             <label class="col-md-2 col-form-label">Harga</label>
                             <div class="col-md-10">
-                              <input type="text" name="harga_edit" id="harga_edit" class="form-control" placeholder="Harga">
+                              <input type="text" name="harga" id="harga" class="form-control" placeholder="Harga">
                             </div>
                         </div>
                         
                           <div class="form-group row">
                       <label class="col-sm-2 col-form-label">Satuan</label>
                       <div class="col-sm-10">
-                      <select class="form-control" id="satuan_edit" name="satuan_edit">
+                      <select class="form-control" id="satuan" name="satuan">
                         <option value="Ecer">Ecer</option>
                         <option value="Grosir">Grosir</option>
                       </select>
@@ -171,7 +171,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Stok</label>
                             <div class="col-md-10">
-                              <input type="text" name="stok_edit" id="stok_edit" class="form-control" placeholder="Stok">
+                              <input type="text" name="stok" id="stok" class="form-control" placeholder="Stok">
                             </div>
                         </div>
                   
@@ -180,7 +180,7 @@
                       <div class="form-group row">
                       <label class="col-sm-2 control-label">Kategori</label>
                       <div class="col-sm-10">        
-                      <select class="form-control" id="kategori_edit" name="kategori_edit">
+                      <select class="form-control" id="kategori" name="kategori">
                         <option value="Tablet">Tablet</option>
                         <option value="Kapsul">Kapsul</option>
                         <option value="Bubuk">Bubuk</option>
@@ -193,7 +193,7 @@
                             <label class="col-md-2 col-form-label">Gambar</label>
                             <div class="col-md-10">
                              <input class="form-group" type="file" 
-                             name="gambar_edit" id="gambar_edit" placeholder="Gambar"></input>
+                             name="gambar" id="gambar" placeholder="Gambar"></input>
                      
                             </div>
                         </div>
@@ -201,7 +201,7 @@
                       <div class="form-group row">
                             <label class="col-md-2 col-form-label">Deskripsi</label>
                             <div class="col-md-10">
-                              <textarea type="text" name="deskripsi_edit" id="deskripsi_edit" class="form-control" placeholder="Deskripsi"></textarea>
+                              <textarea type="text" name="deskripsi" id="deskripsi" class="form-control" placeholder="Deskripsi"></textarea>
                             </div>
                         </div>
                         </div>
@@ -400,33 +400,32 @@
       var kategori = $(this).data('kategori');
       var gambar= $(this).data('gambar');
       var deskripsi= $(this).data('deskripsi');
+      console.log(satuan);
       
       $('#Modal_Edit').modal('show');
-      $('[name="id_barang_edit"]').val(id_barang);
-      $('[name="namabarang_edit"]').val(namabarang);
-      $('[name="harga_edit"]').val(harga);
-      $('[name="satuan_edit"]').val(satuan);
-      $('[name="stok_edit"]').val(stok);
-      $('[name="kategori_edit"]').val(kategori);
-      $('[name="gambar_edit"]').val(gambar);
-      $('[name="deskripsi_edit"]').val(deskripsi);   
+      $('[name="id_barang"]').val(id_barang);
+      $('[name="namabarang"]').val(namabarang);
+      $('[name="harga"]').val(harga);
+      $('[name="satuan"]').val(satuan);
+      $('[name="stok"]').val(stok);
+      $('[name="kategori"]').val(kategori);
+      $('[name="gambar"]').val(gambar);
+      $('[name="deskripsi"]').val(deskripsi);   
     });
 
     //update record to database
     $('#btn_update').on('click',function(){
-      var id_barang = $('#id_barang_edit').val();
-      var namabarang = $('#namabarang_edit').val();
-      var harga = $('#harga_edit').val();
-      var satuan = $('#satuan_edit').val();
-      var stok = $('#stok_edit').val();
-      var kategori = $('#kategori_edit').val();
-      var gambar = $('#gambar_edit').val();
-      var deskripsi = $('#deskripsi_edit').val();
+      var datanya = new FormData(document.getElementById("formnya2"));
       $.ajax({
           type : "POST",
+           mimeType:"multipart/form-data",
+        dataType: "JSON",
+        data: datanya,
           url  : "<?php echo site_url('Barang/edit')?>",
-          dataType : "JSON",
-        data: {id_barang:id_barang, namabarang:namabarang, harga:harga, satuan:satuan, stok:stok, kategori:kategori, gambar:gambar, deskripsi:deskripsi},
+        processData:false,
+        contentType:false,
+       cache:false,
+        // data: {id_barang:id_barang, namabarang:namabarang, harga:harga, satuan:satuan, stok:stok, kategori:kategori, gambar:gambar, deskripsi:deskripsi},
           success: function(data){
               $('[name="id_barang_edit"]').val("");
               $('[name="namabarang_edit"]').val("");
