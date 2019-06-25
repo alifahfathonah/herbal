@@ -136,6 +136,9 @@
                                     <div class="col-sm-3 col-sm-offset-1">
                                         <button  type="submit" class="btn btn-warning" name="transaksi" id="transaksi">Transaksi</button>
                                     </div>
+                                    <div class="col-sm-3 col-sm-1">
+                                        <a href='<?php echo site_url('Notapdf');?>'>print sekarang</a>
+                                    </div>
                                 </div>   
                             </div>
                         </div>
@@ -376,6 +379,15 @@
                 console.log(data);
                 }
             });
+            $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('Notapdf/doprint') ?>",
+            dataType: "JSON",
+            data:{nofaktur:nofaktur},
+            success : function(data){
+                $('[name="nofaktur"]').val(data);
+            }
+        });
         }
       }else{
         if(id_pelanggan == ""){

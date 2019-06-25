@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 17 Bulan Mei 2019 pada 07.12
+-- Waktu pembuatan: 11 Bulan Mei 2019 pada 02.47
 -- Versi server: 10.1.38-MariaDB
 -- Versi PHP: 7.3.2
 
@@ -25,19 +25,6 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `angsuran`
---
-
-CREATE TABLE `angsuran` (
-  `nofaktur` varchar(30) NOT NULL,
-  `kode_pesanan` varchar(30) NOT NULL,
-  `tanggal` date NOT NULL,
-  `bayar` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Struktur dari tabel `barang`
 --
 
@@ -51,14 +38,6 @@ CREATE TABLE `barang` (
   `gambar` varchar(255) NOT NULL DEFAULT 'default.jpg',
   `deskripsi` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `barang`
---
-
-INSERT INTO `barang` (`id_barang`, `namabarang`, `harga`, `satuan`, `stok`, `kategori`, `gambar`, `deskripsi`) VALUES
-('l', 'asd', 9102, 'ecer', 32, 'Tablet', 'default.jpg', 'sdaf'),
-('sad', 'jeruk', 90000, 'grosir', 90, 'Kapsul', 'jeruk.jpg', 'asdf');
 
 -- --------------------------------------------------------
 
@@ -74,16 +53,17 @@ CREATE TABLE `barangmasuk` (
   `jumlah` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Trigger `barangmasuk`
+-- Struktur dari tabel `barangmasuk_tmp`
 --
-DELIMITER $$
-CREATE TRIGGER `StokPlusOnBrgMskIns` AFTER INSERT ON `barangmasuk` FOR EACH ROW BEGIN
-	UPDATE barang SET stok=stok+NEW.jumlah
-    WHERE id_barang=NEW.id_barang ;
-END
-$$
-DELIMITER ;
+
+CREATE TABLE `barangmasuk_tmp` (
+  `id_barang` varchar(10) NOT NULL,
+  `id_user` varchar(5) NOT NULL,
+  `jumlah` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -92,21 +72,10 @@ DELIMITER ;
 --
 
 CREATE TABLE `detail_pemesanan` (
-  `kode_pemesanan` varchar(30) NOT NULL,
+  `kode_pemesanan` varchar(100) NOT NULL,
   `id_barang` varchar(10) NOT NULL,
   `jumlah` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Trigger `detail_pemesanan`
---
-DELIMITER $$
-CREATE TRIGGER `DetPsnAfterIsrt` AFTER INSERT ON `detail_pemesanan` FOR EACH ROW BEGIN
-	UPDATE barang SET stok=stok - NEW.jumlah
-    WHERE id_barang=NEW.id_barang;
-END
-$$
-DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -121,17 +90,6 @@ CREATE TABLE `detail_transaksi` (
   `jumlah` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Trigger `detail_transaksi`
---
-DELIMITER $$
-CREATE TRIGGER `MinStokOnDTInsert` AFTER INSERT ON `detail_transaksi` FOR EACH ROW BEGIN
-	UPDATE barang SET stok=stok - NEW.jumlah
-    WHERE id_barang=NEW.id_barang;
-END
-$$
-DELIMITER ;
-
 -- --------------------------------------------------------
 
 --
@@ -141,16 +99,9 @@ DELIMITER ;
 CREATE TABLE `login` (
   `id_user` varchar(5) NOT NULL,
   `username` text NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `password` varchar(20) NOT NULL,
   `level` enum('Admin','Marketing','SuperUser') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `login`
---
-
-INSERT INTO `login` (`id_user`, `username`, `password`, `level`) VALUES
-('far', 'faris', '$2y$10$R10Wg6SNLLqataHIzW2S2.o/QAB/uuL.SDwvxlDPb3fqGjZItO3.O', 'Admin');
 
 -- --------------------------------------------------------
 
@@ -164,7 +115,7 @@ CREATE TABLE `pelanggan` (
   `nohp` varchar(16) NOT NULL,
   `alamat` text NOT NULL,
   `email` text NOT NULL,
-  `password` varchar(255) NOT NULL
+  `password` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -174,7 +125,7 @@ CREATE TABLE `pelanggan` (
 --
 
 CREATE TABLE `pemesanan` (
-  `kode_pemesanan` varchar(30) NOT NULL,
+  `kode_pemesanan` varchar(100) NOT NULL,
   `id_user` varchar(5) NOT NULL,
   `id_pelanggan` varchar(5) NOT NULL,
   `tanggal` date NOT NULL,
@@ -182,6 +133,19 @@ CREATE TABLE `pemesanan` (
   `potongan` int(10) NOT NULL,
   `bayar` int(10) NOT NULL,
   `kategori` enum('cash','kredit') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `pemesanan_tmp`
+--
+
+CREATE TABLE `pemesanan_tmp` (
+  `id_user` varchar(5) NOT NULL,
+  `id_barang` varchar(10) NOT NULL,
+  `id_pelanggan` varchar(5) NOT NULL,
+  `jumlah` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -201,16 +165,21 @@ CREATE TABLE `transaksi` (
   `kategori` enum('cash','kredit') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `transaksi_tmp`
+--
+
+CREATE TABLE `transaksi_tmp` (
+  `id_barang` varchar(10) NOT NULL,
+  `id_user` varchar(5) NOT NULL,
+  `jumlah` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Indexes for dumped tables
 --
-
---
--- Indeks untuk tabel `angsuran`
---
-ALTER TABLE `angsuran`
-  ADD KEY `nofaktur` (`nofaktur`),
-  ADD KEY `kode_pesanan` (`kode_pesanan`);
 
 --
 -- Indeks untuk tabel `barang`
@@ -225,6 +194,13 @@ ALTER TABLE `barangmasuk`
   ADD PRIMARY KEY (`id_barangmasuk`),
   ADD UNIQUE KEY `id_barang` (`id_barang`),
   ADD KEY `id_barang_2` (`id_barang`),
+  ADD KEY `id_user` (`id_user`);
+
+--
+-- Indeks untuk tabel `barangmasuk_tmp`
+--
+ALTER TABLE `barangmasuk_tmp`
+  ADD KEY `id_barang` (`id_barang`),
   ADD KEY `id_user` (`id_user`);
 
 --
@@ -263,6 +239,14 @@ ALTER TABLE `pemesanan`
   ADD KEY `id_user` (`id_user`);
 
 --
+-- Indeks untuk tabel `pemesanan_tmp`
+--
+ALTER TABLE `pemesanan_tmp`
+  ADD KEY `id_barang` (`id_barang`),
+  ADD KEY `kode_pemesanan` (`id_user`),
+  ADD KEY `id_pelanggan` (`id_pelanggan`);
+
+--
 -- Indeks untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
@@ -271,15 +255,16 @@ ALTER TABLE `transaksi`
   ADD KEY `id_pelanggan` (`id_pelanggan`);
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Indeks untuk tabel `transaksi_tmp`
 --
+ALTER TABLE `transaksi_tmp`
+  ADD UNIQUE KEY `id_barang` (`id_barang`),
+  ADD KEY `id_barang_2` (`id_barang`),
+  ADD KEY `id_user` (`id_user`);
 
 --
--- Ketidakleluasaan untuk tabel `angsuran`
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
 --
-ALTER TABLE `angsuran`
-  ADD CONSTRAINT `angsuran_ibfk_1` FOREIGN KEY (`nofaktur`) REFERENCES `transaksi` (`nofaktur`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `angsuran_ibfk_2` FOREIGN KEY (`kode_pesanan`) REFERENCES `pemesanan` (`kode_pemesanan`) ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `barangmasuk`
@@ -289,11 +274,18 @@ ALTER TABLE `barangmasuk`
   ADD CONSTRAINT `barangmasuk_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
 
 --
+-- Ketidakleluasaan untuk tabel `barangmasuk_tmp`
+--
+ALTER TABLE `barangmasuk_tmp`
+  ADD CONSTRAINT `barangmasuk_tmp_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `barangmasuk_tmp_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
+
+--
 -- Ketidakleluasaan untuk tabel `detail_pemesanan`
 --
 ALTER TABLE `detail_pemesanan`
-  ADD CONSTRAINT `detail_pemesanan_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `detail_pemesanan_ibfk_3` FOREIGN KEY (`kode_pemesanan`) REFERENCES `pemesanan` (`kode_pemesanan`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `detail_pemesanan_ibfk_1` FOREIGN KEY (`kode_pemesanan`) REFERENCES `pemesanan` (`kode_pemesanan`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `detail_pemesanan_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `detail_transaksi`
@@ -311,11 +303,26 @@ ALTER TABLE `pemesanan`
   ADD CONSTRAINT `pemesanan_ibfk_2` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`) ON UPDATE CASCADE;
 
 --
+-- Ketidakleluasaan untuk tabel `pemesanan_tmp`
+--
+ALTER TABLE `pemesanan_tmp`
+  ADD CONSTRAINT `pemesanan_tmp_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `pemesanan_tmp_ibfk_2` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `pemesanan_tmp_ibfk_3` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`);
+
+--
 -- Ketidakleluasaan untuk tabel `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
   ADD CONSTRAINT `transaksi_ibfk_2` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`) ON UPDATE CASCADE;
+
+--
+-- Ketidakleluasaan untuk tabel `transaksi_tmp`
+--
+ALTER TABLE `transaksi_tmp`
+  ADD CONSTRAINT `transaksi_tmp_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `transaksi_tmp_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
