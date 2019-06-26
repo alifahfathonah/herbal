@@ -7,7 +7,7 @@ class M_Barangmasuk extends CI_Model {
      private $_dbm = "detail_barangmasuk";
 
      public function kode(){
-          $this->db->select('LEFT(barangmasuk.id_barangmasuk,4) as id_barangmasuk', FALSE);
+          $this->db->select('MAX(RIGHT(barangmasuk.id_barangmasuk,3)) as id_barangmasuk', FALSE);
           $this->db->order_by('id_barangmasuk','DESC');    
           $this->db->limit(1);    
           $query = $this->db->get('barangmasuk');  //cek dulu apakah ada sudah ada kode di tabel.    
@@ -22,7 +22,7 @@ class M_Barangmasuk extends CI_Model {
           $tgl=date('dmY'); 
           $batas = str_pad($kode, 3, "0", STR_PAD_LEFT);    
           $kodetampil = "Q".$batas;  //format kode
-          return $kodetampil;  
+          return $kodetampil;
      }
 
  

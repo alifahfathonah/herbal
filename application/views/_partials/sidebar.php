@@ -36,9 +36,9 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> Login</a></li>
+            <li><a href="<?php echo site_url('Auth') ?>"><i class="fa fa-circle-o"></i> Login</a></li>
 
-            <li class="active"><a href="<?php echo site_url('User') ?>"><i class="fa fa-circle-o"></i> Register</a></li>
+            <li><a href="<?php echo site_url('User') ?>"><i class="fa fa-circle-o"></i> Register</a></li>
 
           </ul>
         </li>
@@ -51,6 +51,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
+             <li><a href="<?php echo site_url('Laporan_Barang') ?>"><i class="fa fa-circle-o"></i> Barang </a></li>
             <li><a href="<?php echo site_url('Laporan_Pemesanan') ?>"><i class="fa fa-circle-o"></i> Pemesanan </a></li>
             <li><a href="<?php echo site_url('Laporan_Transaksi') ?>"><i class="fa fa-circle-o"></i> Transaksi </a></li>
             <li><a href="<?php echo site_url('Laporan_Angsuran') ?>"><i class="fa fa-circle-o"></i> Angsuran </a></li>

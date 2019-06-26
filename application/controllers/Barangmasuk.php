@@ -16,7 +16,8 @@ class Barangmasuk extends CI_Controller {
 	public function index()
 	{
 		$data["barang"] = $this->M_Barangmasuk->ambilBarang();
-    $this->load->view("barangmasuk", $data);
+		// $data['kode'] = $this->db->query("SELECT MAX(id_barangmasuk) + 1 AS kode FROM barangmasuk")->result_array();
+    	$this->load->view("barangmasuk", $data);
 	}
 	public function setCode(){
 		$data = $this->M_Barangmasuk->kode();

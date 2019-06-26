@@ -39,7 +39,7 @@
                         <div class="form-group">
                         <label  class="col-sm-2 control-label">No Faktur</label>
                         <div class="col-sm-3">
-                            <input type="id_barangmasuk" class="form-control" name="id_barangmasuk"  id="id_barangmasuk">                           
+                            <input type="id_barangmasuk" class="form-control" name="id_barangmasuk"  id="id_barangmasuk" readonly="">                           
                             </div>
                        <!--  <div class="col-sm-3">
                             <input type="text" class="form-control" readonly name="sid" placeholder=""  >
@@ -254,11 +254,13 @@
                 success: function(data){
                     setCode();
                     date();
-                   
+                     window.alert("Data berhasil disimpan");
+        
                 $('#detailCart').load("<?php echo base_url();?>Barangmasuk/hapusSemua");
                 },
                 error: function(data){
                 console.log(data);
+                
                 }
             });
     });
