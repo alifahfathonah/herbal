@@ -38,4 +38,8 @@ class Laporan_Angsuran extends CI_Controller {
 		$data = $this->M_Laporan_Angsuran->delete();
 		echo json_encode($data);
 	}
+	public function angsur(){
+		$data = $this->M_Laporan_Angsuran->kredit();
+		echo json_encode($data);
+	}
 }

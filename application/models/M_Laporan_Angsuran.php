@@ -5,6 +5,7 @@ class M_Laporan_Angsuran extends CI_Model {
     // deklarasi variable
     private $_table = "laporan_angsuran";
     private $_tableDet = "detail_transaksi";
+    private $_tK = "angsuran";
     public $nofaktur;
     public $nama;
     public $namabarang;
@@ -62,8 +63,20 @@ class M_Laporan_Angsuran extends CI_Model {
 
         $this->db->update($this->_table, $this, array('nofaktur'=>$post['nofaktur']));
     }
-     public function delete($id){
-            $this->_deleteImage($id);
-            return $this->db->delete($this->_table, array("product_id" => $id));
-        }
+    function kredit(){
+        date_default_timezone_set('Asia/Jakarta');
+        $nofaktur = $this->input->post('nofaktur');
+        $id_user = $this->session->userdata("id_user");
+        $tgl=date('Y-m-d');
+        $tanggal = $tgl;
+        $bayar = $this->input->post('bayar');
+        $kredit = array(
+             'nofaktur'=>$nofaktur,
+             'id_user'=>$id_user,
+             'tanggal'=>$tanggal,
+             'bayar'=>$bayar,
+        );
+        $result = $this->db->insert($this->_tK, $kredit);
+        
+   }
 }

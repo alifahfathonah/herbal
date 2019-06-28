@@ -82,7 +82,7 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Bayar</label>
                             <div class="col-md-10">
-                              <input type="text" name="bayar_angsur" id="bayar_angsur" class="form-control" placeholder="Bayar">
+                              <input type="text" name="bayar" id="bayar" class="form-control" placeholder="Bayar">
                             </div>
                         </div>
                   </div>
@@ -233,21 +233,18 @@
     //simpan
     $('#click-simpan').on('click',function(e){
       
-      var nofaktur = $('#nofaktur').val();
+      var nofaktur = $('#nofaktur_angsur').val();
       var bayar = $('#nama').val();
       var namabarang = $('#namabarang').val();
       var total = $('#total').val();
       var bayar = $('#bayar').val();
       $.ajax({
         type: "POST",
-        url: '<?php echo site_url('Laporan_Angsuran/add') ?>',
+        url: '<?php echo site_url('Laporan_Angsuran/angsur') ?>',
         dataType: "JSON",
-        data: {nofaktur:nofaktur, nama:nama, namabarang:namabarang, total:total},
+        data: {nofaktur:nofaktur, bayar:bayar},
         success: function(data){
-          $('[name="nofaktur"]').val("");
-          $('[name="nama"]').val("");
-          $('[name="namabarang"]').val("");
-          $('[name="total"]').val("");
+          $('[name="nofaktur_angsur"]').val("");
           $('[name="bayar"]').val("");
           showRecord();
         }
