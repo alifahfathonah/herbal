@@ -77,6 +77,8 @@
                             <label class="col-md-2 col-form-label">Nofaktur</label>
                             <div class="col-md-10">
                               <input type="text" name="nofaktur_angsur" id="nofaktur_angsur" class="form-control" placeholder="Nama Pelanggan" readonly>
+                              <input type="text" name="a" id="a" class="form-control" readonly>
+                              <input type="text" name="b" id="b" class="form-control"  readonly>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -293,9 +295,14 @@
     $('#showData').on('click','.item_angsur', function(){
       
       var nofaktur = $(this).data('nofaktur');
+      var ttl = $(this).data('total');
+      var totalAngsuran = $(this).data('totalAngsuran');
       
       $('#Modal_Angsur').modal('show');
       $('[name="nofaktur_angsur"]').val(nofaktur);
+      
+      alert(nofaktur);
+      
       
     });
 
