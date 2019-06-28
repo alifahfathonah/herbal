@@ -82,7 +82,6 @@ class Transaksi extends CI_Controller {
 	public function addCre(){
 		$data=$this->M_Transaksi->insTr();
 		$data=$this->M_Transaksi->detail();
-		$data=$this->M_Transaksi->kredit();
 		echo json_encode($data);
 	}
 	

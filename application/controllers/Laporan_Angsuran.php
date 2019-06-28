@@ -20,6 +20,11 @@ class Laporan_Angsuran extends CI_Controller {
 		$data=$this->M_Laporan_Angsuran->ambil_data();
 		echo json_encode($data);
 	}
+	public function getDetail(){
+		$nofaktur=$this->input->post('nofaktur');
+        $data=$this->M_Laporan_Angsuran->ambil_dataDetail($nofaktur);
+        echo json_encode($data);
+	}
 
 	public function add(){
 		$data=$this->M_Laporan_Angsuran->save();

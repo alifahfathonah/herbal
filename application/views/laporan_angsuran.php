@@ -25,10 +25,10 @@
     <section class="content">
       <div class="row">
         <div class="col-xs-12 col-sm-offset-0"   >
-          <!-- form edit -->
-           <!-- MODAL EDIT -->
+          <!-- form detail belanja -->
+           <!-- MODAL belanja -->
           <form>
-            <div class="modal fade" id="Modal_Edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="Modal_DetailBelanja" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -38,36 +38,18 @@
                     </button>
                   </div>
                   <div class="modal-body">
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">No Faktur</label>
-                            <div class="col-md-10">
-                              <input type="text" name="nofaktur_edit" id="nofaktur_edit" class="form-control" placeholder="No Faktur" readonly>
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Nama</label>
-                            <div class="col-md-10">
-                              <input type="text" name="nama_edit" id="nama_edit" class="form-control" placeholder="Nama">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Nama Barang</label>
-                            <div class="col-md-10">
-                              <input type="text" name="namabarang_edit" id="namabarang_edit" class="form-control" placeholder="Nama Barang">
-                            </div>
-                        </div>
-                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Total</label>
-                            <div class="col-md-10">
-                              <input type="text" name="total_edit" id="total_edit" class="form-control" placeholder="Total">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Bayar</label>
-                            <div class="col-md-10">
-                              <input type="text" name="bayar_edit" id="bayar_edit" class="form-control" placeholder="Bayar">
-                            </div>
-                        </div>
+                    <input type="text" name="nofakturdetail" id="nofakturdetail" class="form-control">
+                    <input type="text" name="tahu" id="tahu" class="form-control">
+                    <table id="example1" class="table  table-striped" >
+                      <thead>
+                        <tr>
+                          <th>Nama Barang</th>
+                          <th>Jumlah</th>
+                        </tr>
+                        </thead>
+                          <tbody id="tahu">
+                        </tbody>
+                    </table>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -77,7 +59,42 @@
               </div>
             </div>
           </form>
-        <!--END MODAL EDIT-->
+        <!--END MODAL belanja-->
+        <!-- form angsur -->
+           <!-- MODAL Angsur -->
+           <form>
+            <div class="modal fade" id="Modal_Angsur" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Angsur</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Nofaktur</label>
+                            <div class="col-md-10">
+                              <input type="text" name="nofaktur_angsur" id="nofaktur_angsur" class="form-control" placeholder="Nama Pelanggan" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">Bayar</label>
+                            <div class="col-md-10">
+                              <input type="text" name="bayar_angsur" id="bayar_angsur" class="form-control" placeholder="Bayar">
+                            </div>
+                        </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" type="submit" id="click-simpan" class="btn btn-primary">Angsur</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        <!--END MODAL Angsur-->
           <!-- form table -->
           <div class="box ">
             <div class="box-header">
@@ -191,7 +208,9 @@
                       '<td>'+data[i].totalAngsuran+'</td>'+
                       '<td>'+data[i].sisa+'</td>'+
                       '<td style="text-align:right;">'+
-                        '<a href="javascript:void(0);" class="btn btn-info btn-sm item_edit" data-nofaktur="'+data[i].nofaktur+'">Angsur</a>'+
+                        '<a href="javascript:void(0);" class="btn btn-info btn-sm item_angsur" data-nofaktur="'+data[i].nofaktur+'">Angsur</a>'+
+                        '<a href="javascript:void(0);" class="btn btn-info btn-sm item_belanja" data-nofaktur="'+data[i].nofaktur+'">Detail</a>'+
+                        '<a href="javascript:void(0);" class="btn btn-info btn-sm item_riwayat" data-nofaktur="'+data[i].nofaktur+'">Riwayat</a>'+
                       '</td>'+
                     '</tr>';
                 }
@@ -215,7 +234,7 @@
     $('#click-simpan').on('click',function(e){
       
       var nofaktur = $('#nofaktur').val();
-      var nama = $('#nama').val();
+      var bayar = $('#nama').val();
       var namabarang = $('#namabarang').val();
       var total = $('#total').val();
       var bayar = $('#bayar').val();
@@ -238,22 +257,49 @@
       return false;
       
     });
+    ///
+
+    $('#showData').on('click','.item_belanja',function(){
+      var nofaktur = $(this).data('nofaktur');
+        
+      $('#Modal_DetailBelanja').modal('show');
+        $.ajax({
+          type : "POST",
+          url  : "<?php echo base_url('Laporan_angsuran/getDetail')?>",
+          dataType : "JSON",
+          data : {nofaktur: nofaktur},
+          cache:false,
+          success: function(data){
+          var html = '';
+          var i; 
+          
+          for(i=0; i<data.length; i++){
+            html += '<tr>'+
+                      '<td>'+data.id_barang+'</td>'+
+                      '<td>'+data.jumlah+'</td>'+
+                    '</tr>';
+                }
+          $('#tahu').html(html);
+          $('#example1').dataTable()
+              
+              
+          }
+      });
+      return false;
+      
+    });
+
+
     //edit
+
     //ambil datanya dulu
-    $('#showData').on('click','.item_edit', function(){
+    $('#showData').on('click','.item_angsur', function(){
       
       var nofaktur = $(this).data('nofaktur');
-      var nama = $(this).data('nama');
-      var namabarang = $(this).data('namabarang');
-      var total = $(this).data('total');
-      var bayar = $(this).data('bayar');
       
-      $('#Modal_Edit').modal('show');
-      $('[name="nofaktur_edit"]').val(nofaktur);
-      $('[name="nama_edit"]').val(nama);
-      $('[name="namabarang_edit"]').val(namabarang);
-      $('[name="total_edit"]').val(total);
-      $('[name="bayar_edit"]').val(bayar);
+      $('#Modal_Angsur').modal('show');
+      $('[name="nofaktur_angsur"]').val(nofaktur);
+      
     });
 
      //update record to database
