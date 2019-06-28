@@ -379,15 +379,7 @@
                 console.log(data);
                 }
             });
-            $.ajax({
-            type: "POST",
-            url: "<?php echo site_url('Notapdf/doprint') ?>",
-            dataType: "JSON",
-            data:{nofaktur:nofaktur},
-            success : function(data){
-                $('[name="nofaktur"]').val(data);
-            }
-        });
+           
         }
       }else{
         if(id_pelanggan == ""){

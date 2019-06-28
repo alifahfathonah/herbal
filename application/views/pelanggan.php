@@ -218,6 +218,21 @@
 <?php $this->load->view('_partials/script');?>
 <script type="text/javascript">
   $(document).ready(function(e){
+    setCode();
+    function setCode(){
+        var id_pelanggan = $('#id_pelanggan').val();
+        $.ajax({
+            type: "POST",
+            url: "<?php echo site_url('Pelanggan/setCode') ?>",
+            dataType: "JSON",
+            data:{id_pelanggan:id_pelanggan},
+            success : function(data){
+                $('[name="id_pelanggan"]').val(data);
+            }
+        });
+    return false;
+    }
+
     $(".formtambah").fadeOut();
     $(".formedit").fadeOut();
     

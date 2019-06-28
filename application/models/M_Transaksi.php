@@ -10,6 +10,8 @@ class M_Transaksi extends CI_Model {
      
      public function kode(){
           $this->db->select('LEFT(transaksi.nofaktur, 4) as nofaktur', FALSE);
+          date_default_timezone_set("asia/jakarta");
+          $this->db->where("tanggal =  date(now())");
           $this->db->order_by('nofaktur','DESC');    
           $this->db->limit(1);    
           $query = $this->db->get('transaksi');  //cek dulu apakah ada sudah ada kode di tabel.    

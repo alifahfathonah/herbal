@@ -16,6 +16,12 @@ class Pelanggan extends CI_Controller {
 	{
 		$this->load->view("pelanggan");
 	}
+
+	public function setCode(){
+		$data = $this->M_Pelanggan->kode();
+		echo json_encode($data);
+	}
+
 	public function getAll(){
 		$data=$this->M_Pelanggan->ambil_data();
 		echo json_encode($data);

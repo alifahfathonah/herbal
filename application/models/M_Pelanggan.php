@@ -11,6 +11,26 @@ class M_Pelanggan extends CI_Model {
     public $email;
     public $password;
 
+    public function kode(){
+        $this->db->select('MAX(RIGHT(pelanggan.id_pelanggan,3)) as id_pelanggan', FALSE);
+        
+        $this->db->order_by('id_pelanggan','DESC');    
+        $this->db->limit(1);    
+        $query = $this->db->get('pelanggan');  //cek dulu apakah ada sudah ada kode di tabel.    
+             if($query->num_rows() <> 0){      
+             //cek kode jika telah tersedia    
+             $data = $query->row();      
+             $kode = intval($data->id_pelanggan) + 1; 
+        }
+        else{      
+             $kode = 1;  //cek jika kode belum terdapat pada table
+        }
+        $tgl=date('dmY'); 
+        $batas = str_pad($kode, 3, "0", STR_PAD_LEFT);    
+        $kodetampil = "C".$batas;  //format kode
+        return $kodetampil;
+   }
+
     //menampilkan data
     public function rule(){
         return[
@@ -52,7 +72,7 @@ class M_Pelanggan extends CI_Model {
 
 		$this->db->update($this->_table, $this, array('id_pelanggan'=>$post['id_pelanggan']));
 	}
-//Delete
+    //Delete
     public function delete(){
         // return $this->db->delete($this->_table, array("id_user"=> $id_user));
         $id_pelanggan= $this->input->post('id_pelanggan');
