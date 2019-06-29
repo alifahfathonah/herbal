@@ -210,7 +210,7 @@
                       '<td>'+data[i].totalAngsuran+'</td>'+
                       '<td>'+data[i].sisa+'</td>'+
                       '<td style="text-align:right;">'+
-                        '<a href="javascript:void(0);" class="btn btn-info btn-sm item_angsur" data-nofaktur="'+data[i].nofaktur+'">Angsur</a>'+
+                        '<a href="javascript:void(0);" class="btn btn-info btn-sm item_angsur" data-nofaktur="'+data[i].nofaktur+'" data-total="'+data[i].total+'" data-totalAngsuran="'+data[i].totalAngsuran+'" data-sisa="'+data[i].sisa+'">Angsur</a>'+
                         '<a href="javascript:void(0);" class="btn btn-info btn-sm item_belanja" data-nofaktur="'+data[i].nofaktur+'">Detail</a>'+
                         '<a href="javascript:void(0);" class="btn btn-info btn-sm item_riwayat" data-nofaktur="'+data[i].nofaktur+'">Riwayat</a>'+
                       '</td>'+
@@ -295,13 +295,15 @@
     $('#showData').on('click','.item_angsur', function(){
       
       var nofaktur = $(this).data('nofaktur');
-      var ttl = $(this).data('total');
-      var totalAngsuran = $(this).data('totalAngsuran');
+      var total = $(this).data('total');
+      var totalAngsuran = $(this).data('sisa');
       
       $('#Modal_Angsur').modal('show');
       $('[name="nofaktur_angsur"]').val(nofaktur);
+      $('[name="a"]').val(total);
+      $('[name="b"]').val(totalAngsuran);
       
-      alert(nofaktur);
+      
       
       
     });

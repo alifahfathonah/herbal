@@ -33,29 +33,29 @@
             </div>
             <!-- /.box-header -->
             <div class="box-header with-border">
-                  
-                  <div class="col-md-3">
-
-                    <div class="form-group">
-                      <div class="col-md-3 col-sm-offset-5">
-                        <button class="btn btn-success" name="cetak_barang"><li class="fa fa-print"></li>Cetak</button>
-                      </div>
-                    </div>
-                  </div>
+              <div class="form-group">
+                <div class="col-md-3">
+                    <select class="form-control select2 " style="width: 100%;" name="filter" id="filter">
+                        <option value="hariini"  >Hari Ini</option>
+                        <option value="mingguini"  >Minggu Ini</option>
+                        <option value="bulanini"  >Bulan Ini</option>
+                        <option value="tahunini"> Tahun ini</option>
+                        <option value="semua"  >Semua</option>
+                        
+                    </select>
                 </div>
+                <button class="btn btn-success" name="cetak_barang"><li class="fa fa-print"></li>Cetak</button>  
+              </div>
+            </div>
             <div class="box-body">
               <table id="example1" class="table  table-striped" >
                 <thead>
                 <tr>
                   <th>tanggal</th>
                   <th>nofaktur</th>
-                  <th>id_user</th>
-                  <th>username</th>
-                  <th>id_pelanggan</th>
-                  <th>nama</th>
+                  <th>penjual</th>
+                  <th>pelanggan</th>
                   <th>total</th>
-                  <th>potongan</th>
-                  <th>bayar</th>
                   <th>kategori</th>
                 </tr>
                 </thead>
@@ -83,8 +83,25 @@
 <?php $this->load->view('_partials/script');?>
 <script type="text/javascript">
     //crud
-    showRecord(); //munculkan data
+   
     //function showdata
+    showRecordharian()
+    //getStokBarang
+    $("#filter").change(function(){
+        var filter = $(this).val();
+        if(filter=="hariini"){
+          showRecordharian();
+        }else if(filter=="mingguini"){
+          showRecordmingguan();
+        }else if(filter=="bulanini"){
+          showRecordbulanan();
+        }else if(filter=="tahunini"){
+          showRecordtahunan();
+        }else if(filter=="semua"){
+          showRecord();
+        }
+    })
+    //semua
     function showRecord(){
       $.ajax({
         type: 'ajax',
@@ -96,15 +113,111 @@
           var i; 
           for(i=0; i<data.length; i++){
             html += '<tr>'+
-                      '<td>'+data[i].tanggal+'</td>'+
+                      '<td>'+data[i].tangal+'</td>'+
                       '<td>'+data[i].nofaktur+'</td>'+
-                      '<td>'+data[i].id_user+'</td>'+
-                      '<td>'+data[i].username+'</td>'+
-                      '<td>'+data[i].id_pelanggan+'</td>'+
-                      '<td>'+data[i].nama+'</td>'+
+                      '<td>'+data[i].penjual+'</td>'+
+                      '<td>'+data[i].pelanggan+'</td>'+
                       '<td>'+data[i].total+'</td>'+
-                      '<td>'+data[i].potongan+'</td>'+
-                      '<td>'+data[i].bayar+'</td>'+
+                      '<td>'+data[i].kategori+'</td>'+
+                    '</tr>';
+                }
+          $('#showData').html(html);
+          $('#example1').dataTable()
+        }
+      });
+    }
+    //harian
+    function showRecordharian(){
+      $.ajax({
+        type: 'ajax',
+        url: '<?php echo site_url('Laporan_Transaksi/getharian')?>',
+        async: true,
+        dataType: 'JSON',
+        success: function(data){
+          var html = '';
+          var i; 
+          for(i=0; i<data.length; i++){
+            html += '<tr>'+
+                      '<td>'+data[i].tangal+'</td>'+
+                      '<td>'+data[i].nofaktur+'</td>'+
+                      '<td>'+data[i].penjual+'</td>'+
+                      '<td>'+data[i].pelanggan+'</td>'+
+                      '<td>'+data[i].total+'</td>'+
+                      '<td>'+data[i].kategori+'</td>'+
+                    '</tr>';
+                }
+          $('#showData').html(html);
+          $('#example1').dataTable()
+        }
+      });
+    }
+    //mingguan
+    function showRecordmingguan(){
+      $.ajax({
+        type: 'ajax',
+        url: '<?php echo site_url('Laporan_Transaksi/getmingguan')?>',
+        async: true,
+        dataType: 'JSON',
+        success: function(data){
+          var html = '';
+          var i; 
+          for(i=0; i<data.length; i++){
+            html += '<tr>'+
+                      '<td>'+data[i].tangal+'</td>'+
+                      '<td>'+data[i].nofaktur+'</td>'+
+                      '<td>'+data[i].penjual+'</td>'+
+                      '<td>'+data[i].pelanggan+'</td>'+
+                      '<td>'+data[i].total+'</td>'+
+                      '<td>'+data[i].kategori+'</td>'+
+                    '</tr>';
+                }
+          $('#showData').html(html);
+          $('#example1').dataTable()
+        }
+      });
+    }
+    //bulanan
+    function showRecordbulanan(){
+      $.ajax({
+        type: 'ajax',
+        url: '<?php echo site_url('Laporan_Transaksi/getbulanan')?>',
+        async: true,
+        dataType: 'JSON',
+        success: function(data){
+          var html = '';
+          var i; 
+          for(i=0; i<data.length; i++){
+            html += '<tr>'+
+                      '<td>'+data[i].tangal+'</td>'+
+                      '<td>'+data[i].nofaktur+'</td>'+
+                      '<td>'+data[i].penjual+'</td>'+
+                      '<td>'+data[i].pelanggan+'</td>'+
+                      '<td>'+data[i].total+'</td>'+
+                      '<td>'+data[i].kategori+'</td>'+
+                    '</tr>';
+                }
+          $('#showData').html(html);
+          $('#example1').dataTable()
+        }
+      });
+    }
+    //tahunan
+    function showRecordtahunan(){
+      $.ajax({
+        type: 'ajax',
+        url: '<?php echo site_url('Laporan_Transaksi/gettahunan')?>',
+        async: true,
+        dataType: 'JSON',
+        success: function(data){
+          var html = '';
+          var i; 
+          for(i=0; i<data.length; i++){
+            html += '<tr>'+
+                      '<td>'+data[i].tangal+'</td>'+
+                      '<td>'+data[i].nofaktur+'</td>'+
+                      '<td>'+data[i].penjual+'</td>'+
+                      '<td>'+data[i].pelanggan+'</td>'+
+                      '<td>'+data[i].total+'</td>'+
                       '<td>'+data[i].kategori+'</td>'+
                     '</tr>';
                 }

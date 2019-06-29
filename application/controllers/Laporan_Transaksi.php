@@ -20,6 +20,22 @@ class Laporan_Transaksi extends CI_Controller {
 		$data=$this->M_Laporan_Transaksi->ambil_data();
 		echo json_encode($data);
 	}
+	public function getharian(){
+		$data=$this->M_Laporan_Transaksi->ambil_dataharian();
+		echo json_encode($data);
+	}
+	public function getmingguan(){
+		$data=$this->M_Laporan_Transaksi->ambil_datamingguan();
+		echo json_encode($data);
+	}
+	public function getbulanan(){
+		$data=$this->M_Laporan_Transaksi->ambil_databulanan();
+		echo json_encode($data);
+	}
+	public function gettahunan(){
+		$data=$this->M_Laporan_Transaksi->ambil_datatahunan();
+		echo json_encode($data);
+	}
 
 	public function cetak(){
 		$data['laporan_angsuran'] = $this->M_Laporan_Transaksi->view_row();

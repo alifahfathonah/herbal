@@ -175,6 +175,7 @@
             data:{nofaktur:nofaktur},
             success : function(data){
                 $('[name="nofaktur"]').val(data);
+                $('#kategori').val("lunas");
             }
         });
     return false;
@@ -294,7 +295,6 @@
             
         } else {
             setCode();
-            document.getElementById('kategori').value="";
         }
     });
     //cek stok
