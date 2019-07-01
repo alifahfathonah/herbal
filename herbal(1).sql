@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 28 Jun 2019 pada 17.30
+-- Waktu pembuatan: 01 Jul 2019 pada 16.28
 -- Versi server: 10.1.38-MariaDB
 -- Versi PHP: 7.3.2
 
@@ -67,7 +67,7 @@ CREATE TABLE `barang` (
 
 INSERT INTO `barang` (`id_barang`, `namabarang`, `harga`, `satuan`, `stok`, `kategori`, `gambar`, `deskripsi`) VALUES
 ('l', 'asd', 9102, 'ecer', 2, 'Tablet', 'default.jpg', 'sdaf'),
-('sad', 'jeruk', 90000, 'grosir', 31, 'Kapsul', 'jeruk.jpg', 'asdf');
+('sad', 'jeruk', 90000, 'grosir', 18, 'Kapsul', 'jeruk.jpg', 'asdf');
 
 -- --------------------------------------------------------
 
@@ -155,7 +155,9 @@ INSERT INTO `detail_transaksi` (`nofaktur`, `id_barang`, `jumlah`) VALUES
 ('0001/far/28/asdf/28062019/BN', 'l', 1),
 ('0002/far/28/asdf/28062019/Q', 'l', 1),
 ('0003/far/28/asdf/28062019/BN', 'l', 1),
-('0003/far/28/asdf/28062019/BN', 'sad', 1);
+('0003/far/28/asdf/28062019/BN', 'sad', 1),
+('0001/far/29/asdf/29062019/Q', 'sad', 1),
+('0002/far/29/asdf/29062019/Q', 'sad', 12);
 
 --
 -- Trigger `detail_transaksi`
@@ -171,6 +173,21 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
+-- Stand-in struktur untuk tampilan `hmmm`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `hmmm` (
+`tangal` varchar(10)
+,`nofaktur` varchar(30)
+,`penjual` text
+,`pelanggan` varchar(30)
+,`total` int(10)
+,`kategori` varchar(10)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Stand-in struktur untuk tampilan `laporan_angsuran`
 -- (Lihat di bawah untuk tampilan aktual)
 --
@@ -180,6 +197,81 @@ CREATE TABLE `laporan_angsuran` (
 ,`totalAngsuran` decimal(32,0)
 ,`nama` varchar(30)
 ,`sisa` decimal(33,0)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `laporan_transaksi`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `laporan_transaksi` (
+`tangal` varchar(10)
+,`nofaktur` varchar(30)
+,`penjual` text
+,`pelanggan` varchar(30)
+,`total` int(10)
+,`kategori` varchar(10)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `laporan_transaksibulanan`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `laporan_transaksibulanan` (
+`tangal` varchar(10)
+,`nofaktur` varchar(30)
+,`penjual` text
+,`pelanggan` varchar(30)
+,`total` int(10)
+,`kategori` varchar(10)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `laporan_transaksiharian`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `laporan_transaksiharian` (
+`tangal` varchar(10)
+,`nofaktur` varchar(30)
+,`penjual` text
+,`pelanggan` varchar(30)
+,`total` int(10)
+,`kategori` varchar(10)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `laporan_transaksimingguan`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `laporan_transaksimingguan` (
+`tangal` varchar(10)
+,`nofaktur` varchar(30)
+,`penjual` text
+,`pelanggan` varchar(30)
+,`total` int(10)
+,`kategori` varchar(10)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `laporan_transaksitahunan`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `laporan_transaksitahunan` (
+`tangal` varchar(10)
+,`nofaktur` varchar(30)
+,`penjual` text
+,`pelanggan` varchar(30)
+,`total` int(10)
+,`kategori` varchar(10)
 );
 
 -- --------------------------------------------------------
@@ -200,6 +292,7 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`id_user`, `username`, `password`, `level`) VALUES
+('1', 'samo', 'asdf', 'Marketing'),
 ('far', 'faris', '$2y$10$R10Wg6SNLLqataHIzW2S2.o/QAB/uuL.SDwvxlDPb3fqGjZItO3.O', 'Admin');
 
 -- --------------------------------------------------------
@@ -282,8 +375,10 @@ CREATE TABLE `transaksi` (
 
 INSERT INTO `transaksi` (`nofaktur`, `id_user`, `id_pelanggan`, `tanggal`, `total`, `potongan`, `bayar`, `kategori`) VALUES
 ('0001/far/28/asdf/28062019/BN', 'far', '3', '2019-06-28', 9102, 0, 100, 'kredit'),
-('0002/far/28/asdf/28062019/Q', 'far', '3', '2019-06-28', 9102, 0, 10000, ''),
-('0003/far/28/asdf/28062019/BN', 'far', '3', '2019-06-28', 99102, 0, 1000, 'kredit');
+('0001/far/29/asdf/29062019/Q', 'far', '3', '2019-06-29', 45000, 0, 50000, ''),
+('0002/far/28/asdf/28062019/Q', '1', '3', '2019-06-15', 9102, 0, 10000, ''),
+('0002/far/29/asdf/29062019/Q', 'far', '3', '2019-05-29', 1080000, 0, 1080000, ''),
+('0003/far/28/asdf/28062019/BN', 'far', '3', '2018-06-28', 99102, 0, 1000, 'kredit');
 
 --
 -- Trigger `transaksi`
@@ -310,11 +405,65 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
+-- Struktur untuk view `hmmm`
+--
+DROP TABLE IF EXISTS `hmmm`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `hmmm`  AS  select date_format(`transaksi`.`tanggal`,'%d/%m/%Y') AS `tangal`,`transaksi`.`nofaktur` AS `nofaktur`,`login`.`username` AS `penjual`,`pelanggan`.`nama` AS `pelanggan`,`transaksi`.`total` AS `total`,`transaksi`.`kategori` AS `kategori` from ((`transaksi` join `login`) join `pelanggan`) where ((`transaksi`.`id_user` = `login`.`id_user`) and (`transaksi`.`id_pelanggan` = `pelanggan`.`id_pelanggan`)) order by date_format(`transaksi`.`tanggal`,'%d/%m/%Y') desc,`transaksi`.`nofaktur` desc ;
+
+-- --------------------------------------------------------
+
+--
 -- Struktur untuk view `laporan_angsuran`
 --
 DROP TABLE IF EXISTS `laporan_angsuran`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporan_angsuran`  AS  select `t`.`nofaktur` AS `nofaktur`,`t`.`total` AS `total`,sum(`a`.`bayar`) AS `totalAngsuran`,`p`.`nama` AS `nama`,(`t`.`total` - sum(`a`.`bayar`)) AS `sisa` from ((`transaksi` `t` join `angsuran` `a`) join `pelanggan` `p`) where ((`t`.`nofaktur` = `a`.`nofaktur`) and (`t`.`id_pelanggan` = `p`.`id_pelanggan`)) group by `a`.`nofaktur` ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `laporan_transaksi`
+--
+DROP TABLE IF EXISTS `laporan_transaksi`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporan_transaksi`  AS  select date_format(`transaksi`.`tanggal`,'%d/%m/%Y') AS `tangal`,`transaksi`.`nofaktur` AS `nofaktur`,`login`.`username` AS `penjual`,`pelanggan`.`nama` AS `pelanggan`,`transaksi`.`total` AS `total`,`transaksi`.`kategori` AS `kategori` from ((`transaksi` join `login`) join `pelanggan`) where ((`transaksi`.`id_user` = `login`.`id_user`) and (`transaksi`.`id_pelanggan` = `pelanggan`.`id_pelanggan`)) order by date_format(`transaksi`.`tanggal`,'%d/%m/%Y'),`transaksi`.`nofaktur` desc ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `laporan_transaksibulanan`
+--
+DROP TABLE IF EXISTS `laporan_transaksibulanan`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporan_transaksibulanan`  AS  select date_format(`transaksi`.`tanggal`,'%d/%m/%Y') AS `tangal`,`transaksi`.`nofaktur` AS `nofaktur`,`login`.`username` AS `penjual`,`pelanggan`.`nama` AS `pelanggan`,`transaksi`.`total` AS `total`,`transaksi`.`kategori` AS `kategori` from ((`transaksi` join `login`) join `pelanggan`) where ((`transaksi`.`id_user` = `login`.`id_user`) and (`transaksi`.`id_pelanggan` = `pelanggan`.`id_pelanggan`) and (month(`transaksi`.`tanggal`) = month(now()))) order by date_format(`transaksi`.`tanggal`,'%d/%m/%Y'),`transaksi`.`nofaktur` desc ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `laporan_transaksiharian`
+--
+DROP TABLE IF EXISTS `laporan_transaksiharian`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporan_transaksiharian`  AS  select date_format(`transaksi`.`tanggal`,'%d/%m/%Y') AS `tangal`,`transaksi`.`nofaktur` AS `nofaktur`,`login`.`username` AS `penjual`,`pelanggan`.`nama` AS `pelanggan`,`transaksi`.`total` AS `total`,`transaksi`.`kategori` AS `kategori` from ((`transaksi` join `login`) join `pelanggan`) where ((`transaksi`.`id_user` = `login`.`id_user`) and (`transaksi`.`id_pelanggan` = `pelanggan`.`id_pelanggan`) and (`transaksi`.`tanggal` = cast(now() as date))) order by date_format(`transaksi`.`tanggal`,'%d/%m/%Y') desc,`transaksi`.`nofaktur` desc ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `laporan_transaksimingguan`
+--
+DROP TABLE IF EXISTS `laporan_transaksimingguan`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporan_transaksimingguan`  AS  select date_format(`transaksi`.`tanggal`,'%d/%m/%Y') AS `tangal`,`transaksi`.`nofaktur` AS `nofaktur`,`login`.`username` AS `penjual`,`pelanggan`.`nama` AS `pelanggan`,`transaksi`.`total` AS `total`,`transaksi`.`kategori` AS `kategori` from ((`transaksi` join `login`) join `pelanggan`) where ((`transaksi`.`id_user` = `login`.`id_user`) and (`transaksi`.`id_pelanggan` = `pelanggan`.`id_pelanggan`) and (yearweek(`transaksi`.`tanggal`,0) = yearweek(now(),0))) order by date_format(`transaksi`.`tanggal`,'%d/%m/%Y') desc,`transaksi`.`nofaktur` desc ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `laporan_transaksitahunan`
+--
+DROP TABLE IF EXISTS `laporan_transaksitahunan`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporan_transaksitahunan`  AS  select date_format(`transaksi`.`tanggal`,'%d/%m/%Y') AS `tangal`,`transaksi`.`nofaktur` AS `nofaktur`,`login`.`username` AS `penjual`,`pelanggan`.`nama` AS `pelanggan`,`transaksi`.`total` AS `total`,`transaksi`.`kategori` AS `kategori` from ((`transaksi` join `login`) join `pelanggan`) where ((`transaksi`.`id_user` = `login`.`id_user`) and (`transaksi`.`id_pelanggan` = `pelanggan`.`id_pelanggan`) and (year(`transaksi`.`tanggal`) = year(now()))) order by date_format(`transaksi`.`tanggal`,'%d/%m/%Y') desc,`transaksi`.`nofaktur` desc ;
 
 -- --------------------------------------------------------
 

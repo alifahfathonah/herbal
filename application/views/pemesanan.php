@@ -62,7 +62,7 @@
                                                 <select class="form-control select2 j" style="width: 100%;" name="id_pelanggan" id="id_pelanggan">
                                                     <option value="" disable>Cari Pelanggan</option>
                                                     <?php foreach ($pelanggan as $p) : ?>
-                                                        <option data-alamat="<?php echo $p->alamat ?>" value="<?php echo $p->id_pelanggan ?>"><?php echo $p->nama; ?></option>
+                                                        <option data-nohp="<?php echo $p->nohp ?>" data-alamat="<?php echo $p->alamat ?>" value="<?php echo $p->id_pelanggan ?>"><?php echo $p->nama; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                                 <i>
@@ -71,7 +71,13 @@
                                             </div>
                                             <div class="col-sm-3">
                                                 <input type="text" class="form-control" id="alamat" name="alamat">
+                                                <input type="text" class="form-control" id="nohp" name="nohp">
                                                 <input type="hidden" class="form-control" id="kategori" name="kategori">
+                                                
+                                            </div>
+                                            <div class="col-sm-3">
+                                                
+                                                <textarea class="form-control" rows="3"name="deskripsi" id="log" placeholder=""></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -163,13 +169,109 @@
 
     <?php $this->load->view('_partials/script'); ?>
     <script type="text/javascript">
+            window.onload = startApp;
+            function startApp() {
+				//create websocket client
+				var client = new WebSocket("ws://192.168.43.1:8989");
+
+				//onOpen handler
+				client.onopen = function (event) {
+					var log = document.getElementById("log");
+					log.textContent = log.textContent + "\n" + "Koneksi ke server berhasil";	
+				};
+
+				//onClose handler
+				client.onclose = function (event) {
+					var log = document.getElementById("log");
+					log.textContent = log.textContent + "\n" + "Koneksi ke server terputus";	
+				};
+
+				//onError handler
+				client.onerror = function (event) {
+					var log = document.getElementById("log");
+					log.textContent = log.textContent + "\n" + "Koneksi ke server error";	
+				};
+
+				//onMessage handler
+				client.onmessage = function (event) {
+					var response = JSON.parse(event.data);
+
+					switch (response.type) {
+						case "success" :
+						// suskses mengirim sms ke server
+						alert(response.message);
+						break;
+
+						case "error" :
+						// gagal mengirim sms ke server
+						alert(response.message);
+						break;
+
+						case "notification" :
+						// laporan status pengiriman sms
+						var log = document.getElementById("log");
+						if (response.success) {
+							log.textContent = log.textContent + "\n" + "Laporan Sukses: "+ response.message;
+						} else {
+							log.textContent = log.textContent + "\n" + "Laporan gagal : "+ response.message;
+						}
+						break;
+
+						case "received" :
+						// menerima sms
+						if (confirm("SMS dari" + response.from + " :\n"
+							+ response.message + "\n" +
+							"Apakah ingin dibalas?")) {
+							document.getElementById("to").value = response.from;
+						}
+						break;
+					}
+				};
+
+				// aksi tombol Send SMS
+				document.getElementById("pemesanan").onclick = function (){
+					//mengambil value no tujuan
+					var to = document.getElementById("to").value;
+					//mengambil value isi pesan SMS
+					var message = document.getElementById("message").value;
+
+					var splits = to.split(",");
+					if (splits.length == 1) {
+						// bukan broadcast
+
+						//membuat json
+					var json = {
+						to: to,
+						message: message
+					};
+
+					//mengirim ke server via websocket
+					client.send(JSON.stringify(json));
+
+					} else {
+						//broadcast
+
+						//membuat json broadcast
+						var json = {
+							to: splits,
+							message: message
+						};
+
+						//mengirim ke server via websocket
+						client.send(JSON.stringify(json));
+					}
+				}
+			}
         $(document).ready(function(e) {
 
             //set kode
             setCode();
 
             date();
-            setTotal()
+            setTotal();
+            
+
+            
 
             function setCode() {
                 var kode_pemesanan = $('#kode_pemesanan').val();
@@ -223,10 +325,12 @@
             $("#id_pelanggan").change(function() {
                 var kode_pemesanan = $('#kode_pemesanan').val();
                 var alamat = $(this).find(":selected").data("alamat");
+                var nohp = $(this).find(":selected").data("nohp");
                 var res = alamat.substring(0, 4);
                 var txt = kode_pemesanan.replaceAt(12, res);
                 $('#kode_pemesanan').val(txt);
                 $('#alamat').val(alamat);
+                $('#nohp').val(nohp);
             })
             //function replace at
             String.prototype.replaceAt = function(index, replacement) {
@@ -449,6 +553,7 @@
                 }
 
             });
+            
         }); //akhir
     </script>
     <!-- Script -->
