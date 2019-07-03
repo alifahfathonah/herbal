@@ -116,6 +116,7 @@ class M_pemesanan extends CI_Model
           $id_user = $this->session->userdata("id_user");
           $id_pelanggan = $this->input->post('id_pelanggan');
           $tgl = date('Y-m-d');
+          $via = 'web';
           $tanggal = $tgl;
           $total = $this->input->post('total');
           $bayar = $this->input->post('bayar');
@@ -129,6 +130,7 @@ class M_pemesanan extends CI_Model
                'total' => $total,
                'bayar' => $bayar,
                'pesan' => $pesan,
+               'via' => $via,
           );
           $result = $this->db->insert($this->_tT, $pemesanan);
      }
