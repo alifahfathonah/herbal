@@ -48,14 +48,13 @@
               <table id="example1" class="table  table-striped" >
                 <thead>
                 <tr>
-                  <th>kode_pemesanan</th>
-                  <th>id_user</th>
-                  <th>id_pelanggan</th>
+                  <th>Kode Pemesanan</th>
+                  <th>Kasir</th>
+                  <th>Pelanggan</th>
                   <th>tanggal</th>
                   <th>total</th>
-                  <th>potongan</th>
                   <th>bayar</th>
-                  <th>kategori</th>
+                  <th>pesan</th>
                 </tr>
                 </thead>
                 <tbody id="showData">
@@ -100,9 +99,8 @@
                       '<td>'+data[i].id_pelanggan+'</td>'+
                       '<td>'+data[i].tanggal+'</td>'+
                       '<td>'+data[i].total+'</td>'+
-                      '<td>'+data[i].potongan+'</td>'+
                       '<td>'+data[i].bayar+'</td>'+
-                      '<td>'+data[i].kategori+'</td>'+
+                      '<td>'+data[i].pesan+'</td>'+
                     '</tr>';
                 }
           $('#showData').html(html);

@@ -11,16 +11,16 @@ class M_pemesanan extends CI_Model
 
      public function kode()
      {
-          $this->db->select('LEFT(pemesanan.kode_pemesanan, 4) as nofaktur', FALSE);
+          $this->db->select('RIGHT(pemesanan.kode_pemesanan, 4) as kode_pemesanan', FALSE);
           date_default_timezone_set("asia/jakarta");
           $this->db->where("tanggal =  date(now())");
-          $this->db->order_by('nofaktur', 'DESC');
+          $this->db->order_by('kode_pemesanan', 'DESC');
           $this->db->limit(1);
           $query = $this->db->get('pemesanan');  //cek dulu apakah ada sudah ada kode di tabel.    
           if ($query->num_rows() <> 0) {
                //cek kode jika telah tersedia    
                $data = $query->row();
-               $kode = intval($data->nofaktur) + 1;
+               $kode = intval($data->kode_pemesanan) + 1;
           } else {
                $kode = 1;  //cek jika kode belum terdapat pada table
           }
@@ -28,7 +28,7 @@ class M_pemesanan extends CI_Model
           $tgl = date('dmY');
           $D = date('d');
           $batas = str_pad($kode, 4, "0", STR_PAD_LEFT);
-          $kodetampil = $batas . "/" . $id_user . "/" . $D . "/XXXX" . "/" . $tgl . "/Q";  //format kode
+          $kodetampil = "PS".$batas; //format kode
           return $kodetampil;
      }
 
@@ -119,7 +119,7 @@ class M_pemesanan extends CI_Model
           $tanggal = $tgl;
           $total = $this->input->post('total');
           $bayar = $this->input->post('bayar');
-          $kategori = $this->input->post('kategori');
+          $pesan = $this->input->post('pesan');
 
           $pemesanan = array(
                'kode_pemesanan' => $kode_pemesanan,
@@ -128,7 +128,7 @@ class M_pemesanan extends CI_Model
                'tanggal' => $tanggal,
                'total' => $total,
                'bayar' => $bayar,
-               'kategori' => $kategori,
+               'pesan' => $pesan,
           );
           $result = $this->db->insert($this->_tT, $pemesanan);
      }
@@ -145,25 +145,5 @@ class M_pemesanan extends CI_Model
                     $this->db->insert($this->_tDT, $data_detail);
                }
           }
-     }
-     function kredit()
-     {
-          date_default_timezone_set('Asia/Jakarta');
-
-
-          $id_user = $this->session->userdata("id_user");
-          $tgl = date('Y-m-d');
-          $tanggal = $tgl;
-          $bayar = $this->input->post('bayar');
-          $kredit = array(
-               'kode_pemesanan' => $kode_pemesanan,
-               'id_user' => $id_user,
-               'id_pelanggan' => $id_pelanggan,
-               'tanggal' => $tanggal,
-               'total' => $total,
-               'bayar' => $bayar,
-               'kategori' => $kategori,
-          );
-          $result = $this->db->insert($this->_tK, $kredit);
      }
 }

@@ -37,7 +37,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Pemesanan</label>
                                             <div class="col-sm-5">
-                                                <input type="text" class="form-control" readonly name="kode_pemesanan" placeholder="" id="kode_pemesanan">
+                                                <input type="text" class="form-control"  name="kode_pemesanan" placeholder="" id="kode_pemesanan">
                                                 <input type="hidden" class="form-control" readonly name="id_user" placeholder="" id="id_user" value="<?php echo $this->session->userdata("id_user"); ?>">
 
                                             </div>
@@ -62,7 +62,7 @@
                                                 <select class="form-control select2 j" style="width: 100%;" name="id_pelanggan" id="id_pelanggan">
                                                     <option value="" disable>Cari Pelanggan</option>
                                                     <?php foreach ($pelanggan as $p) : ?>
-                                                        <option data-nohp="<?php echo $p->nohp ?>" data-alamat="<?php echo $p->alamat ?>" value="<?php echo $p->id_pelanggan ?>"><?php echo $p->nama; ?></option>
+                                                        <option data-nohp="<?php echo $p->nohp ?>" data-nama="<?php echo $p->nama ?>" value="<?php echo $p->id_pelanggan ?>"><?php echo $p->nama; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
                                                 <i>
@@ -70,14 +70,15 @@
                                                 </i>
                                             </div>
                                             <div class="col-sm-3">
-                                                <input type="text" class="form-control" id="alamat" name="alamat">
-                                                <input type="text" class="form-control" id="nohp" name="nohp">
-                                                <input type="hidden" class="form-control" id="kategori" name="kategori">
+                                                <input type="hidden" class="form-control" id="nama" name="nama">  
+                                                <input type="text"  readonly class="form-control" id="nohp" name="nohp">
+                                                <input type="hidden" class="form-control" id="pesan" name="pesan">
                                                 
                                             </div>
                                             <div class="col-sm-3">
                                                 
-                                                <textarea class="form-control" rows="3"name="deskripsi" id="log" placeholder=""></textarea>
+                                                <textarea class="form-control" readonly rows="3"name="deskripsi" id="log" placeholder=""></textarea>
+                                                
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -103,7 +104,7 @@
                                         <div class="form-group">
                                             <div class="col-md-3 col-sm-offset-5">
                                                 <button class="add_keranjang btn btn-info" name="keranjang" id="keranjang">Tambah</button>
-                                                <input type="checkbox" class="minimal" id="kondisi" name="kondisi"> <label class="control-label">Kredit</label>
+                                                <button class=" btn btn-info" name="psn" id="psn">psn</button>
                                             </div>
                                         </div>
 
@@ -127,8 +128,8 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <div class="col-sm-3 hidden">
-                                                <input type="text" class="form-control" id="total" name="total">
+                                            <div class="col-sm-3 ">
+                                                <input type="hidden" class="form-control" id="total" name="total">
                                                 <input type="hidden" class="form-control" id="hargaAwal" name="hargaAwal">
                                             </div>
                                             <div class="col-sm-2 hidden">
@@ -231,9 +232,9 @@
 				// aksi tombol Send SMS
 				document.getElementById("pemesanan").onclick = function (){
 					//mengambil value no tujuan
-					var to = document.getElementById("to").value;
+					var to = document.getElementById("nohp").value;
 					//mengambil value isi pesan SMS
-					var message = document.getElementById("message").value;
+					var message = document.getElementById("pesan").value;
 
 					var splits = to.split(",");
 					if (splits.length == 1) {
@@ -284,10 +285,21 @@
                     },
                     success: function(data) {
                         $('[name="kode_pemesanan"]').val(data);
+                        
                     }
                 });
                 return false;
             }
+            function setPesan(){
+                $('#pesan').val($('#kode_pemesanan').val() + ' atas nama ' +
+                         $('#nama').val() + ', biaya pesanan Anda RP. ' +
+                         $('#total').val() + '. \n Anda telah bayar sebesar RP. ' +
+                         $('#bayar').val() );
+            }
+            //kode kredit
+            $('#psn').click(function() {
+                
+            });
             //set total
             function setTotal() {
                 var total = $('#total').val();
@@ -323,14 +335,11 @@
             }
             //get alamat
             $("#id_pelanggan").change(function() {
-                var kode_pemesanan = $('#kode_pemesanan').val();
-                var alamat = $(this).find(":selected").data("alamat");
                 var nohp = $(this).find(":selected").data("nohp");
-                var res = alamat.substring(0, 4);
-                var txt = kode_pemesanan.replaceAt(12, res);
-                $('#kode_pemesanan').val(txt);
-                $('#alamat').val(alamat);
+                var nama = $(this).find(":selected").data("nama");
                 $('#nohp').val(nohp);
+                $('#nama').val(nama);
+                setPesan();
             })
             //function replace at
             String.prototype.replaceAt = function(index, replacement) {
@@ -443,6 +452,7 @@
             })
             $("#bayar").keyup(function() {
                 hitung();
+                setPesan();
             })
             //hitung
             function hitung() {
@@ -463,6 +473,7 @@
             //pemesanan
 
             $('#pemesanan').on('click', function(e) {
+                
                 var kode_pemesanan = $('#kode_pemesanan').val();
                 var id_user = $('#id_user').val();
                 var id_pelanggan = $('#id_pelanggan').val();
@@ -471,6 +482,7 @@
                 var total = $('#total').val();
                 var potongan = $('#potongan').val();
                 var bayar = $('#bayar').val();
+                var pesan = $('#pesan').val();
                 var kategori = $('#kategori').val();
 
                 if (kategori == "kredit") {
@@ -489,7 +501,7 @@
                                 tanggal: tanggal,
                                 bayar: bayar,
                                 total: total,
-                                kategori: kategori
+                                pesan: pesan,
                             },
                             success: function(data) {
                                 setCode();
@@ -529,7 +541,7 @@
                                 tanggal: tanggal,
                                 bayar: bayar,
                                 total: total,
-                                kategori: kategori
+                                pesan: pesan
                             },
                             success: function(data) {
                                 setCode();
