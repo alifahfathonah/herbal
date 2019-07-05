@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 01 Jul 2019 pada 16.28
+-- Waktu pembuatan: 05 Jul 2019 pada 16.06
 -- Versi server: 10.1.38-MariaDB
 -- Versi PHP: 7.3.2
 
@@ -66,8 +66,10 @@ CREATE TABLE `barang` (
 --
 
 INSERT INTO `barang` (`id_barang`, `namabarang`, `harga`, `satuan`, `stok`, `kategori`, `gambar`, `deskripsi`) VALUES
-('l', 'asd', 9102, 'ecer', 2, 'Tablet', 'default.jpg', 'sdaf'),
-('sad', 'jeruk', 90000, 'grosir', 18, 'Kapsul', 'jeruk.jpg', 'asdf');
+('99', 'apel', 90, 'ecer', 89, 'Tablet', 'WhatsApp_Image_2019-05-19_at_15_39_25.jpeg', 'jh'),
+('io', 'busi', 900, 'grosir', 86, 'Kapsul', 'WhatsApp_Image_2019-05-19_at_15_39_26.jpeg', 'busi'),
+('l', 'asd', 9102, 'ecer', 0, 'Tablet', 'default.jpg', 'sdaf'),
+('sad', 'jeruk', 90000, 'grosir', 3, 'Kapsul', 'jeruk.jpg', 'asdf');
 
 -- --------------------------------------------------------
 
@@ -122,7 +124,13 @@ CREATE TABLE `detail_pemesanan` (
 --
 
 INSERT INTO `detail_pemesanan` (`kode_pemesanan`, `id_barang`, `jumlah`) VALUES
-('0001/far/15/asdf/15062019/Q', 'sad', 2);
+('PS0001', 'sad', 2),
+('PS0002', 'sad', 1),
+('PS0003', 'sad', 1),
+('PS0004', 'sad', 1),
+('PS0005', 'sad', 1),
+('PS0006', 'io', 1),
+('PS0007', 'io', 1);
 
 --
 -- Trigger `detail_pemesanan`
@@ -146,18 +154,6 @@ CREATE TABLE `detail_transaksi` (
   `id_barang` varchar(10) NOT NULL,
   `jumlah` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `detail_transaksi`
---
-
-INSERT INTO `detail_transaksi` (`nofaktur`, `id_barang`, `jumlah`) VALUES
-('0001/far/28/asdf/28062019/BN', 'l', 1),
-('0002/far/28/asdf/28062019/Q', 'l', 1),
-('0003/far/28/asdf/28062019/BN', 'l', 1),
-('0003/far/28/asdf/28062019/BN', 'sad', 1),
-('0001/far/29/asdf/29062019/Q', 'sad', 1),
-('0002/far/29/asdf/29062019/Q', 'sad', 12);
 
 --
 -- Trigger `detail_transaksi`
@@ -193,10 +189,25 @@ CREATE TABLE `hmmm` (
 --
 CREATE TABLE `laporan_angsuran` (
 `nofaktur` varchar(30)
+,`pelanggan` varchar(30)
 ,`total` int(10)
-,`totalAngsuran` decimal(32,0)
-,`nama` varchar(30)
+,`masuk` decimal(32,0)
 ,`sisa` decimal(33,0)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in struktur untuk tampilan `laporan_pemesanan`
+-- (Lihat di bawah untuk tampilan aktual)
+--
+CREATE TABLE `laporan_pemesanan` (
+`kode_pemesanan` varchar(30)
+,`kasir` varchar(5)
+,`pemesan` varchar(30)
+,`tanggal` date
+,`total` int(10)
+,`bayar` int(10)
 );
 
 -- --------------------------------------------------------
@@ -315,7 +326,7 @@ CREATE TABLE `pelanggan` (
 --
 
 INSERT INTO `pelanggan` (`id_pelanggan`, `nama`, `nohp`, `alamat`, `email`, `password`) VALUES
-('3', 'khizam', '089765', 'asdfsdf', 'dsafsdf', 'sadfds');
+('3', 'khizam', '089682424905', 'asdfsdf', 'dsafsdf', '$2y$10$j2W5LQakmahlUK2X8.uG1.wY/Kv/uk8cln4PHXyekjDxdzfU1QzX2');
 
 -- --------------------------------------------------------
 
@@ -329,17 +340,21 @@ CREATE TABLE `pemesanan` (
   `id_pelanggan` varchar(5) NOT NULL,
   `tanggal` date NOT NULL,
   `total` int(10) NOT NULL,
-  `potongan` int(10) NOT NULL,
-  `bayar` int(10) NOT NULL,
-  `kategori` enum('cash','kredit') NOT NULL
+  `bayar` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `pemesanan`
 --
 
-INSERT INTO `pemesanan` (`kode_pemesanan`, `id_user`, `id_pelanggan`, `tanggal`, `total`, `potongan`, `bayar`, `kategori`) VALUES
-('0001/far/15/asdf/15062019/Q', 'far', '3', '2019-06-15', 180000, 0, 10, '');
+INSERT INTO `pemesanan` (`kode_pemesanan`, `id_user`, `id_pelanggan`, `tanggal`, `total`, `bayar`) VALUES
+('PS0001', 'far', '3', '2019-07-04', 180000, 90),
+('PS0002', 'far', '3', '2019-07-04', 90000, 90),
+('PS0003', 'far', '3', '2019-07-04', 90000, 90),
+('PS0004', 'far', '3', '2019-07-04', 90000, 100),
+('PS0005', 'far', '3', '2019-07-04', 90000, 100),
+('PS0006', 'far', '3', '2019-07-04', 900, 80),
+('PS0007', 'far', '3', '2019-07-04', 900, 89);
 
 -- --------------------------------------------------------
 
@@ -418,7 +433,16 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `laporan_angsuran`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporan_angsuran`  AS  select `t`.`nofaktur` AS `nofaktur`,`t`.`total` AS `total`,sum(`a`.`bayar`) AS `totalAngsuran`,`p`.`nama` AS `nama`,(`t`.`total` - sum(`a`.`bayar`)) AS `sisa` from ((`transaksi` `t` join `angsuran` `a`) join `pelanggan` `p`) where ((`t`.`nofaktur` = `a`.`nofaktur`) and (`t`.`id_pelanggan` = `p`.`id_pelanggan`)) group by `a`.`nofaktur` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporan_angsuran`  AS  select `transaksi`.`nofaktur` AS `nofaktur`,`pelanggan`.`nama` AS `pelanggan`,`transaksi`.`total` AS `total`,sum(`angsuran`.`bayar`) AS `masuk`,(sum(`angsuran`.`bayar`) - `transaksi`.`total`) AS `sisa` from (((`transaksi` join `angsuran`) join `login`) join `pelanggan`) where ((`angsuran`.`nofaktur` = `transaksi`.`nofaktur`) and (`pelanggan`.`id_pelanggan` = `transaksi`.`id_pelanggan`) and (`login`.`id_user` = `transaksi`.`id_user`)) group by `transaksi`.`nofaktur` order by `transaksi`.`nofaktur` desc ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur untuk view `laporan_pemesanan`
+--
+DROP TABLE IF EXISTS `laporan_pemesanan`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `laporan_pemesanan`  AS  select `pemesanan`.`kode_pemesanan` AS `kode_pemesanan`,`login`.`id_user` AS `kasir`,`pelanggan`.`nama` AS `pemesan`,`pemesanan`.`tanggal` AS `tanggal`,`pemesanan`.`total` AS `total`,`pemesanan`.`bayar` AS `bayar` from ((`pemesanan` join `login`) join `pelanggan`) where ((`pemesanan`.`id_user` = `login`.`id_user`) and (`pemesanan`.`id_pelanggan` = `pelanggan`.`id_pelanggan`)) order by `pemesanan`.`kode_pemesanan` desc ;
 
 -- --------------------------------------------------------
 
@@ -504,8 +528,8 @@ ALTER TABLE `barangmasuk`
 -- Indeks untuk tabel `detail_pemesanan`
 --
 ALTER TABLE `detail_pemesanan`
-  ADD UNIQUE KEY `id_barang` (`id_barang`),
-  ADD KEY `kode_pemesanan` (`kode_pemesanan`);
+  ADD KEY `kode_pemesanan` (`kode_pemesanan`),
+  ADD KEY `id_barang` (`id_barang`);
 
 --
 -- Indeks untuk tabel `detail_transaksi`
@@ -564,8 +588,8 @@ ALTER TABLE `barangmasuk`
 -- Ketidakleluasaan untuk tabel `detail_pemesanan`
 --
 ALTER TABLE `detail_pemesanan`
-  ADD CONSTRAINT `detail_pemesanan_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `detail_pemesanan_ibfk_3` FOREIGN KEY (`kode_pemesanan`) REFERENCES `pemesanan` (`kode_pemesanan`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `detail_pemesanan_ibfk_3` FOREIGN KEY (`kode_pemesanan`) REFERENCES `pemesanan` (`kode_pemesanan`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `detail_pemesanan_ibfk_4` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
 
 --
 -- Ketidakleluasaan untuk tabel `detail_transaksi`
