@@ -129,8 +129,6 @@ class M_pemesanan extends CI_Model
                'tanggal' => $tanggal,
                'total' => $total,
                'bayar' => $bayar,
-               'pesan' => $pesan,
-               'via' => $via,
           );
           $result = $this->db->insert($this->_tT, $pemesanan);
      }

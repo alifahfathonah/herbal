@@ -49,12 +49,12 @@
                 <thead>
                 <tr>
                   <th>Kode Pemesanan</th>
+                  <th>tanggal</th>
                   <th>Kasir</th>
                   <th>Pelanggan</th>
-                  <th>tanggal</th>
                   <th>total</th>
                   <th>bayar</th>
-                  <th>pesan</th>
+                  <th>Pilihan</th>
                 </tr>
                 </thead>
                 <tbody id="showData">
@@ -95,16 +95,23 @@
           for(i=0; i<data.length; i++){
             html += '<tr>'+
                       '<td>'+data[i].kode_pemesanan+'</td>'+
-                      '<td>'+data[i].id_user+'</td>'+
-                      '<td>'+data[i].id_pelanggan+'</td>'+
                       '<td>'+data[i].tanggal+'</td>'+
+                      '<td>'+data[i].kasir+'</td>'+
+                      '<td>'+data[i].pemesan+'</td>'+
                       '<td>'+data[i].total+'</td>'+
                       '<td>'+data[i].bayar+'</td>'+
-                      '<td>'+data[i].pesan+'</td>'+
+                      '<td style="text-align:right;">'+
+                        
+                        '<a href="javascript:void(0);" class="btn btn-info btn-sm item_belanja" data-nofaktur="'+data[i].kode_pemesanan+'">Detail</a>'+
+                        '<a href="javascript:void(0);" class="btn btn-info btn-sm item_riwayat" data-nofaktur="'+data[i].kode_pemesanan+'">Ambil</a>'+
+                      '</td>'+
                     '</tr>';
                 }
           $('#showData').html(html);
-          $('#example1').dataTable()
+          $('#example1').dataTable({
+            'searching'   : true,
+            'ordering'    : false,
+          })
         }
       });
     }

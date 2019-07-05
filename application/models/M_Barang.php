@@ -31,7 +31,7 @@ class M_Barang extends CI_Model {
    //create
     public function save(){
         $config['upload_path']          = realpath(APPPATH. '../upload/');
-    $config['allowed_types']        = 'gif|jpg|png';
+    $config['allowed_types']        = 'gif|jpg|png|jpeg';
     $config['overwrite']            = true;
     $config['max_size']             = 1024; // 1MB
     // $config['max_width']            = 1024;

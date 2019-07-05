@@ -205,9 +205,9 @@
           for(i=0; i<data.length; i++){
             html += '<tr>'+
                       '<td>'+data[i].nofaktur+'</td>'+
-                      '<td>'+data[i].nama+'</td>'+
+                      '<td>'+data[i].pelanggan+'</td>'+
                       '<td>'+data[i].total+'</td>'+
-                      '<td>'+data[i].totalAngsuran+'</td>'+
+                      '<td>'+data[i].masuk+'</td>'+
                       '<td>'+data[i].sisa+'</td>'+
                       '<td style="text-align:right;">'+
                         '<a href="javascript:void(0);" class="btn btn-info btn-sm item_angsur" data-nofaktur="'+data[i].nofaktur+'" data-total="'+data[i].total+'" data-totalAngsuran="'+data[i].totalAngsuran+'" data-sisa="'+data[i].sisa+'">Angsur</a>'+
@@ -217,7 +217,10 @@
                     '</tr>';
                 }
           $('#showData').html(html);
-          $('#example1').dataTable()
+          $('#example1').dataTable({
+            'searching'   : true,
+            'ordering'    : false,
+          })
         }
       });
     }
