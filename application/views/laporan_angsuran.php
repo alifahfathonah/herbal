@@ -40,7 +40,7 @@
                   <div class="modal-body">
                     <input type="text" name="nofakturdetail" id="nofakturdetail" class="form-control">
                     <input type="text" name="tahu" id="tahu" class="form-control">
-                    <table id="example1" class="table  table-striped" >
+                    <table id="" class="table  table-striped" >
                       <thead>
                         <tr>
                           <th>Nama Barang</th>
@@ -151,43 +151,7 @@
 <?php $this->load->view('_partials/script');?>
 <script type="text/javascript">
   $(document).ready(function(e){
-    $(".formtambah").fadeOut();
-    $(".formedit").fadeOut();
     
-    $("#MsgNama").hide();
-    $(".click-hide").click(function(e){
-      e.preventDefault()
-      $(".formtambah").fadeOut(1000);
-      
-      kosong();
-    })
-    $(".click-Hide").click(function(e){
-      e.preventDefault()
-      $(".formedit").fadeOut(1000);
-      
-      kosong();
-    })
-     $(".click-Hide").click(function(e){
-      e.preventDefault()
-      $(".formedit").fadeOut(1000);
-      
-      kosong();
-    })
-      $(".click-Hide").click(function(e){
-      e.preventDefault()
-      $(".formedit").fadeOut(1000);
-      
-      kosong();
-    })
-
-    $(".click-Hide").click(function(e){
-      e.preventDefault()
-      $(".formedit").fadeOut(1000);
-      
-      kosong();
-    })
-
-    //crud
 
     showRecord(); //munculkan data
     
@@ -209,7 +173,7 @@
                       '<td>'+data[i].total+'</td>'+
                       '<td>'+data[i].masuk+'</td>'+
                       '<td>'+data[i].sisa+'</td>'+
-                      '<td style="text-align:right;">'+
+                      '<td style="text-align:left;">'+
                         '<a href="javascript:void(0);" class="btn btn-info btn-sm item_angsur" data-nofaktur="'+data[i].nofaktur+'" data-total="'+data[i].total+'" data-totalAngsuran="'+data[i].totalAngsuran+'" data-sisa="'+data[i].sisa+'">Angsur</a>'+
                         '<a href="javascript:void(0);" class="btn btn-info btn-sm item_belanja" data-nofaktur="'+data[i].nofaktur+'">Detail</a>'+
                         '<a href="javascript:void(0);" class="btn btn-info btn-sm item_riwayat" data-nofaktur="'+data[i].nofaktur+'">Riwayat</a>'+
@@ -224,16 +188,6 @@
         }
       });
     }
-    //function kosongan
-    function kosong(){
-      document.getElementById('nofaktur').value="";
-      document.getElementById('nama').value="";
-      document.getElementById('namabarang').value="";
-      document.getElementById('total').value="";
-      document.getElementById('bayar').value="";
-    }
-    
-
 
     //simpan
     $('#click-simpan').on('click',function(e){
@@ -259,40 +213,6 @@
       return false;
       
     });
-    ///
-
-    $('#showData').on('click','.item_belanja',function(){
-      var nofaktur = $(this).data('nofaktur');
-        
-      $('#Modal_DetailBelanja').modal('show');
-        $.ajax({
-          type : "POST",
-          url  : "<?php echo base_url('Laporan_angsuran/getDetail')?>",
-          dataType : "JSON",
-          data : {nofaktur: nofaktur},
-          cache:false,
-          success: function(data){
-          var html = '';
-          var i; 
-          
-          for(i=0; i<data.length; i++){
-            html += '<tr>'+
-                      '<td>'+data.id_barang+'</td>'+
-                      '<td>'+data.jumlah+'</td>'+
-                    '</tr>';
-                }
-          $('#tahu').html(html);
-          $('#example1').dataTable()
-              
-              
-          }
-      });
-      return false;
-      
-    });
-
-
-    //edit
 
     //ambil datanya dulu
     $('#showData').on('click','.item_angsur', function(){
@@ -311,30 +231,6 @@
       
     });
 
-     //update record to database
-    $('#btn_update').on('click',function(){
-      var nofaktur = $('#nofaktur_edit').val();
-      var nama = $('#nama_edit').val();
-      var namabarang = $('#namabarang_edit').val();
-      var total = $('#total_edit').val();
-      var bayar = $('#bayar_edit').val();
-      $.ajax({
-          type : "POST",
-          url  : "<?php echo site_url('Laporan_Angsuran/edit')?>",
-          dataType : "JSON",
-          data : {nofaktur:nofaktur, nama:nama, namabarang:namabarang, total:total},
-          success: function(data){
-              $('[name="nofaktur_edit"]').val("");
-              $('[name="nama_edit"]').val("");
-              $('[name="namabarang_edit"]').val("");
-              $('[name="total_edit"]').val("");
-              $('[name="bayar_edit"]').val("");
-              $('#Modal_Edit').modal('hide');
-              showRecord();
-          }
-      });
-      return false;
-    });
     
   }); //akhir
 </script>

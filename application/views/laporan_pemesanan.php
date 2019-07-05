@@ -100,7 +100,7 @@
                       '<td>'+data[i].pemesan+'</td>'+
                       '<td>'+data[i].total+'</td>'+
                       '<td>'+data[i].bayar+'</td>'+
-                      '<td style="text-align:right;">'+
+                      '<td style="text-align:left;">'+
                         
                         '<a href="javascript:void(0);" class="btn btn-info btn-sm item_belanja" data-nofaktur="'+data[i].kode_pemesanan+'">Detail</a>'+
                         '<a href="javascript:void(0);" class="btn btn-info btn-sm item_riwayat" data-nofaktur="'+data[i].kode_pemesanan+'">Ambil</a>'+
