@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 05 Jul 2019 pada 16.06
--- Versi server: 10.1.38-MariaDB
--- Versi PHP: 7.3.2
+-- Generation Time: Jul 05, 2019 at 05:01 PM
+-- Server version: 10.1.38-MariaDB
+-- PHP Version: 7.3.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `angsuran`
+-- Table structure for table `angsuran`
 --
 
 CREATE TABLE `angsuran` (
@@ -36,10 +36,13 @@ CREATE TABLE `angsuran` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `angsuran`
+-- Dumping data for table `angsuran`
 --
 
 INSERT INTO `angsuran` (`nofaktur`, `id_user`, `tanggal`, `bayar`) VALUES
+('0001/far/28/asdf/28062019/BN', 'far', '2019-06-28', 100),
+('0003/far/28/asdf/28062019/BN', 'far', '2019-06-28', 1000),
+('0001/far/28/asdf/28062019/BN', 'far', '2019-06-28', 100),
 ('0001/far/28/asdf/28062019/BN', 'far', '2019-06-28', 100),
 ('0003/far/28/asdf/28062019/BN', 'far', '2019-06-28', 1000),
 ('0001/far/28/asdf/28062019/BN', 'far', '2019-06-28', 100);
@@ -47,7 +50,7 @@ INSERT INTO `angsuran` (`nofaktur`, `id_user`, `tanggal`, `bayar`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `barang`
+-- Table structure for table `barang`
 --
 
 CREATE TABLE `barang` (
@@ -62,19 +65,19 @@ CREATE TABLE `barang` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `barang`
+-- Dumping data for table `barang`
 --
 
 INSERT INTO `barang` (`id_barang`, `namabarang`, `harga`, `satuan`, `stok`, `kategori`, `gambar`, `deskripsi`) VALUES
 ('99', 'apel', 90, 'ecer', 89, 'Tablet', 'WhatsApp_Image_2019-05-19_at_15_39_25.jpeg', 'jh'),
-('io', 'busi', 900, 'grosir', 86, 'Kapsul', 'WhatsApp_Image_2019-05-19_at_15_39_26.jpeg', 'busi'),
-('l', 'asd', 9102, 'ecer', 0, 'Tablet', 'default.jpg', 'sdaf'),
-('sad', 'jeruk', 90000, 'grosir', 3, 'Kapsul', 'jeruk.jpg', 'asdf');
+('io', 'busi', 900, 'grosir', 84, 'Kapsul', 'WhatsApp_Image_2019-05-19_at_15_39_26.jpeg', 'busi'),
+('l', 'asd', 9102, 'ecer', 20, 'Tablet', 'default.jpg', 'sdaf'),
+('sad', 'jeruk', 90000, 'grosir', -3, 'Kapsul', 'jeruk.jpg', 'asdf');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `barangmasuk`
+-- Table structure for table `barangmasuk`
 --
 
 CREATE TABLE `barangmasuk` (
@@ -86,21 +89,18 @@ CREATE TABLE `barangmasuk` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Trigger `barangmasuk`
+-- Dumping data for table `barangmasuk`
 --
-DELIMITER $$
-CREATE TRIGGER `StokPlusOnBrgMskIns` AFTER INSERT ON `barangmasuk` FOR EACH ROW BEGIN
-	UPDATE barang SET stok=stok+NEW.jumlah
-    WHERE id_barang=NEW.id_barang ;
-END
-$$
-DELIMITER ;
+
+INSERT INTO `barangmasuk` (`id_barangmasuk`, `id_barang`, `id_user`, `tanggal`, `jumlah`) VALUES
+('B001', '', 'far', '2019-07-05', 0),
+('B002', '', 'far', '2019-07-05', 0);
 
 -- --------------------------------------------------------
 
 --
--- Stand-in struktur untuk tampilan `detail_barang`
--- (Lihat di bawah untuk tampilan aktual)
+-- Stand-in structure for view `detail_barang`
+-- (See below for the actual view)
 --
 CREATE TABLE `detail_barang` (
 `namabarang` text
@@ -110,7 +110,55 @@ CREATE TABLE `detail_barang` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `detail_pemesanan`
+-- Table structure for table `detail_barangmasuk`
+--
+
+CREATE TABLE `detail_barangmasuk` (
+  `id_barangmasuk` varchar(10) NOT NULL,
+  `id_barang` varchar(10) NOT NULL,
+  `jumlah` int(3) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `detail_barangmasuk`
+--
+
+INSERT INTO `detail_barangmasuk` (`id_barangmasuk`, `id_barang`, `jumlah`) VALUES
+('Q001', '21321', 22),
+('Q001', 'l', 2),
+('Q001', '21321', 22),
+('Q001', 'l', 1000),
+('Q01', '21321', 3),
+('0001/far/1', '21321', 2),
+('Q0012', '21321', 37),
+('0001', '20134', 22),
+('Q00123', '121', 22),
+('Q00111', '121', 16),
+('Q001', '121', 12),
+('Q001', '20134', 4),
+('Q002', '20134', 1),
+('Q015', '211', 3),
+('Q016', '20134', 11),
+('Q017', '121', 1),
+('Q018', '20134', 14),
+('B001', 'io', 20),
+('B002', 'l', 20);
+
+--
+-- Triggers `detail_barangmasuk`
+--
+DELIMITER $$
+CREATE TRIGGER `StokPlusOnBrgMskIns` AFTER INSERT ON `detail_barangmasuk` FOR EACH ROW BEGIN
+	UPDATE barang SET stok=stok+NEW.jumlah 
+	WHERE id_barang=NEW.id_barang ;
+END
+$$
+DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `detail_pemesanan`
 --
 
 CREATE TABLE `detail_pemesanan` (
@@ -120,7 +168,7 @@ CREATE TABLE `detail_pemesanan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `detail_pemesanan`
+-- Dumping data for table `detail_pemesanan`
 --
 
 INSERT INTO `detail_pemesanan` (`kode_pemesanan`, `id_barang`, `jumlah`) VALUES
@@ -130,10 +178,17 @@ INSERT INTO `detail_pemesanan` (`kode_pemesanan`, `id_barang`, `jumlah`) VALUES
 ('PS0004', 'sad', 1),
 ('PS0005', 'sad', 1),
 ('PS0006', 'io', 1),
+('PS0007', 'io', 1),
+('PS0001', 'sad', 2),
+('PS0002', 'sad', 1),
+('PS0003', 'sad', 1),
+('PS0004', 'sad', 1),
+('PS0005', 'sad', 1),
+('PS0006', 'io', 1),
 ('PS0007', 'io', 1);
 
 --
--- Trigger `detail_pemesanan`
+-- Triggers `detail_pemesanan`
 --
 DELIMITER $$
 CREATE TRIGGER `DetPsnAfterIsrt` AFTER INSERT ON `detail_pemesanan` FOR EACH ROW BEGIN
@@ -146,7 +201,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `detail_transaksi`
+-- Table structure for table `detail_transaksi`
 --
 
 CREATE TABLE `detail_transaksi` (
@@ -156,7 +211,7 @@ CREATE TABLE `detail_transaksi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Trigger `detail_transaksi`
+-- Triggers `detail_transaksi`
 --
 DELIMITER $$
 CREATE TRIGGER `MinStokOnDTInsert` AFTER INSERT ON `detail_transaksi` FOR EACH ROW BEGIN
@@ -169,8 +224,8 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Stand-in struktur untuk tampilan `hmmm`
--- (Lihat di bawah untuk tampilan aktual)
+-- Stand-in structure for view `hmmm`
+-- (See below for the actual view)
 --
 CREATE TABLE `hmmm` (
 `tangal` varchar(10)
@@ -184,8 +239,8 @@ CREATE TABLE `hmmm` (
 -- --------------------------------------------------------
 
 --
--- Stand-in struktur untuk tampilan `laporan_angsuran`
--- (Lihat di bawah untuk tampilan aktual)
+-- Stand-in structure for view `laporan_angsuran`
+-- (See below for the actual view)
 --
 CREATE TABLE `laporan_angsuran` (
 `nofaktur` varchar(30)
@@ -198,8 +253,8 @@ CREATE TABLE `laporan_angsuran` (
 -- --------------------------------------------------------
 
 --
--- Stand-in struktur untuk tampilan `laporan_pemesanan`
--- (Lihat di bawah untuk tampilan aktual)
+-- Stand-in structure for view `laporan_pemesanan`
+-- (See below for the actual view)
 --
 CREATE TABLE `laporan_pemesanan` (
 `kode_pemesanan` varchar(30)
@@ -213,8 +268,8 @@ CREATE TABLE `laporan_pemesanan` (
 -- --------------------------------------------------------
 
 --
--- Stand-in struktur untuk tampilan `laporan_transaksi`
--- (Lihat di bawah untuk tampilan aktual)
+-- Stand-in structure for view `laporan_transaksi`
+-- (See below for the actual view)
 --
 CREATE TABLE `laporan_transaksi` (
 `tangal` varchar(10)
@@ -228,8 +283,8 @@ CREATE TABLE `laporan_transaksi` (
 -- --------------------------------------------------------
 
 --
--- Stand-in struktur untuk tampilan `laporan_transaksibulanan`
--- (Lihat di bawah untuk tampilan aktual)
+-- Stand-in structure for view `laporan_transaksibulanan`
+-- (See below for the actual view)
 --
 CREATE TABLE `laporan_transaksibulanan` (
 `tangal` varchar(10)
@@ -243,8 +298,8 @@ CREATE TABLE `laporan_transaksibulanan` (
 -- --------------------------------------------------------
 
 --
--- Stand-in struktur untuk tampilan `laporan_transaksiharian`
--- (Lihat di bawah untuk tampilan aktual)
+-- Stand-in structure for view `laporan_transaksiharian`
+-- (See below for the actual view)
 --
 CREATE TABLE `laporan_transaksiharian` (
 `tangal` varchar(10)
@@ -258,8 +313,8 @@ CREATE TABLE `laporan_transaksiharian` (
 -- --------------------------------------------------------
 
 --
--- Stand-in struktur untuk tampilan `laporan_transaksimingguan`
--- (Lihat di bawah untuk tampilan aktual)
+-- Stand-in structure for view `laporan_transaksimingguan`
+-- (See below for the actual view)
 --
 CREATE TABLE `laporan_transaksimingguan` (
 `tangal` varchar(10)
@@ -273,8 +328,8 @@ CREATE TABLE `laporan_transaksimingguan` (
 -- --------------------------------------------------------
 
 --
--- Stand-in struktur untuk tampilan `laporan_transaksitahunan`
--- (Lihat di bawah untuk tampilan aktual)
+-- Stand-in structure for view `laporan_transaksitahunan`
+-- (See below for the actual view)
 --
 CREATE TABLE `laporan_transaksitahunan` (
 `tangal` varchar(10)
@@ -288,7 +343,7 @@ CREATE TABLE `laporan_transaksitahunan` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `login`
+-- Table structure for table `login`
 --
 
 CREATE TABLE `login` (
@@ -299,7 +354,7 @@ CREATE TABLE `login` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `login`
+-- Dumping data for table `login`
 --
 
 INSERT INTO `login` (`id_user`, `username`, `password`, `level`) VALUES
@@ -309,7 +364,7 @@ INSERT INTO `login` (`id_user`, `username`, `password`, `level`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pelanggan`
+-- Table structure for table `pelanggan`
 --
 
 CREATE TABLE `pelanggan` (
@@ -322,7 +377,7 @@ CREATE TABLE `pelanggan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `pelanggan`
+-- Dumping data for table `pelanggan`
 --
 
 INSERT INTO `pelanggan` (`id_pelanggan`, `nama`, `nohp`, `alamat`, `email`, `password`) VALUES
@@ -331,7 +386,7 @@ INSERT INTO `pelanggan` (`id_pelanggan`, `nama`, `nohp`, `alamat`, `email`, `pas
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pemesanan`
+-- Table structure for table `pemesanan`
 --
 
 CREATE TABLE `pemesanan` (
@@ -344,7 +399,7 @@ CREATE TABLE `pemesanan` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `pemesanan`
+-- Dumping data for table `pemesanan`
 --
 
 INSERT INTO `pemesanan` (`kode_pemesanan`, `id_user`, `id_pelanggan`, `tanggal`, `total`, `bayar`) VALUES
@@ -359,8 +414,8 @@ INSERT INTO `pemesanan` (`kode_pemesanan`, `id_user`, `id_pelanggan`, `tanggal`,
 -- --------------------------------------------------------
 
 --
--- Stand-in struktur untuk tampilan `riwayat`
--- (Lihat di bawah untuk tampilan aktual)
+-- Stand-in structure for view `riwayat`
+-- (See below for the actual view)
 --
 CREATE TABLE `riwayat` (
 `nama` varchar(30)
@@ -370,7 +425,7 @@ CREATE TABLE `riwayat` (
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `transaksi`
+-- Table structure for table `transaksi`
 --
 
 CREATE TABLE `transaksi` (
@@ -385,7 +440,7 @@ CREATE TABLE `transaksi` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `transaksi`
+-- Dumping data for table `transaksi`
 --
 
 INSERT INTO `transaksi` (`nofaktur`, `id_user`, `id_pelanggan`, `tanggal`, `total`, `potongan`, `bayar`, `kategori`) VALUES
@@ -396,7 +451,7 @@ INSERT INTO `transaksi` (`nofaktur`, `id_user`, `id_pelanggan`, `tanggal`, `tota
 ('0003/far/28/asdf/28062019/BN', 'far', '3', '2018-06-28', 99102, 0, 1000, 'kredit');
 
 --
--- Trigger `transaksi`
+-- Triggers `transaksi`
 --
 DELIMITER $$
 CREATE TRIGGER `riwayatAngsr` AFTER INSERT ON `transaksi` FOR EACH ROW BEGIN 
@@ -411,7 +466,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Struktur untuk view `detail_barang`
+-- Structure for view `detail_barang`
 --
 DROP TABLE IF EXISTS `detail_barang`;
 
@@ -420,7 +475,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
--- Struktur untuk view `hmmm`
+-- Structure for view `hmmm`
 --
 DROP TABLE IF EXISTS `hmmm`;
 
@@ -429,7 +484,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
--- Struktur untuk view `laporan_angsuran`
+-- Structure for view `laporan_angsuran`
 --
 DROP TABLE IF EXISTS `laporan_angsuran`;
 
@@ -438,7 +493,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
--- Struktur untuk view `laporan_pemesanan`
+-- Structure for view `laporan_pemesanan`
 --
 DROP TABLE IF EXISTS `laporan_pemesanan`;
 
@@ -447,7 +502,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
--- Struktur untuk view `laporan_transaksi`
+-- Structure for view `laporan_transaksi`
 --
 DROP TABLE IF EXISTS `laporan_transaksi`;
 
@@ -456,7 +511,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
--- Struktur untuk view `laporan_transaksibulanan`
+-- Structure for view `laporan_transaksibulanan`
 --
 DROP TABLE IF EXISTS `laporan_transaksibulanan`;
 
@@ -465,7 +520,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
--- Struktur untuk view `laporan_transaksiharian`
+-- Structure for view `laporan_transaksiharian`
 --
 DROP TABLE IF EXISTS `laporan_transaksiharian`;
 
@@ -474,7 +529,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
--- Struktur untuk view `laporan_transaksimingguan`
+-- Structure for view `laporan_transaksimingguan`
 --
 DROP TABLE IF EXISTS `laporan_transaksimingguan`;
 
@@ -483,7 +538,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
--- Struktur untuk view `laporan_transaksitahunan`
+-- Structure for view `laporan_transaksitahunan`
 --
 DROP TABLE IF EXISTS `laporan_transaksitahunan`;
 
@@ -492,7 +547,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- --------------------------------------------------------
 
 --
--- Struktur untuk view `riwayat`
+-- Structure for view `riwayat`
 --
 DROP TABLE IF EXISTS `riwayat`;
 
@@ -503,55 +558,53 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 
 --
--- Indeks untuk tabel `angsuran`
+-- Indexes for table `angsuran`
 --
 ALTER TABLE `angsuran`
   ADD KEY `nofaktur` (`nofaktur`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `barang`
+-- Indexes for table `barang`
 --
 ALTER TABLE `barang`
   ADD PRIMARY KEY (`id_barang`);
 
 --
--- Indeks untuk tabel `barangmasuk`
+-- Indexes for table `barangmasuk`
 --
 ALTER TABLE `barangmasuk`
   ADD PRIMARY KEY (`id_barangmasuk`),
-  ADD UNIQUE KEY `id_barang` (`id_barang`),
-  ADD KEY `id_barang_2` (`id_barang`),
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `detail_pemesanan`
+-- Indexes for table `detail_pemesanan`
 --
 ALTER TABLE `detail_pemesanan`
   ADD KEY `kode_pemesanan` (`kode_pemesanan`),
   ADD KEY `id_barang` (`id_barang`);
 
 --
--- Indeks untuk tabel `detail_transaksi`
+-- Indexes for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
   ADD KEY `nofaktur` (`nofaktur`),
   ADD KEY `id_barang` (`id_barang`);
 
 --
--- Indeks untuk tabel `login`
+-- Indexes for table `login`
 --
 ALTER TABLE `login`
   ADD PRIMARY KEY (`id_user`);
 
 --
--- Indeks untuk tabel `pelanggan`
+-- Indexes for table `pelanggan`
 --
 ALTER TABLE `pelanggan`
   ADD PRIMARY KEY (`id_pelanggan`);
 
 --
--- Indeks untuk tabel `pemesanan`
+-- Indexes for table `pemesanan`
 --
 ALTER TABLE `pemesanan`
   ADD PRIMARY KEY (`kode_pemesanan`),
@@ -559,7 +612,7 @@ ALTER TABLE `pemesanan`
   ADD KEY `id_user` (`id_user`);
 
 --
--- Indeks untuk tabel `transaksi`
+-- Indexes for table `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD PRIMARY KEY (`nofaktur`),
@@ -567,46 +620,46 @@ ALTER TABLE `transaksi`
   ADD KEY `id_pelanggan` (`id_pelanggan`);
 
 --
--- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+-- Constraints for dumped tables
 --
 
 --
--- Ketidakleluasaan untuk tabel `angsuran`
+-- Constraints for table `angsuran`
 --
 ALTER TABLE `angsuran`
   ADD CONSTRAINT `angsuran_ibfk_1` FOREIGN KEY (`nofaktur`) REFERENCES `transaksi` (`nofaktur`) ON UPDATE CASCADE,
   ADD CONSTRAINT `angsuran_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `barangmasuk`
+-- Constraints for table `barangmasuk`
 --
 ALTER TABLE `barangmasuk`
   ADD CONSTRAINT `barangmasuk_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
   ADD CONSTRAINT `barangmasuk_ibfk_2` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `detail_pemesanan`
+-- Constraints for table `detail_pemesanan`
 --
 ALTER TABLE `detail_pemesanan`
   ADD CONSTRAINT `detail_pemesanan_ibfk_3` FOREIGN KEY (`kode_pemesanan`) REFERENCES `pemesanan` (`kode_pemesanan`) ON UPDATE CASCADE,
   ADD CONSTRAINT `detail_pemesanan_ibfk_4` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `detail_transaksi`
+-- Constraints for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
   ADD CONSTRAINT `detail_transaksi_ibfk_1` FOREIGN KEY (`id_barang`) REFERENCES `barang` (`id_barang`) ON UPDATE CASCADE,
   ADD CONSTRAINT `detail_transaksi_ibfk_2` FOREIGN KEY (`nofaktur`) REFERENCES `transaksi` (`nofaktur`) ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `pemesanan`
+-- Constraints for table `pemesanan`
 --
 ALTER TABLE `pemesanan`
   ADD CONSTRAINT `pemesanan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
   ADD CONSTRAINT `pemesanan_ibfk_2` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id_pelanggan`) ON UPDATE CASCADE;
 
 --
--- Ketidakleluasaan untuk tabel `transaksi`
+-- Constraints for table `transaksi`
 --
 ALTER TABLE `transaksi`
   ADD CONSTRAINT `transaksi_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `login` (`id_user`) ON UPDATE CASCADE,
