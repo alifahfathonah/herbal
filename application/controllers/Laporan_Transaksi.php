@@ -13,39 +13,46 @@ class Laporan_Transaksi extends CI_Controller {
 		}
 	}
 	public function index(){
-
 		$this->load->view("laporan_transaksi/laporan.php");
 	}
+
+	public function hariQ(){
+		$this->load->view("laporan_transaksi/cetak/cetak_penjualan_hariini.php");
+	}
+
 	public function getAll(){
 		$data=$this->M_Laporan_Transaksi->ambil_data();
 		echo json_encode($data);
 	}
 	public function getharian(){
-		$data=$this->M_Laporan_Transaksi->ambil_dataharian();
-		echo json_encode($data);
+		$data["laporan"] = $this->M_Laporan_Transaksi->getAll();
+		$this->load->view('laporan_transaksi/cetak/cetak_penjualan_hariini', $data);
 	}
 	public function getmingguan(){
-		$data=$this->M_Laporan_Transaksi->ambil_datamingguan();
-		echo json_encode($data);
+		$data["laporan"] = $this->M_Laporan_Transaksi->getAll();
+		$this->load->view('laporan_transaksi/cetak/cetak_penjualan_mingguini', $data);
 	}
 	public function getbulanan(){
 		$data=$this->M_Laporan_Transaksi->ambil_databulanan();
 		echo json_encode($data);
 	}
+	
 	public function gettahunan(){
 		$data=$this->M_Laporan_Transaksi->ambil_datatahunan();
 		echo json_encode($data);
 	}
 
 	public function cetak(){
-		$data['laporan_angsuran'] = $this->M_Laporan_Transaksi->view_row();
-		$this->load->view('print',$data);
-		$html = ob_get_contents();
-		 	ob_end_clean();
+		$data["laporan_transaksi"] = $this->M_Laporan_Transaksi->ambil_data();
 
-		 	require_once('./assets/html2pdf/html2pdf.class.php');
-		 $pdf = new HTML2PDF('P','A4','en');    
-		 $pdf->WriteHTML($html);   
-		 $pdf->Output('Laporan Transaksi.pdf', 'D');
+		ob_start();    
+	    $this->load->view('laporan_transaksi/cetak/cetak_penjualan_hariini', $data);    
+	    $html = ob_get_contents();        
+
+	    ob_end_clean();                
+	    require_once('./assets/html2pdf/html2pdf.class.php');    
+	    $pdf = new HTML2PDF('P','A4','en');
+	    $pdf->WriteHTML($html);    
+	    $pdf->Output('Data Transaksi.pdf', 'D'); 
 	}
 }

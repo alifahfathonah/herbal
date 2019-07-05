@@ -44,7 +44,7 @@
                         
                     </select>
                 </div>
-                <button class="btn btn-success" name="cetak_barang"><li class="fa fa-print"></li>Cetak</button>  
+                <a href="<?php echo site_url('laporan_transaksi/cetak')?>" class="btn btn-success" name="cetakTransaksi" id="cetakTransaksi"><li class="fa fa-print"></li>Cetak</a>  
               </div>
             </div>
             <div class="box-body">
@@ -86,6 +86,15 @@
    
     //function showdata
     showRecordharian()
+    //
+    $('#cetakTransaksi').on('click',function(e){
+      $.ajax({
+        type: 'ajax',
+        url: '<?php echo site_url('Laporan_Transaksi/hariQ')?>',
+        async: true,
+        dataType: 'JSON',
+      });
+    });
     //getStokBarang
     $("#filter").change(function(){
         var filter = $(this).val();
