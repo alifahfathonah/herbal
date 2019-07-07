@@ -51,24 +51,10 @@ class M_User extends CI_Model
     {
         $post = $this->input->post();
         $encrypt = $post["password"];
-        $this->id_user = $post["id_user"];
-        $this->username = $post["username"];
-        $this->password = password_hash($encrypt, PASSWORD_BCRYPT);
-        $this->level = $post["level"];
+        $this->kode_pemesanan = $post["kode_pemesanan"];
+        $this->bayar = $post["bayar"];
 
-        $this->db->update($this->_table, $this, array('id_user' => $post['id_user']));
-
-        // $id_user=$this->input->post('id_user');
-        // $username=$this->input->post('username');
-        // $password=$this->input->post('password');
-        // $level=$this->input->post('level');
-
-        // $this->db->set('username', $username);
-        // $this->db->set('password', $password);
-        // $this->db->set('level', $level);
-        // $this->db->where('id_user', $id_user);
-        // $result=$this->db->update('login');
-        // return $result;
+        $this->db->update($this->_table, $this, array('kode_pemesanan' => $post['kode_pemesanan2']));
     }
     //Delete
     public function delete()

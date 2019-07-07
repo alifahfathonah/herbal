@@ -20,4 +20,9 @@ class Laporan_Pemesanan extends CI_Controller {
 		$data=$this->M_Laporan_Pemesanan->ambil_data();
 		echo json_encode($data);
 	}
+	public function edit(){
+		$data=$this->M_Laporan_Pemesanan->update2();
+		$data=$this->M_Laporan_Pemesanan->update();
+		echo json_encode($data);
+	}
 }

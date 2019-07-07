@@ -386,56 +386,16 @@
                 var id_user = $('#id_user').val();
                 var id_pelanggan = $('#id_pelanggan').val();
                 var tanggal = $('#tanggal').val();
-
                 var total = $('#total').val();
                 var potongan = $('#potongan').val();
                 var bayar = $('#bayar').val();
                 var kategori = $('#kategori').val();
 
-                if (kategori == "kredit") {
-                    if (id_pelanggan == "") {
-                        document.getElementById("msgP").innerHTML = "*Pelanggannya..";
-                    } else {
-
-                        $.ajax({
-                            type: "POST",
-                            url: '<?php echo site_url('Pemesanan/addCre'); ?>',
-                            dataType: "JSON",
-                            data: {
-                                kode_pemesanan: kode_pemesanan,
-                                id_user: id_user,
-                                id_pelanggan: id_pelanggan,
-                                tanggal: tanggal,
-                                bayar: bayar,
-                                total: total,
-                            },
-                            success: function(data) {
-                                setCode();
-                                date();
-                                document.getElementById('id_pelanggan').value = "";
-                                $('[name="alamat"]').val("");
-                                $('[name="kategori"]').val("");
-                                $('[name="bayar"]').val("");
-                                $("#id_pelanggan").prop("selected", false);
-                                $("#namaBarang").prop("selected", false);
-                                $("#kondisi").prop("checked", false);
-                                $('[name="total"]').val("");
-                                $('[name="potongan"]').val("");
-                                $('[name="kembalian"]').val("");
-                                $('#detailCart').load("<?php echo base_url(); ?>Pemesanan/hapusSemua");
-                            },
-                            error: function(data) {
-                                console.log(data);
-                            }
-                        });
-                    }
-                } else {
                     if (id_pelanggan == "") {
                         document.getElementById("msgP").innerHTML = "*Pelanggannya..";
                    } else if (bayar == "") {
                         document.getElementById("msgB").innerHTML = "*Bayarnya...";
                     } else {
-
                         $.ajax({
                             type: "POST",
                             url: '<?php echo site_url('Pemesanan/add'); ?>',
@@ -447,7 +407,7 @@
                                 tanggal: tanggal,
                                 bayar: bayar,
                                 total: total,
-                                pesan: pesan
+                                
                             },
                             success: function(data) {
                                 setCode();
@@ -468,7 +428,7 @@
                             }
                         });
                     }
-                }
+                
 
             });
             
