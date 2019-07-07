@@ -17,7 +17,7 @@ class Transaksi extends CI_Controller {
 	{
 		$data["pelanggan"] = $this->M_Transaksi->ambil_data();
 		$data["barang"] = $this->M_Transaksi->ambilBarang();
-    $this->load->view("transaksi", $data);
+    	$this->load->view("transaksi", $data);
 	}
 	public function setCode(){
 		$data = $this->M_Transaksi->kode();

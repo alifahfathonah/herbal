@@ -44,7 +44,11 @@
                         
                     </select>
                 </div>
-                <a href="<?php echo site_url('laporan_transaksi/cetak')?>" class="btn btn-success" name="cetakTransaksi" id="cetakTransaksi"><li class="fa fa-print"></li>Cetak</a>  
+                <a href="<?php echo site_url('laporan_transaksi/cetakHarian')?>" class="btn btn-success" name="harian" id="harian"><li class="fa fa-print"></li>Cetak</a>  
+                <a href="<?php echo site_url('laporan_transaksi/cetakMingguan')?>" class="btn btn-success" name="mingguan" id="mingguan"><li class="fa fa-print"></li>Cetak</a>  
+                <a href="<?php echo site_url('laporan_transaksi/cetakBulanan')?>" class="btn btn-success" name="bulanan" id="bulanan"><li class="fa fa-print"></li>Cetak</a>
+                <a href="<?php echo site_url('laporan_transaksi/cetakTahunan')?>" class="btn btn-success" name="tahunan" id="tahunan"><li class="fa fa-print"></li>Cetak</a>
+                <a href="<?php echo site_url('laporan_transaksi/cetakAll')?>" class="btn btn-success" name="semua" id="semua"><li class="fa fa-print"></li>Cetak</a>
               </div>
             </div>
             <div class="box-body">
@@ -82,6 +86,10 @@
 
 <?php $this->load->view('_partials/script');?>
 <script type="text/javascript">
+          $("#mingguan").hide();
+          $("#bulanan").hide();
+          $("#tahunan").hide();
+          $("#semua").hide();
     //crud
    
     //function showdata
@@ -100,14 +108,39 @@
         var filter = $(this).val();
         if(filter=="hariini"){
           showRecordharian();
+          $("#harian").show();
+          $("#mingguan").hide();
+          $("#bulanan").hide();
+          $("#tahunan").hide();
+          $("#semua").hide();
         }else if(filter=="mingguini"){
           showRecordmingguan();
+          $("#harian").hide();
+          $("#mingguan").show();
+          $("#bulanan").hide();
+          $("#tahunan").hide();
+          $("#semua").hide();
         }else if(filter=="bulanini"){
           showRecordbulanan();
+          $("#harian").hide();
+          $("#mingguan").hide();
+          $("#bulanan").show();
+          $("#tahunan").hide();
+          $("#semua").hide();
         }else if(filter=="tahunini"){
           showRecordtahunan();
+          $("#harian").hide();
+          $("#mingguan").hide();
+          $("#bulanan").hide();
+          $("#tahunan").show();
+          $("#semua").hide();
         }else if(filter=="semua"){
           showRecord();
+          $("#harian").hide();
+          $("#mingguan").hide();
+          $("#bulanan").hide();
+          $("#tahunan").hide();
+          $("#semua").show();
         }
     })
     //semua

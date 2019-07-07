@@ -25,11 +25,11 @@ class Laporan_Transaksi extends CI_Controller {
 		echo json_encode($data);
 	}
 	public function getharian(){
-		$data["laporan"] = $this->M_Laporan_Transaksi->getAll();
+		$data["laporan"] = $this->M_Laporan_Transaksi->ambil_dataharian();
 		$this->load->view('laporan_transaksi/cetak/cetak_penjualan_hariini', $data);
 	}
 	public function getmingguan(){
-		$data["laporan"] = $this->M_Laporan_Transaksi->getAll();
+		$data["laporan"] = $this->M_Laporan_Transaksi->ambil_datamingguan();
 		$this->load->view('laporan_transaksi/cetak/cetak_penjualan_mingguini', $data);
 	}
 	public function getbulanan(){
@@ -41,9 +41,8 @@ class Laporan_Transaksi extends CI_Controller {
 		$data=$this->M_Laporan_Transaksi->ambil_datatahunan();
 		echo json_encode($data);
 	}
-
-	public function cetak(){
-		$data["laporan_transaksi"] = $this->M_Laporan_Transaksi->ambil_data();
+	public function cetakHarian(){
+		$data["laporan_transaksi"] = $this->M_Laporan_Transaksi->ambil_dataharian();
 
 		ob_start();    
 	    $this->load->view('laporan_transaksi/cetak/cetak_penjualan_hariini', $data);    
@@ -53,6 +52,59 @@ class Laporan_Transaksi extends CI_Controller {
 	    require_once('./assets/html2pdf/html2pdf.class.php');    
 	    $pdf = new HTML2PDF('P','A4','en');
 	    $pdf->WriteHTML($html);    
-	    $pdf->Output('Data Transaksi.pdf', 'D'); 
+	    $pdf->Output('Laporan Harian.pdf', 'D'); 
+	}
+	public function cetakMingguan(){
+		$data["laporan_transaksi"] = $this->M_Laporan_Transaksi->ambil_datamingguan();
+
+		ob_start();    
+	    $this->load->view('laporan_transaksi/cetak/cetak_penjualan_mingguini', $data);    
+	    $html = ob_get_contents();        
+
+	    ob_end_clean();                
+	    require_once('./assets/html2pdf/html2pdf.class.php');    
+	    $pdf = new HTML2PDF('P','A4','en');
+	    $pdf->WriteHTML($html);    
+	    $pdf->Output('Laporan Mingguan.pdf', 'D'); 
+	}
+	public function cetakBulanan(){
+		$data["laporan_transaksi"] = $this->M_Laporan_Transaksi->ambil_databulanan();
+
+		ob_start();    
+	    $this->load->view('laporan_transaksi/cetak/cetak_penjualan_bulanini', $data);    
+	    $html = ob_get_contents();        
+
+	    ob_end_clean();                
+	    require_once('./assets/html2pdf/html2pdf.class.php');    
+	    $pdf = new HTML2PDF('P','A4','en');
+	    $pdf->WriteHTML($html);    
+	    $pdf->Output('Laporan Bulanan.pdf', 'D'); 
+	}
+	public function cetakTahunan(){
+		$data["laporan_transaksi"] = $this->M_Laporan_Transaksi->ambil_datatahunan();
+
+		ob_start();    
+	    $this->load->view('laporan_transaksi/cetak/cetak_penjualan_tahunini', $data);    
+	    $html = ob_get_contents();        
+
+	    ob_end_clean();                
+	    require_once('./assets/html2pdf/html2pdf.class.php');    
+	    $pdf = new HTML2PDF('P','A4','en');
+	    $pdf->WriteHTML($html);    
+	    $pdf->Output('Laporan Tahunan.pdf', 'D'); 
+	}
+	
+	public function cetakAll(){
+		$data["laporan_transaksi"] = $this->M_Laporan_Transaksi->ambil_data();
+
+		ob_start();    
+	    $this->load->view('laporan_transaksi/cetak/cetak_penjualan_semua', $data);    
+	    $html = ob_get_contents();        
+
+	    ob_end_clean();                
+	    require_once('./assets/html2pdf/html2pdf.class.php');    
+	    $pdf = new HTML2PDF('P','A4','en');
+	    $pdf->WriteHTML($html);    
+	    $pdf->Output('Laporan Semua.pdf', 'D'); 
 	}
 }

@@ -1,14 +1,18 @@
 <h4 style="text-align: center;">
-  PrimaPs
+  <br><h1><B>PT. Jatim Herbal Perkasa</B></h1>
+  Pasar, Sengon, Kec. Mantingan, Kabupaten Ngawi, Jawa Timur 
   <br>
-  JL. Raya Sukowono Jember
+  Telp. 085883680093
 </h4>
 <h5 style="text-align: center;">
-  <u>Cetak Penjualan Mingguini</u><br>
+  <hr>
+  <br><h4>LAPORAN PENJUALAN JAMU MINGGU INI</h4>
 </h5>
-<table border="1px" class="tabel" align="center">
+<hr>
+<br>
+<table border-collapse: collapse class="tabel" align="center">
   <thead>
-   <tr>
+   <tr align="center"  bgcolor="yellow">
       <th>tanggal</th>
       <th>nofaktur</th>
       <th>penjual</th>
