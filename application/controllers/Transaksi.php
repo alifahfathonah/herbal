@@ -13,11 +13,14 @@ class Transaksi extends CI_Controller {
 				redirect(base_url(""));
 		}
 	}
-	public function index()
-	{
+	public function index(){
 		$data["pelanggan"] = $this->M_Transaksi->ambil_data();
 		$data["barang"] = $this->M_Transaksi->ambilBarang();
     	$this->load->view("transaksi", $data);
+	}
+	public function nota(){
+		$data["print"] = $this->M_Transaksi->nota();
+    	$this->load->view("nota", $data);
 	}
 	public function setCode(){
 		$data = $this->M_Transaksi->kode();

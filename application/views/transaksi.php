@@ -60,7 +60,7 @@
                                         <select class="form-control select2 j" style="width: 100%;" name="id_pelanggan" id="id_pelanggan">
                                         <option value="" disable >Cari Pelanggan</option>
                                         <?php foreach ($pelanggan as $p): ?>
-                                            <option data-alamat="<?php echo $p->alamat ?>" value="<?php echo $p->id_pelanggan?>"><?php echo $p->nama;?></option>
+                                            <option data-nohp="<?php echo $p->nohp ?>" data-alamat="<?php echo $p->alamat ?>" data-nama="<?php echo $p->nama ?>" value="<?php echo $p->id_pelanggan?>"><?php echo $p->nama;?></option>
                                         <?php endforeach;?>
                                         </select>
                                         <i><p id="msgP" class="help-block"></p></i>
@@ -68,6 +68,13 @@
                                     <div class="col-sm-3">
                                         <input type="text" class="form-control"  id="alamat" name="alamat">
                                         <input type="hidden" class="form-control"  id="kategori" name="kategori">
+                                        <input type="hidden" class="form-control" id="pesan" name="pesan">
+                                        <input type="text" class="form-control" id="nama" name="nama">
+                                        <input type="text" class="form-control" id="nohp" name="nohp">
+                                                
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <textarea class="form-control" readonly rows="3" name="log" id="log" placeholder=""></textarea>    
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -136,9 +143,6 @@
                                     <div class="col-sm-3 col-sm-offset-1">
                                         <button  type="submit" class="btn btn-warning" name="transaksi" id="transaksi">Transaksi</button>
                                     </div>
-                                    <div class="col-sm-3 col-sm-1">
-                                        <a href='<?php echo site_url('Notapdf');?>'>print sekarang</a>
-                                    </div>
                                 </div>   
                             </div>
                         </div>
@@ -159,6 +163,101 @@
 
 <?php $this->load->view('_partials/script');?>
 <script type="text/javascript">
+    function startApp() {
+        //create websocket client
+        var client = new WebSocket("ws://192.168.43.1:8989");
+
+        //onOpen handler
+        client.onopen = function (event) {
+            var log = document.getElementById("log");
+            log.textContent = log.textContent + "\n" + "Koneksi ke server berhasil";	
+        };
+
+        //onClose handler
+        client.onclose = function (event) {
+            var log = document.getElementById("log");
+            log.textContent = log.textContent + "\n" + "Koneksi ke server terputus";	
+        };
+
+        //onError handler
+        client.onerror = function (event) {
+            var log = document.getElementById("log");
+            log.textContent = log.textContent + "\n" + "Koneksi ke server error";	
+        };
+
+        //onMessage handler
+        client.onmessage = function (event) {
+            var response = JSON.parse(event.data);
+
+            switch (response.type) {
+                case "success" :
+                // suskses mengirim sms ke server
+                alert(response.message);
+                break;
+
+                case "error" :
+                // gagal mengirim sms ke server
+                alert(response.message);
+                break;
+
+                case "notification" :
+                // laporan status pengiriman sms
+                var log = document.getElementById("log");
+                if (response.success) {
+                    log.textContent = log.textContent + "\n" + "Laporan Sukses: "+ response.message;
+                } else {
+                    log.textContent = log.textContent + "\n" + "Laporan gagal : "+ response.message;
+                }
+                break;
+
+                case "received" :
+                // menerima sms
+                if (confirm("SMS dari" + response.from + " :\n"
+                    + response.message + "\n" +
+                    "Apakah ingin dibalas?")) {
+                    document.getElementById("to").value = response.from;
+                }
+                break;
+            }
+        };
+
+        // aksi tombol Send SMS
+        document.getElementById("transaksi").onclick = function (){
+            
+            //mengambil value no tujuan
+            var to = document.getElementById("nohp").value;
+
+            //mengambil value isi pesan SMS
+            var message = document.getElementById("pesan").value;
+            
+            var splits = to.split(",");
+            if (splits.length == 1) {
+                // bukan broadcast
+
+                //membuat json
+            var json = {
+                to: to,
+                message: message
+            };
+
+            //mengirim ke server via websocket
+            client.send(JSON.stringify(json));
+
+            } else {
+                //broadcast
+
+                //membuat json broadcast
+                var json = {
+                    to: splits,
+                    message: message
+                };
+
+                //mengirim ke server via websocket
+                client.send(JSON.stringify(json));
+            }
+        }
+    }
+    window.onload = startApp;
   $(document).ready(function(e){
     
     //set kode
@@ -215,10 +314,14 @@
     $("#id_pelanggan").change(function(){
         var nofaktur = $('#nofaktur').val();
         var alamat = $(this).find(":selected").data("alamat");
+        var nama = $(this).find(":selected").data("nama");
+        var nohp = $(this).find(":selected").data("nohp");
         var res = alamat.substring(0, 4);
         var txt = nofaktur.replaceAt(12,res);
         $('#nofaktur').val(txt);
         $('#alamat').val(alamat);
+        $('#nama').val(nama);
+        $('#nohp').val(nohp);
     })
     //function replace at
     String.prototype.replaceAt=function(index, replacement) {
@@ -322,6 +425,7 @@
     })
     $("#bayar").keyup(function(){
         hitung();
+        pesan();
     })
     //hitung
     function hitung() {
@@ -340,6 +444,15 @@
         }
     }
     //transaksi
+
+    function pesan(){
+        $('#pesan').val($('#nofaktur').val() + ' atas nama ' +
+        $('#nama').val() + ', beralamat ' +
+        $('#alamat').val() + ' biaya transaksi pembelian sebesar. Rp. ' +
+        $('#total').val()+ ' Anda Telah mebayar sebesar. Rp. ' +
+        $('#bayar').val() );
+        var pesan = $('#pesan').val();
+    }
    
     $('#transaksi').on('click',function(e){
       var nofaktur = $('#nofaktur').val();
@@ -349,6 +462,9 @@
       var bayar = $('#bayar').val();
       var total = $('#total').val();
       var potongan = $('#potongan').val();
+      var pesan = $('#pesan').val();
+      
+      
 
       if(kategori == "kredit"){
         if(id_pelanggan == ""){
@@ -359,7 +475,7 @@
                 type: "POST",
                 url: '<?php echo site_url('Transaksi/addCre'); ?>',
                 dataType: "JSON",
-                data: {nofaktur:nofaktur, id_user:id_user, id_pelanggan:id_pelanggan, bayar:bayar, total:total, kategori:kategori},
+                data: {nofaktur:nofaktur, id_user:id_user, id_pelanggan:id_pelanggan, bayar:bayar, total:total, kategori:kategori, pesan:pesan},
                 success: function(data){
                     setCode();
                     date();
@@ -394,7 +510,7 @@
                 type: "POST",
                 url: '<?php echo site_url('Transaksi/add'); ?>',
                 dataType: "JSON",
-                data: {nofaktur:nofaktur, id_user:id_user, id_pelanggan:id_pelanggan, bayar:bayar, total:total, kategori:kategori},
+                data: {nofaktur:nofaktur, id_user:id_user, id_pelanggan:id_pelanggan, bayar:bayar, total:total, kategori:kategori,pesan:pesan},
                 success: function(data){
                     setCode();
                     date();
@@ -408,6 +524,7 @@
                 $('[name="potongan"]').val("");
                 $('[name="kembalian"]').val("");
                 $('#detailCart').load("<?php echo base_url();?>Transaksi/hapusSemua");
+                
                 },
                 error: function(data){
                 console.log(data);

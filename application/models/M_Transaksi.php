@@ -29,6 +29,13 @@ class M_Transaksi extends CI_Model {
           $kodetampil = $batas."/".$id_user."/".$D."/XXXX"."/".$tgl."/Q";  //format kode
           return $kodetampil;  
      }
+     function nota(){
+          $nofaktur = "0001/far/08/asdf/08072019/BN";
+          $this->db->select('transaksi.nofaktur');
+          $this->db->where('nofaktur', $nofaktur);
+          $hasil= $this->db->get('transaksi');
+          return $hasil;
+     }
 
      function searchPelanggan(){
           $hasil=$this->db->query("SELECT * FROM pelanggan");
