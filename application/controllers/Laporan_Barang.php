@@ -51,7 +51,8 @@ class Laporan_Barang extends CI_Controller
 
 	public function cetak()
 	{
-		$data["laporan"] = $this->M_Laporan_Barang->ambil_data();
+		$kategori = $this->input->post("idkat");
+		$data["laporan_barang"] = $this->M_Laporan_Barang->ambil_data_filter($kategori);
 		ob_start();
 		$this->load->view('laporan_barang/cetak/cetak_barang', $data);
 		$html = ob_get_contents();

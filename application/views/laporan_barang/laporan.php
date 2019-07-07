@@ -35,7 +35,7 @@
               </div>
               <!-- /.box-header -->
               <div class="box-header with-border">
-                <form action="" method="GET">
+                <form action="<?php echo site_url('laporan_barang/cetak') ?>" method="POST">
                   <div class="form-group">
                     <label class="col-sm-1 control-label">Kategori</label>
                     <div class="col-sm-3">
@@ -63,9 +63,9 @@
 
                     <div class="form-group">
                       <div class="col-md-3 col-sm-offset-5">
-                        <a href="<?php echo site_url('laporan_barang/cetak') ?>" class="btn btn-success" name="cetakBarang" id="cetakBarang">
+                        <button type="submit" class="btn btn-success" name="cetakBarang" id="cetakBarang">
                           <li class="fa fa-print">Cetak</li>
-                        </a>
+                        </button>
                       </div>
                     </div>
                   </div>

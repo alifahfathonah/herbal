@@ -28,6 +28,11 @@ class M_Laporan_Barang extends CI_Model
     {
         return $this->db->get($this->_table)->result();
     }
+
+    public function ambil_data_filter($kategori)
+    {
+        return $this->db->query("SELECT * FROM barang WHERE kategori = '$kategori'")->result();
+    }
     public function ambil_datakategori()
     {
         return $this->db->get($this->_table1)->result();
