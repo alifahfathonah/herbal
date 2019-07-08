@@ -30,11 +30,13 @@ class M_Transaksi extends CI_Model {
           return $kodetampil;  
      }
      function nota(){
-          $nofaktur = "0001/far/08/asdf/08072019/BN";
-          $this->db->select('transaksi.nofaktur');
-          $this->db->where('nofaktur', $nofaktur);
-          $hasil= $this->db->get('transaksi');
-          return $hasil;
+          $nofaktur = $_GET['nofaktur'];
+          $this->db->select('*');
+          $this->db->from('transaksi');
+          $this->db->join('detail_transaksi', 'detail_transaksi.nofaktur = transaksi.nofaktur');
+          $this->db->where('transaksi.nofaktur', $nofaktur);
+          $hasil= $this->db->get();
+          return $hasil->result();
      }
 
      function searchPelanggan(){

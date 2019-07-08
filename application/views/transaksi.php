@@ -490,6 +490,7 @@
                 $('[name="potongan"]').val("");
                 $('[name="kembalian"]').val("");
                 $('#detailCart').load("<?php echo base_url();?>Transaksi/hapusSemua");
+                window.location="<?php echo base_url().'Transaksi/nota?nofaktur='; ?>"+nofaktur
                 },
                 error: function(data){
                 console.log(data);
@@ -525,11 +526,14 @@
                 $('[name="kembalian"]').val("");
                 $('#detailCart').load("<?php echo base_url();?>Transaksi/hapusSemua");
                 
+                window.location="<?php echo base_url().'Transaksi/nota?nofaktur='; ?>"+nofaktur
                 },
                 error: function(data){
                 console.log(data);
                 }
             });
+
+
         }
       }
       
