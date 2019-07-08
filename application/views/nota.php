@@ -27,7 +27,7 @@ nofaktur :
     <?php foreach ($print as $t): ?>
       <tr>
         <td>
-        <?php echo $t->id_barang?>
+        <?php echo $t->namabarang?>
         </td>
         <td>
         <?php echo $t->jumlah?>

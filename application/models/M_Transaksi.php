@@ -34,6 +34,7 @@ class M_Transaksi extends CI_Model {
           $this->db->select('*');
           $this->db->from('transaksi');
           $this->db->join('detail_transaksi', 'detail_transaksi.nofaktur = transaksi.nofaktur');
+          $this->db->join('barang', 'detail_transaksi.id_barang = barang.id_barang');
           $this->db->where('transaksi.nofaktur', $nofaktur);
           $hasil= $this->db->get();
           return $hasil->result();
