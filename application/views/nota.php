@@ -35,9 +35,9 @@
         <br>
 <h4 align="right">
 <h5>Ngawi, <?php $tgl=date('d-m-Y'); echo $tgl;?></h5>
-<center><h5 align="center">Kepada Yth.</h5>
+<h5 align="center">Kepada Yth.</h5>
 <?php foreach ($print as $t): ?>  <?php echo $t->nama?> <?php endforeach; ?>
-<br> </center>
+<br> 
 </h4>
       </div>
 
@@ -54,6 +54,7 @@
             </thead>
 
             <tbody>
+            
               <?php foreach ($print as $t): ?>
                 <tr>
                   <td>
@@ -74,13 +75,13 @@
                 </tr>
               <?php endforeach; ?>
             </tbody>
-
-            <tr align="center" >
-                <th></th>
-                <th></th>
-                <th></th>
-                <th><?php echo $subtotal ?></th>
-            </tr> 
+            <tfoot>
+              <tr align="center" >
+                  <th colspan="2"></th>
+                  <th>total</th>
+                  <th><?php echo $t->harga ?></th>
+              </tr> 
+            </tfoot>
 
           </table>
            

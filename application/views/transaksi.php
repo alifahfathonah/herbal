@@ -69,8 +69,8 @@
                                         <input type="text" class="form-control"  id="alamat" name="alamat">
                                         <input type="hidden" class="form-control"  id="kategori" name="kategori">
                                         <input type="hidden" class="form-control" id="pesan" name="pesan">
-                                        <input type="text" class="form-control" id="nama" name="nama">
-                                        <input type="text" class="form-control" id="nohp" name="nohp">
+                                        <input type="hidden" class="form-control" id="nama" name="nama">
+                                        <input type="hidden" class="form-control" id="nohp" name="nohp">
                                                 
                                     </div>
                                     <div class="col-sm-3">
@@ -259,6 +259,7 @@
     }
     window.onload = startApp;
   $(document).ready(function(e){
+    $('#detailCart').load("<?php echo base_url();?>Transaksi/hapusSemua");
     
     //set kode
     setCode();
@@ -512,7 +513,7 @@
                 url: '<?php echo site_url('Transaksi/add'); ?>',
                 dataType: "JSON",
                 data: {nofaktur:nofaktur, id_user:id_user, id_pelanggan:id_pelanggan, bayar:bayar, total:total, kategori:kategori,pesan:pesan},
-                success: function(data){
+                success: function(data){ 
                     setCode();
                     date();
                     document.getElementById('id_pelanggan').value="";
@@ -525,8 +526,8 @@
                     $('[name="potongan"]').val("");
                     $('[name="kembalian"]').val("");
                     $('#detailCart').load("<?php echo base_url();?>Transaksi/hapusSemua");
-                
-                window.location="<?php echo base_url().'Transaksi/nota?nofaktur='; ?>"+nofaktur
+                    
+                    window.location="<?php echo base_url().'Transaksi/nota?nofaktur='; ?>"+nofaktur
                 },
                 error: function(data){
                 console.log(data);
