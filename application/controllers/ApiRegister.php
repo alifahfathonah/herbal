@@ -31,5 +31,11 @@ class ApiRegister extends REST_Controller {
             echo json_encode($data);
         }
     }
+    function index_get()
+    {
+        $barang = $this->db->get('barang')->result();
+    
+    $this->response($barang, 200);
+    }
 }
 ?>
