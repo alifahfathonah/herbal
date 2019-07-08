@@ -1,10 +1,13 @@
-<?php
+<?php 
+
+$koneksi = mysqli_connect("localhost","root","","herbal");
 	
-	$server		= "localhost:8080"; // sesuaikan alamat server anda
-	$user		= "root"; // sesuaikan user web server anda
-	$password	= ""; // sesuaikan password web server anda
-	$database	= "herbal"; // sesuaikan database web server anda
-	
-	$connect = mysql_connect($server, $user, $password) or die ("Koneksi gagal!");
-	mysql_select_db($database) or die ("Database belum siap!");
+	if ($koneksi == false) {
+		echo "Koneksi Anda gagal karena ".mysqli_connect_error();
+	}
+	else{
+		 //echo "Haloo Berhasilll";
+	}
+
+
 ?>
