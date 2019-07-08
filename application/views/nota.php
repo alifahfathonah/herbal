@@ -1,39 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    
+  </title>
+  <?php $this->load->view('_partials/head')?>
+</head>
+<body>
 
-<h4 style="text-align: center;">
-  <br><h1><B>PT. Jatim Herbal Perkasa</B></h1>
-  Pasar, Sengon, Kec. Mantingan, Kabupaten Ngawi, Jawa Timur 
-  <br>
-  Telp. 085883680093
+    <div class="form-group">
+      
+      <div class="col-sm-5 ">
+        <h4 style="text-align: left;">
+          <h1><B>PT. Jatim Herbal Perkasa</B></h1>
+          Pasar, Sengon, Kec. Mantingan, Kabupaten Ngawi, Jawa Timur 
+          <br>
+          Telp. 085883680093
+        </h4>
+        <br>
+        <br>
+        <h5><B>
+          <?php foreach ($print as $t): ?> nofaktur : <?php echo $t->nofaktur?> <?php endforeach; ?>
+        </B></h5>
+        <h5><B>
+          <?php foreach ($print as $t): ?> Kasir : <?php echo $t->username?> <?php endforeach; ?>
+        </B></h5>
+      
+      </div>
+    </div>
+
+    <div class="form-group">
+
+      <div class="col-sm-2 ">
+        <br>
+<h4 align="right">
+<h5>Ngawi, <?php $tgl=date('d-m-Y'); echo $tgl;?></h5>
+<center><h5 align="center">Kepada Yth.</h5>
+<?php foreach ($print as $t): ?>  <?php echo $t->nama?> <?php endforeach; ?>
+<br> </center>
 </h4>
+      </div>
 
+      <div class="form-group"> 
+      <div class="col-sm-8 ">
+          <table width="500px" border="1" border-collapse: collapse class="tabel" align="center">
+            <thead>
+             <tr align="center" >
+                <th>nama barang</th>
+                <th>jumlah</th>
+                <th>harga</th>
+                <th>subtotal</th>
+            </tr> 
+            </thead>
 
-<?php foreach ($print as $t): ?>
-nofaktur :
-<?php echo $t->nofaktur?>
-<?php endforeach; ?>
-<br>
-<table border="1" border-collapse: collapse class="tabel" align="center">
-  <thead>
-   <tr align="center" >
-      <th>tanggal</th>
-      <th>nofaktur</th>
-      <th>penjual</th>
-      <th>pelanggan</th>
-      <th>total</th>
-      <th>kategori</th>
-  </tr> 
-  </thead>
-  <tbody>
-    <?php foreach ($print as $t): ?>
-      <tr>
-        <td>
-        <?php echo $t->namabarang?>
-        </td>
-        <td>
-        <?php echo $t->jumlah?>
-        </td>
-      </tr>
-    <?php endforeach; ?>
-  </tbody>
+            <tbody>
+              <?php foreach ($print as $t): ?>
+                <tr>
+                  <td>
+                  <?php echo $t->namabarang?>
+                  </td>
+                     <td>
+                  <?php echo $t->jumlah;
+                  $subtotal = $t->jumlah * $t->harga;
+                  ?>
+                  </td>
+               
+                  <td>
+                  <?php echo $t->harga?>
+                  </td>    
+                  <td>
+                  <?php echo $subtotal?>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
 
-</table>
+            <tr align="center" >
+                <th></th>
+                <th></th>
+                <th></th>
+                <th><?php echo $subtotal ?></th>
+            </tr> 
+
+          </table>
+           
+           <div class="form-group">
+           <div class="col-sm-5 ">
+            <br>
+<h4 align="right">
+<h5>Tanda Terima, </h5>
+</h4>
+      </div>
+
+            </div>
+
+    <div class="form-group">
+
+      <div class="col-sm-5 ">
+<h4 align="right">
+<h5 align="right" >Hormat Kami, </h5>
+</h4>
+      </div>
+
+            </div>
+      </div>
+    </div>
+    </div>
+</body>
+</html>

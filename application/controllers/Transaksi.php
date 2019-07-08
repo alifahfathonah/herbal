@@ -20,16 +20,16 @@ class Transaksi extends CI_Controller {
 	}
 	public function nota(){
 		$data["print"] = $this->M_Transaksi->nota();
-		ob_start();    
 		$this->load->view("nota", $data);
+		// ob_start();    
 	    
-	    $html = ob_get_contents();        
+	 //    $html = ob_get_contents();        
 
-	    ob_end_clean();                
-	    require_once('./assets/html2pdf/html2pdf.class.php');    
-	    $pdf = new HTML2PDF('P','A4','en');
-	    $pdf->WriteHTML($html);    
-	    $pdf->Output('Laporan Harian.pdf', 'D');
+	 //    ob_end_clean();                
+	 //    require_once('./assets/html2pdf/html2pdf.class.php');    
+	 //    $pdf = new HTML2PDF('P','A4','en');
+	 //    $pdf->WriteHTML($html);    
+	 //    $pdf->Output('Laporan Harian.pdf', 'D');
 	}
 	public function setCode(){
 		$data = $this->M_Transaksi->kode();
