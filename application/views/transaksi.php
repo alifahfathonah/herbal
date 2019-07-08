@@ -516,15 +516,15 @@
                     setCode();
                     date();
                     document.getElementById('id_pelanggan').value="";
-                $('[name="alamat"]').val("");
-                $('[name="kategori"]').val("");
-                $('[name="bayar"]').val("");
-                $('[name="total"]').val("");
-                $("#id_pelanggan").prop("selected", false);
-                $("#namaBarang").prop("selected", false);
-                $('[name="potongan"]').val("");
-                $('[name="kembalian"]').val("");
-                $('#detailCart').load("<?php echo base_url();?>Transaksi/hapusSemua");
+                    $('[name="alamat"]').val("");
+                    $('[name="kategori"]').val("");
+                    $('[name="bayar"]').val("");
+                    $('[name="total"]').val("");
+                    $("#id_pelanggan").prop("selected", false);
+                    $("#namaBarang").prop("selected", false);
+                    $('[name="potongan"]').val("");
+                    $('[name="kembalian"]').val("");
+                    $('#detailCart').load("<?php echo base_url();?>Transaksi/hapusSemua");
                 
                 window.location="<?php echo base_url().'Transaksi/nota?nofaktur='; ?>"+nofaktur
                 },

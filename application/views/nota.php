@@ -1,4 +1,4 @@
-<center>
+
 <h4 style="text-align: center;">
   <br><h1><B>PT. Jatim Herbal Perkasa</B></h1>
   Pasar, Sengon, Kec. Mantingan, Kabupaten Ngawi, Jawa Timur 
@@ -37,6 +37,3 @@ nofaktur :
   </tbody>
 
 </table>
-</center>
-<script>
-</script>
