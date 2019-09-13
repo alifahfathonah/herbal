@@ -108,4 +108,9 @@
     </div>
     </div>
 </body>
+<script>
+		window.print();
+    document.location.href = "http://localhost/herbal/Transaksi"; 
+	</script>
 </html>
+

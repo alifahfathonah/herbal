@@ -73,7 +73,7 @@
                                         <input type="hidden" class="form-control" id="nohp" name="nohp">
                                                 
                                     </div>
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-3 hidden">
                                         <textarea class="form-control" readonly rows="3" name="log" id="log" placeholder=""></textarea>    
                                     </div>
                                 </div>
