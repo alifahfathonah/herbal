@@ -100,6 +100,7 @@
                                 <div class="form-group">
                                     <div class="col-md-3 col-sm-offset-5">
                                         <button  class="add_keranjang btn btn-info" name="keranjang" id="keranjang">Tambah</button>
+                                        <a href="Transaksi/test" target="_blank" class=" btn btn-info"  >Test</a>
                                         <input type="checkbox" class="minimal"  id="kondisi" name="kondisi" >  <label  class="control-label">Kredit</label>
                                     </div>
                                 </div>

@@ -37,6 +37,10 @@ class Transaksi extends CI_Controller {
 		$data = $this->M_Transaksi->kode();
 		echo json_encode($data);
 	}
+	public function test(){
+		$this->load->view('test_printer');
+		
+	}
 
 	function getPelanggan(){
 		if (isset($_GET['term'])) {

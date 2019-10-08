@@ -4,14 +4,14 @@
   <title>
     
   </title>
-  <?php $this->load->view('_partials/head')?>
+  
 </head>
 <body>
 
-    <div class="form-group">
+    <div>
       
-      <div class="col-sm-5 ">
-        <h4 style="text-align: left;">
+      <div >
+        <h4 >
           <h1><B>PT. Jatim Herbal Perkasa</B></h1>
           Pasar, Sengon, Kec. Mantingan, Kabupaten Ngawi, Jawa Timur 
           <br>
@@ -29,21 +29,22 @@
       </div>
     </div>
 
-    <div class="form-group">
+    <div >
 
       <div class="col-sm-2 ">
         <br>
-<h4 align="right">
-<h5>Ngawi, <?php $tgl=date('d-m-Y'); echo $tgl;?></h5>
-<h5 align="center">Kepada Yth.</h5>
-<?php foreach ($print as $t): ?>  <?php echo $t->nama?> <?php endforeach; ?>
-<br> 
-</h4>
+          <h4 align="right">
+          <h5>Ngawi, <?php $tgl=date('d-m-Y'); echo $tgl;?></h5>
+          <h5 align="center">Kepada Yth.</h5>
+          <?php foreach ($print as $t): ?>  <?php echo $t->nama?> <?php endforeach; ?>
+          <br> 
+          </h4>
+          
       </div>
 
-      <div class="form-group"> 
-      <div class="col-sm-8 ">
-          <table width="500px" border="1" border-collapse: collapse class="tabel" align="center">
+      <div > 
+      <div >
+          <table width="500px" border="1" border-collapse: collapse  align="center">
             <thead>
              <tr align="center" >
                 <th>nama barang</th>
@@ -85,25 +86,25 @@
 
           </table>
            
-           <div class="form-group">
-           <div class="col-sm-5 ">
+          <div >
+           <div >
             <br>
-<h4 align="right">
-<h5>Tanda Terima, </h5>
-</h4>
-      </div>
-
+            <h4 align="right">
+            <h5>Tanda Terima, </h5>
+            </h4>
             </div>
+
+          </div>
 
     <div class="form-group">
 
       <div class="col-sm-5 ">
-<h4 align="right">
-<h5 align="right" >Hormat Kami, </h5>
-</h4>
+        <h4 align="right">
+        <h5 align="right" >Hormat Kami, </h5>
+        </h4>
       </div>
 
-            </div>
+    </div>
       </div>
     </div>
     </div>
