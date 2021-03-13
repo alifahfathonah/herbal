@@ -22,6 +22,7 @@
   </tr> 
   </thead>
   <tbody>
+  <?php $i =0 ;?>
     <?php foreach ($laporan_transaksi as $t): ?>
       <tr>
         <td>
@@ -36,8 +37,9 @@
         <td>
           <?php echo $t->pelanggan?>
         </td>
-        <td>
-          <?php echo $t->total?>
+        <td  style="text-align:right">
+          <?php echo $t->total; $i=$i+$t->total?>
+
         </td>
         <td>
           <?php echo $t->kategori?>
@@ -45,15 +47,10 @@
       </tr>
     <?php endforeach; ?>
   </tbody>
+  
+  
 </table>
-<br>
-<h4 align="right">
-  <h4>Ngawi, <?php $tgl=date('d-m-Y'); echo $tgl;?></h4>
-  <br>Penanggung Jawab
-  <br>
-  <br>
-  <br>
-  <p>
-    Bapak
-  </p>
-</h4>
+<h1>Total Pendapatan </h1><h2><?php echo $i?></h2>
+
+          
+        

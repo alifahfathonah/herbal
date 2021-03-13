@@ -1,7 +1,7 @@
 <!DOCTYPE html >
 <html lang="en">
 <head>
-<title>Register | JHP</title>
+<title>Supplier | JHP</title>
   <?php $this->load->view('_partials/head')?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
@@ -30,7 +30,7 @@
           <!-- form tambah -->
           <div class="box box-info formtambah" >
                 <div class="box-header with-border">
-                  <center><h3 class="box-title">Tambah User</h3></center>
+                  <center><h3 class="box-title">Supplier</h3></center>
                   <div class="box-tools pull-right">
                     <button class="btn btn-box-tool click-hide" type="button" ><i class="fa fa-remove"></i></button>
                   </div>
@@ -40,37 +40,12 @@
                 <form class="form-horizontal" >
                   <div class="box-body">
                     
-                    <div class="form-group">
-                      <label  class="col-sm-2 control-label">Id User</label>
-                      <div class="col-sm-8">
-                        <input type="text" class="form-control" id="id_user" name="id_user" placeholder="Id User" Readonly>
-                      </div>
-                    </div>
 
                     <div class="form-group">
-                      <label  class="col-sm-2 control-label">Username</label>
+                      <label  class="col-sm-2 control-label">Nama Supplier</label>
                       <div class="col-sm-8">
-                        <input type="text" class="form-control aturan" id="username"  name="username" placeholder="Username">
+                        <input type="text" class="form-control aturan" id="nama"  name="nama" placeholder="Nama">
                         <p id="msgU"></p>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label  class="col-sm-2 control-label">Password</label>
-                      <div class="col-sm-8">
-                        <input type="password" class="form-control aturan" id="password" name="password" placeholder="Password">
-                        <p id="msgP"></p>
-                      </div>
-                    </div>
-
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label">Level</label>
-                      <div class="col-sm-8">
-                        
-                      <select class="form-control" id="level" name="level">
-                        <option value="Admin">Admin</option>
-                        <option value="Kasir">Kasir</option>
-                      </select>
                       </div>
                     </div>
                     
@@ -101,31 +76,17 @@
                         <div class="form-group row">
                             <label class="col-md-2 col-form-label">Id User</label>
                             <div class="col-md-10">
-                              <input type="text" name="id_user_edit" id="id_user_edit" class="form-control" placeholder="Product Code" readonly>
+                              <input type="text" name="id_supplier_edit" id="id_supplier_edit" class="form-control" placeholder="Product Code" readonly>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Username</label>
+                            <label class="col-md-2 col-form-label">Nama</label>
                             <div class="col-md-10">
-                              <input type="text" name="username_edit" id="username_edit" class="form-control" placeholder="Product Name">
+                              <input type="text" name="nama_edit" id="nama_edit" class="form-control" placeholder="Product Name">
                             </div>
                         </div>
-                        <div class="form-group row">
-                            <label class="col-md-2 col-form-label">Password</label>
-                            <div class="col-md-10">
-                              <input type="password" name="password_edit" id="password_edit" class="form-control" placeholder="Price">
-                            </div>
-                        </div>
-                      <div class="form-group row">
-                      <label class="col-sm-2 control-label">Level</label>
-                      <div class="col-sm-8">
                         
-                      <select class="form-control" id="level_edit" name="level_edit">
-                        <option value="Admin">Admin</option>
-                        <option value="Marketing">Marketing</option>
-                      </select>
-                      </div>
-                    </div>
+                    
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -141,7 +102,7 @@
             <div class="box-header">
               <button class="btn btn-info click-tambah"><li class="fa fa-plus"></li> Tambah</button>
               <br><br>
-              <h3 class="box-title">Data User</h3>
+              <h3 class="box-title">Data Supplier</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -149,8 +110,8 @@
                 <thead>
                 <tr>
                   <th>No</th>
-                  <th>Username</th>
-                  <th>Level</th>
+                  <th>Nama Supplier</th>
+                  
                   <th>Aksi</th>
                 </tr>
                 </thead>
@@ -235,7 +196,7 @@
     function showRecord(){
       $.ajax({
         type: 'ajax',
-        url: '<?php echo site_url('User/getAll')?>',
+        url: '<?php echo site_url('Supplier/getAll')?>',
         async: true,
         dataType: 'JSON',
         success: function(data){
@@ -244,8 +205,8 @@
           for(i=0; i<data.length; i++){
             html += '<tr>'+
                       '<td>'+(i+1)+'</td>'+
-                      '<td>'+data[i].username+'</td>'+
-                      '<td>'+data[i].level+'</td>'+
+                      '<td>'+data[i].nama+'</td>'+
+                      
                       '<td style="text-align:right;">'+
                         '<a href="javascript:void(0);" class="btn btn-info btn-sm item_edit" data-id_user="'+data[i].id_user+'" data-username="'+data[i].username+'" data-password="'+data[i].password+'" data-level="'+data[i].level+'">Edit</a>'+' '+
                         '<a href="javascript:void(0);" class="btn btn-danger btn-sm item_delete" data-id_user="'+data[i].id_user+'">Delete</a>'+
@@ -259,46 +220,30 @@
     }
     //function kosongan
     function kosong(){
-      document.getElementById('username').value="";
-      document.getElementById('password').value="";
+      document.getElementById('nama').value="";
+      
     }
-    $("#username").keyup(function(){
-      var username = $(this).val();
-      var res = username.substring(0, 3);
-      $('#id_user').val( res);
-    });
     
 
 
     //simpan
     $('#click-simpan').on('click',function(e){
       var U, P;
-      var id_user = $('#id_user').val();
-      var username = $('#username').val();
-      var password = $('#password').val();
-      var level = $('#level').val();
-      if(username ==""){
+      var nama = $('#nama').val();
+      if(nama ==""){
         document.getElementById("msgU").innerHTML = "isi username";
         
-      }else if(password == ""){
-        document.getElementById("msgP").innerHTML = "isi password";
-        
-      }else if(username == "" && password == ""){
-        document.getElementById("msgP").innerHTML = "isi password";
-        document.getElementById("msgU").innerHTML = "isi username";
-        
-        $(".formtambah").fadeIn(1000);
-      }else if(username != "" && password != ""){
+      
+      }else if(nama != "" ){
         $.ajax({
           type: "POST",
-          url: '<?php echo site_url('User/add') ?>',
+          url: '<?php echo site_url('Supplier/add') ?>',
           dataType: "JSON",
-          data: {id_user:id_user, username:username, password:password, level:level},
+          data: {nama:nama},
           success: function(data){
-            $('[name="id_user"]').val("");
-            $('[name="username"]').val("");
-            $('[name="password"]').val("");
-            $('[name="level"]').val("");
+            
+            $('[name="nama"]').val("");
+            
             showRecord();
           },
         error: function (xhr, ajaxOptions, thrownError) {

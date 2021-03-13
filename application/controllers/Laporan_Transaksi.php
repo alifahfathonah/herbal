@@ -25,12 +25,12 @@ class Laporan_Transaksi extends CI_Controller {
 		echo json_encode($data);
 	}
 	public function getharian(){
-		$data["laporan"] = $this->M_Laporan_Transaksi->ambil_dataharian();
-		$this->load->view('laporan_transaksi/cetak/cetak_penjualan_hariini', $data);
+		$data=$this->M_Laporan_Transaksi->ambil_dataharian();
+		echo json_encode($data);
 	}
 	public function getmingguan(){
-		$data["laporan"] = $this->M_Laporan_Transaksi->ambil_datamingguan();
-		$this->load->view('laporan_transaksi/cetak/cetak_penjualan_mingguini', $data);
+		$data=$this->M_Laporan_Transaksi->ambil_datamingguan();
+		echo json_encode($data);
 	}
 	public function getbulanan(){
 		$data=$this->M_Laporan_Transaksi->ambil_databulanan();

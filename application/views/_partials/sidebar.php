@@ -5,7 +5,7 @@
           <img src="<?php echo base_url('assets/') ?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
-          <p><?php echo $this->session->userdata("id_user"); ?></p>
+          <p><?php echo $this->session->userdata("username"); echo(" ");  echo $this->session->userdata("level"); ?></p>
           <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
         </div>
       </div>
@@ -20,13 +20,18 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            <?php if ($this->session->userdata("level") == "Admin") {?>
+            
             <li><a href="<?php echo site_url('Barang') ?>"><i class="fa fa-circle-o"></i> Data Barang</a></li>
             <li><a href="<?php echo site_url('Barangmasuk') ?>"><i class="fa fa-circle-o"></i> Data Barang Masuk</a></li>
             <li><a href="<?php echo site_url('Pelanggan') ?>"><i class="fa fa-circle-o"></i> Data Pelanggan</a></li>
-            <li><a href="<?php echo site_url('Transaksi') ?>"><i class="fa fa-circle-o"></i> Transaksi</a></li>
+            <li><a href="<?php echo site_url('Supplier') ?>"><i class="fa fa-circle-o"></i> Data Supplier</a></li>
             <li><a href="<?php echo site_url('Pemesanan') ?>"><i class="fa fa-circle-o"></i> Pemesanan</a></li>
+            <?php } ?>
+            <li><a href="<?php echo site_url('Transaksi') ?>"><i class="fa fa-circle-o"></i> Transaksi</a></li>
           </ul>
         </li>
+        <?php if ($this->session->userdata("level") == "Admin") {?>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-folder"></i>
@@ -42,6 +47,7 @@
 
           </ul>
         </li>
+        <?php } ?>
         <li class="treeview">
           <a href="#">
             <i class="fa fa-book"></i>
@@ -51,10 +57,13 @@
             </span>
           </a>
           <ul class="treeview-menu">
+            
              <li><a href="<?php echo site_url('Laporan_Barang') ?>"><i class="fa fa-circle-o"></i> Barang </a></li>
+             <?php if ($this->session->userdata("level") == "Admin") {?>
             <li><a href="<?php echo site_url('Laporan_Pemesanan') ?>"><i class="fa fa-circle-o"></i> Pemesanan </a></li>
             <li><a href="<?php echo site_url('Laporan_Transaksi') ?>"><i class="fa fa-circle-o"></i> Transaksi </a></li>
             <li><a href="<?php echo site_url('Laporan_Angsuran') ?>"><i class="fa fa-circle-o"></i> Angsuran </a></li>
+             <?php } ?>
           </ul>
         </li>
         <li class="header"><a href="<?php echo site_url('auth/logout'); ?>"><span class="glyphicon glyphicon-arrow-left"><span>Keluar </a>

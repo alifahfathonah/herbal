@@ -39,9 +39,9 @@
                     <section class="content">
                       <!-- Small boxes (Stat box) -->
                       <div class="data">
-                        <div class="col-lg-3 col-xs-2">
+                        <div class="hidden col-lg-3 col-xs-2">
                           <!-- small box -->
-                          <div class="small-box bg-aqua">
+                          <div class=" small-box bg-aqua">
                             <div class="inner">
 
                               <h3>10</h3>
@@ -78,7 +78,7 @@
                         </div>
                         <!-- ./col -->
 
-                        <div class="col-lg-3 col-xs-2">
+                        <div class="hidden col-lg-3 col-xs-2">
                           <div class="small-box bg-red">
                             <div class="inner">
                               <h3>10</h3>
@@ -113,8 +113,8 @@
                             <a href="?halaman=transaksi" class="small-box-footer"><i class="fa fa-arrow-circle-right"></i></a>
                           </div>
                         </div>
-                        <div class="col col-lg-1 col-xs-2"></div>
-                        <div class="col-lg-4 col-xs-6">
+                        
+                        
 
                           <div class="box box-info">
                             <div class="box-header with-border">
@@ -148,14 +148,7 @@
                             </div>
                             <!-- /.box-header -->
                             <!-- form start -->
-                            <form action="?halaman=barang" method="post" class="form-horizontal">
-                              <div class="box-body">
-                                <div class="form-group">
-
-                                </div>
-
-
-                                </tfoot>
+                           
                 </table>
               </div>
               <!-- /.box-body -->

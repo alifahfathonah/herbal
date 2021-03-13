@@ -7,7 +7,6 @@ class Auth extends CI_Controller
     {
         $this->load->view('login');
     }
-
     public function process()
     {
         $post = $this->input->post(null, TRUE);
@@ -20,11 +19,11 @@ class Auth extends CI_Controller
                 $error = 1;
             }
         }
-
         if ($error == 1) {
             $params = array(
                 'id_user' => $query[0]['id_user'],
                 'level' => $query[0]['level'],
+                'username' => $query[0]['username'],
                 'status' => "login"
             );
             $this->session->set_userdata($params);
